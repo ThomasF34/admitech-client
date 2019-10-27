@@ -1,0 +1,112 @@
+@media only screen and (max-width: 780px) {
+
+    .polytechLogo{
+        width: 150px;
+        vertical-align: middle;
+        line-height: 100px;
+        margin-left: 35px;
+        margin-right:60px;
+        margin-top:27px;
+    }
+
+    .MenuBar{
+        height: 100px !important;
+        padding: 0px;
+        display: block;
+        box-shadow: 0px  0px 8px #B3B3B3;
+    }
+
+    .menuElement{
+        text-decoration: none !important;
+        font-weight:200;
+        line-height: 100px;
+        list-style: none;
+        display: inline-block;
+        vertical-align: center;
+        margin:auto;
+        margin-left: 45px;
+        display:none;
+    }
+
+    .burgerElement{
+    margin: auto;
+    margin-top: 10%;
+    text-align: center;
+    display: block;
+    font-weight:200;
+    font-size: 20px;
+    }
+    .hidden{
+        display:none;
+    }
+
+    .cross{
+        width:35px;
+        margin:auto;
+        display:block;
+    }
+
+    .burger{
+        vertical-align: middle;
+        padding-top:25%;
+        align-items: center;
+        display: block;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(255,255,255,0.97);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+    }
+
+    .burgerIcon{
+        margin-top:30px;
+        width:35px;
+        vertical-align:middle;
+        float:right;
+        margin-right:25px !important;
+    }
+}
+
+
+@media only screen and (min-width: 781px) {
+        .polytechLogo{
+        width: 150px;
+        vertical-align: middle;
+        line-height: 100px;
+        margin-left: 35px;
+        margin-right:60px;
+    }
+
+    .MenuBar{
+        height: 100px !important;
+        padding: 0px;
+        display: block;
+        box-shadow: 0px  0px 8px #B3B3B3;
+    }
+
+    .menuElement{
+        text-decoration: none !important;
+        font-weight:200;
+        line-height: 100px;
+        list-style: none;
+        display: inline-block;
+        vertical-align: center;
+        margin:auto;
+        margin-left: 45px;
+    }
+
+    .burger{
+        display: none;
+    }
+    .hidden{
+        display:none;
+    }
+
+    .burgerIcon{
+        display:none;
+    }
+}

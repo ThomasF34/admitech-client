@@ -1,0 +1,36 @@
+.mainTitle:before{
+
+    content: "";
+    position: relative;
+    border-bottom: 1px solid #aaaaaa;
+    width: 100%;
+    max-width:85%;
+    
+}
+
+.container-title {
+    margin-top: 35px;
+    display: flex;
+    width: 90%;
+    margin:auto;
+    margin-top:35px;
+}
+    
+    .decor {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        min-width: 15%;
+    }
+    
+    .decor-line {
+        border-top: 1px solid #aaaaaa;
+        flex: 1;
+    }
+    
+    .name-mainTitle {
+        padding: 0 10px;
+        text-align: center;
+        font-weight:200;
+        font-size: 23px;
+    }

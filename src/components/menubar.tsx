@@ -45,7 +45,7 @@ class MenuBar extends React.Component<IProps,IState> {
             <p className='menuElement'>CANDIDATER</p>
             <p className='menuElement'>FORMATIONS</p>
             <p className='menuElement'>CONTACT</p>
-            <img className="burgerIcon" src={burger} onClick={this.openBurger}/>
+            <img className="burgerIcon" src={burger} onClick={this.openBurger} alt="burger menu"/>
           </header>
         </div>
       </div>

@@ -2,19 +2,52 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import logo from '../img/polytechLogo.svg';
 
-class ConnexionNav extends React.Component {
+interface IState {
+  isSignInActive: boolean,
+  handleClickFct: any
+}
+
+interface IProps {
+  isSignInActive: boolean,
+  handleClickFct: any
+}
+
+class ConnexionNav extends React.Component<IState, IProps> {
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      isSignInActive: this.props.isSignInActive,
+      handleClickFct: this.props.handleClickFct
+    };
+  }
+
+  setSignInActive = () => {
+    this.setState({ isSignInActive: true }, () => {
+      this.props.handleClickFct(this.state.isSignInActive);
+    }
+      );
+   
+  }
+
+  setSignInNotActive= () =>  {
+    this.setState({ isSignInActive: false }, () => {
+      this.props.handleClickFct(this.state.isSignInActive);
+    }
+      );
+    
+  }
 
   render() {
     return (
       <div>
         <ul className="nav nav-tabs ">
           <li className="nav-item text-center" style={{ width: '50%' }}>
-            <button className="nav-link active" style={{ width: '100%' }}>
+            <button className={this.state.isSignInActive ? 'nav-link active' : 'nav-link'} style={{ width: '100%' }} onClick={ () => this.setSignInActive()}>
               <h3 style={{ color: 'black' }}>Se connecter</h3>
             </button>
           </li>
           <li className="nav-item text-center" style={{ width: '50%' }}>
-            <button className="nav-link" style={{ width: '100%' }}>
+            <button className={this.state.isSignInActive ? 'nav-link' : 'nav-link active'} style={{ width: '100%' }} onClick={() => this.setSignInNotActive()}>
               <h3 style={{ color: 'black' }}>Créer un compte</h3>
             </button>
           </li>

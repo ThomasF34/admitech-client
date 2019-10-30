@@ -2,13 +2,40 @@ import React from 'react';
 import '../style/connexion.css';
 import ConnexionNav from './connexionNav';
 import SignInForm from './signInForm';
+import SignUpForm from './sighUpForm';
 
 interface IProps {
   text: string,
-  image: string
+  image: string,
 }
 
-class ConnexionContainer extends React.Component<IProps> {
+interface IState {
+  text: string,
+  image: string,
+  form: any
+}
+
+class ConnexionContainer extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      text: this.props.text,
+      image: this.props.image,
+      form: <SignInForm />
+    };
+  }
+
+  showComponent = (isSignInActive: boolean) => {
+    if (!isSignInActive)
+      this.setState({
+        form: <SignUpForm />
+      });
+    else
+      this.setState({
+        form: <SignInForm />
+      });
+  }
+
   render() {
     return (
 
@@ -24,10 +51,10 @@ class ConnexionContainer extends React.Component<IProps> {
               </div>
             </div>
           </div>
-          
+
           <div className="customCol col-sm-12 col-md-4">
-            <ConnexionNav />
-            <SignInForm />
+            <ConnexionNav handleClickFct={this.showComponent} isSignInActive={true} />
+            {this.state.form}
           </div>
         </div>
       </div>

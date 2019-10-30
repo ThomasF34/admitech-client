@@ -66,3 +66,15 @@
 
 }
 
+/*css to write on image*/
+.centered-text {
+    position: absolute;
+    top: 30%;
+    left: 5%;
+  
+  }
+
+  .img{
+      height: 100vh;
+      width: 100%;
+  }

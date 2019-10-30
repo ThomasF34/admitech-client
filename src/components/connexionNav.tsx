@@ -25,16 +25,16 @@ class ConnexionNav extends React.Component<IState, IProps> {
     this.setState({ isSignInActive: true }, () => {
       this.props.handleClickFct(this.state.isSignInActive);
     }
-      );
-   
+    );
+
   }
 
-  setSignInNotActive= () =>  {
+  setSignInNotActive = () => {
     this.setState({ isSignInActive: false }, () => {
       this.props.handleClickFct(this.state.isSignInActive);
     }
-      );
-    
+    );
+
   }
 
   render() {
@@ -42,7 +42,7 @@ class ConnexionNav extends React.Component<IState, IProps> {
       <div>
         <ul className="nav nav-tabs ">
           <li className="nav-item text-center" style={{ width: '50%' }}>
-            <button className={this.state.isSignInActive ? 'nav-link active' : 'nav-link'} style={{ width: '100%' }} onClick={ () => this.setSignInActive()}>
+            <button className={this.state.isSignInActive ? 'nav-link active' : 'nav-link'} style={{ width: '100%' }} onClick={() => this.setSignInActive()}>
               <h3 style={{ color: 'black' }}>Se connecter</h3>
             </button>
           </li>

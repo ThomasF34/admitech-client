@@ -29,7 +29,7 @@ class SignUpForm extends React.Component {
           <div className="form-group">
             <div className="form-check">
               <input className="form-check-input input-lg" type="checkbox" id="gridCheck" />
-              J'accepte les conditions générales de d'utilisation
+              J&apos;accepte les conditions générales de d&apos;utilisation
             </div>
           </div>
 

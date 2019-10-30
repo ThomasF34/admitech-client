@@ -1,4 +1,4 @@
-import '../style/containerCard.css';
+import '../style/cardsContainer.css';
 import React from 'react';
 import student from '../img/fond-student.jpeg';
 import polytech from '../img/fond-polytech.jpeg';
@@ -6,7 +6,7 @@ import company from '../img/fond-company.jpeg';
 import Card from './card';
 
 
-class ContainerCard extends React.Component {
+class CardContainer extends React.Component {
   render() {
     return (
 
@@ -28,5 +28,5 @@ class ContainerCard extends React.Component {
   }
 }
 
-export default ContainerCard;
+export default CardContainer;
 

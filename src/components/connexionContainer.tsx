@@ -8,7 +8,7 @@ interface IProps {
   image: string
 }
 
-class Connexion extends React.Component<IProps> {
+class ConnexionContainer extends React.Component<IProps> {
   render() {
     return (
 
@@ -46,4 +46,4 @@ class Connexion extends React.Component<IProps> {
 }
 
 
-export default Connexion;
+export default ConnexionContainer;

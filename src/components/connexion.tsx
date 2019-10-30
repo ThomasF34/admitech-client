@@ -2,7 +2,7 @@ import React from 'react';
 import '../style/connexion.css';
 import ConnexionNav from './connexionNav';
 import polytech from '../img/fond-polytech.jpeg';
-import logo from '../img/polytechLogo.svg'
+import logo from '../img/polytechLogo.svg';
 
 const Connexion: React.FC = () => {
   return (

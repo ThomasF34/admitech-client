@@ -1,29 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import MenuBar from './components/menubar';
-
-const App: React.FC = () => {
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Connexion from './components/connexion';
+import ContainerCard from './components/containerCard';
 
 
+export default function App() {
   return (
-
-    <div className="root">
-      <MenuBar />
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-      </p>
-      <a
-        className="App-link"
-        href="https://reactjs.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-          Learn React
-      </a>
-    </div>
+    <Router>
+      <div>
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route path="/connexion/etudiant">
+            <Connexion />
+          </Route>
+          <Route path="/connexion/entreprise">
+            <Connexion />
+          </Route>
+          <Route path="/">
+            <ContainerCard />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
-};
-
-export default App;
+}

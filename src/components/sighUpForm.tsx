@@ -29,13 +29,13 @@ class SignUpForm extends React.Component {
           <div className="form-group">
             <div className="form-check">
               <input className="form-check-input input-lg" type="checkbox" id="gridCheck" />
-              J&apos;accepte les conditions générales de d&apos;utilisation
+              J&apos;accepte les conditions générales d&apos;utilisation
             </div>
           </div>
 
 
           <div className="form-group text-center" style={{ marginTop: '15%',marginBottom: '10%' }}>
-            <button className="btn btn-outline-secondary btn-lg btn-block shadow">Connexion</button>
+            <button className="btn btn-outline-secondary btn-lg btn-block shadow">Créer votre compte</button>
           </div>
           <h5>Votre identifiant sera unique aux plateformes de Polytech.</h5>
         </form>

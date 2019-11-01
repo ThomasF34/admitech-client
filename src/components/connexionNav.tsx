@@ -4,12 +4,12 @@ import logo from '../img/polytechLogo.svg';
 
 interface IState {
   isSignInActive: boolean,
-  handleClickFct: any
+  handleClickFct: (isSignInActive: boolean) => void
 }
 
 interface IProps {
   isSignInActive: boolean,
-  handleClickFct: any
+  handleClickFct: (isSignInActive: boolean) => void
 }
 
 class ConnexionNav extends React.Component<IState, IProps> {

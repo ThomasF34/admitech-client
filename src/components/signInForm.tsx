@@ -14,7 +14,7 @@ class SignInForm extends React.Component {
             <input type="form-group" className="form-control form-control-lg text-center" placeholder="Mot de passe" />
           </div>
           <div className="form-group text-center" style={{ marginTop: '15%' }}>
-            <button className="btn btn-outline-secondary btn-light btn-lg btn-block ">Connexion</button>
+            <button className="btn btn-outline-secondary btn-lg btn-block shadow">Connexion</button>
             <p>Powered by Polytech Connect</p>
           </div>
         </form>

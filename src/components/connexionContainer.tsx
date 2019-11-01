@@ -39,10 +39,10 @@ class ConnexionContainer extends React.Component<IProps, IState> {
   render() {
     return (
 
-      <div className="root fill">
-        <div className="row fill no-gutters justify-content-end">
+      <div className="root fill ">
+        <div className="row fill no-gutters justify-content-end ">
 
-          <div className="d-none d-md-block col-md-8" >
+          <div className="d-none d-md-block col-md-8 " >
             <div className="image-container">
               <img src={this.props.image} className="img" alt="polytech" />
               <div className="centered-text">
@@ -52,7 +52,7 @@ class ConnexionContainer extends React.Component<IProps, IState> {
             </div>
           </div>
 
-          <div className="customCol col-sm-12 col-md-4">
+          <div className="customCol col-sm-12 col-md-4 shadow-lg bg-light ">
             <ConnexionNav handleClickFct={this.showComponent} isSignInActive={true} />
             {this.state.form}
           </div>

@@ -41,13 +41,13 @@ class ConnexionNav extends React.Component<IState, IProps> {
     return (
       <div>
         <ul className="nav nav-tabs ">
-          <li className="nav-item text-center" style={{ width: '50%' }}>
-            <button className={this.state.isSignInActive ? 'nav-link active' : 'nav-link'} style={{ width: '100%' }} onClick={() => this.setSignInActive()}>
+          <li className="nav-item text-center " style={{ width: '50%' }}>
+            <button className={this.state.isSignInActive ? 'nav-link bg-light active' : 'nav-link'} style={{ width: '100%' }} onClick={() => this.setSignInActive()}>
               <h3 style={{ color: 'black' }}>Se connecter</h3>
             </button>
           </li>
           <li className="nav-item text-center" style={{ width: '50%' }}>
-            <button className={this.state.isSignInActive ? 'nav-link' : 'nav-link active'} style={{ width: '100%' }} onClick={() => this.setSignInNotActive()}>
+            <button className={this.state.isSignInActive ? 'nav-link' : 'nav-link bg-light active'} style={{ width: '100%' }} onClick={() => this.setSignInNotActive()}>
               <h3 style={{ color: 'black' }}>Créer un compte</h3>
             </button>
           </li>

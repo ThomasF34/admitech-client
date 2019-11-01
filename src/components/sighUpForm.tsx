@@ -35,7 +35,7 @@ class SignUpForm extends React.Component {
 
 
           <div className="form-group text-center" style={{ marginTop: '15%',marginBottom: '10%' }}>
-            <button className="btn btn-outline-secondary btn-light btn-lg btn-block ">Connexion</button>
+            <button className="btn btn-outline-secondary btn-lg btn-block shadow">Connexion</button>
           </div>
           <h5>Votre identifiant sera unique aux plateformes de Polytech.</h5>
         </form>

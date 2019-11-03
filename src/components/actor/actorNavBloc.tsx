@@ -13,7 +13,9 @@ class ActorNavBloc extends React.Component<IProps> {
       <ul className="decor-line justify-content-md-start" style={{ listStyleType: 'none', paddingLeft: '0%' }}>
         {this.props.blocList.map(e =>
           <li className="nav-item" key={'key'} >
-            <a className="nav-link active" style={{  textDecoration: 'none' ,color: 'white'}} href={e[1]}>{e[0]}</a>
+            <a className="nav-link active" style={{  textDecoration: 'none' ,color: 'white'}} href={e[1]}>
+            <h5>{e[0]}</h5>
+            </a>
           </li>
         )}
       </ul>

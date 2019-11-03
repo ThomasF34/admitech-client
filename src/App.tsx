@@ -27,13 +27,13 @@ export default function App() {
           <Route path="/connexion/administration">
             <ConnexionContainer image={polytech} text="ESPACE ADMINISTRATION"/>
           </Route>
-          <Route path="/administration/home">
+          <Route path="/administration/accueil">
             <AdminHome />
           </Route>
-          <Route path="/etudiant/home">
+          <Route path="/etudiant/accueil">
             <StudentHome />
           </Route>
-          <Route path="/entreprise/home">
+          <Route path="/entreprise/accueil">
             <CompanyHome />
           </Route>
           <Route path="/">

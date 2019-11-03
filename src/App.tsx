@@ -5,6 +5,9 @@ import CardContainer from './components/home/cardsContainer';
 import polytech from './img/fond-polytech.jpeg';
 import company from './img/fond-company.jpeg';
 import student from './img/fond-student.jpeg';
+import AdminHome from './components/administration/adminHome';
+import StudentHome from './components/student/studentHome';
+import CompanyHome from './components/company/companyHome';
 
 
 
@@ -23,6 +26,15 @@ export default function App() {
           </Route>
           <Route path="/connexion/administration">
             <ConnexionContainer image={polytech} text="ESPACE ADMINISTRATION"/>
+          </Route>
+          <Route path="/administration/home">
+            <AdminHome />
+          </Route>
+          <Route path="/student/home">
+            <StudentHome />
+          </Route>
+          <Route path="/company/home">
+            <CompanyHome />
           </Route>
           <Route path="/">
             <CardContainer />

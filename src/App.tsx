@@ -30,10 +30,10 @@ export default function App() {
           <Route path="/administration/home">
             <AdminHome />
           </Route>
-          <Route path="/student/home">
+          <Route path="/etudiant/home">
             <StudentHome />
           </Route>
-          <Route path="/company/home">
+          <Route path="/entreprise/home">
             <CompanyHome />
           </Route>
           <Route path="/">

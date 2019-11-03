@@ -1,10 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import ConnexionContainer from './components/connexionContainer';
-import CardContainer from './components/cardsContainer';
+import ConnexionContainer from './components/connexion/connexionContainer';
+import CardContainer from './components/home/cardsContainer';
 import polytech from './img/fond-polytech.jpeg';
 import company from './img/fond-company.jpeg';
 import student from './img/fond-student.jpeg';
+
 
 
 export default function App() {

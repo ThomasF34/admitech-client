@@ -1,8 +1,8 @@
-import '../style/container.css';
+import '../../style/container.css';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import company from '../img/fond-company.jpeg';
-import user from '../img/user.png';
+import company from '../../img/fond-company.jpeg';
+import user from '../../img/user.png';
 import ActorNavContainer from './actorNavContainer';
 
 class ActorContainer extends React.Component {
@@ -38,7 +38,7 @@ class ActorContainer extends React.Component {
 
           <div className="col-sm-12 col-md-10 fill">
             <div className="image-container">
-              <img src={company} className="img" alt="polytech" />
+              <img src={company} className="img-background" alt="polytech" />
             </div>
 
 

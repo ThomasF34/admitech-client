@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import logo from '../img/polytechLogo.svg';
+import logo from '../../img/polytechLogo.svg';
 
 interface IState {
   isSignInActive: boolean,

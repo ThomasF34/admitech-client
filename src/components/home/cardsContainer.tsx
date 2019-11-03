@@ -1,8 +1,8 @@
-import '../style/cardsContainer.css';
+import '../../style/container.css';
 import React from 'react';
-import student from '../img/fond-student.jpeg';
-import polytech from '../img/fond-polytech.jpeg';
-import company from '../img/fond-company.jpeg';
+import student from '../../img/fond-student.jpeg';
+import polytech from '../../img/fond-polytech.jpeg';
+import company from '../../img/fond-company.jpeg';
 import Card from './card';
 
 
@@ -11,8 +11,8 @@ class CardContainer extends React.Component {
     return (
 
 
-      <div className="root container-fluid fill ">
-        <div className="row rowCustom align-items-center">
+      <div className="root container-fluid fill" style = {{backgroundColor:'rgb(51, 96, 138)'}}>
+        <div className="row fill align-items-center">
           <div className="col-sm-12 col-md-4 ">
             <Card title="Accès étudiants" clickLink="/connexion/etudiant" image={student} text="Voici un texte de présentation de la connexion étudiant" />
           </div>

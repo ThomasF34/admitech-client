@@ -1,29 +1,46 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import MenuBar from './components/menubar';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import ConnexionContainer from './components/connexion/connexionContainer';
+import CardContainer from './components/home/cardsContainer';
+import polytech from './img/fond-polytech.jpeg';
+import company from './img/fond-company.jpeg';
+import student from './img/fond-student.jpeg';
+import AdminHome from './components/administration/adminHome';
+import StudentHome from './components/student/studentHome';
+import CompanyHome from './components/company/companyHome';
 
-const App: React.FC = () => {
 
 
+export default function App() {
   return (
-
-    <div className="root">
-      <MenuBar />
-      <img src={logo} className="App-logo" alt="logo" />
-      <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-      </p>
-      <a
-        className="App-link"
-        href="https://reactjs.org"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-          Learn React
-      </a>
-    </div>
+    <Router>
+      <div>
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route path="/connexion/etudiant">
+            <ConnexionContainer image={student} text="ESPACE ETUDIANT"/>
+          </Route>
+          <Route path="/connexion/entreprise">
+            <ConnexionContainer image={company} text="ESPACE ENTREPRISE"/>
+          </Route>
+          <Route path="/connexion/administration">
+            <ConnexionContainer image={polytech} text="ESPACE ADMINISTRATION"/>
+          </Route>
+          <Route path="/administration/accueil">
+            <AdminHome />
+          </Route>
+          <Route path="/etudiant/accueil">
+            <StudentHome />
+          </Route>
+          <Route path="/entreprise/accueil">
+            <CompanyHome />
+          </Route>
+          <Route path="/">
+            <CardContainer />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
-};
-
-export default App;
+}

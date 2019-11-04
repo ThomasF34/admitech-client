@@ -12,7 +12,23 @@
 }
 
 .white{
-background-color: whitesmoke
+background-color: whitesmoke;
 }
 
+.vertical-center{
+ padding-left: 5%;
+ padding-top: 1.5%;
+}
+
+.img-icon{
+padding-right: 2%
+}
+
+.name-mainTitle {
+  padding: 10px 10px;
+  text-align: center;
+  font-weight:bold;
+  font-size: 25px;
+  color: #4b4949;
+}
 

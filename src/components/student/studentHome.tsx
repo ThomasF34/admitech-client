@@ -5,6 +5,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import company from '../../img/fond-student.jpeg';
 import user from '../../img/user.png';
 import StudentNav from './studentNav';
+import MyAppliance from './myApplication';
+import MyMessages from './myMessages';
+import MyInterviews from './myInterviews';
 
 class StudentHome extends React.Component {
 
@@ -24,17 +27,19 @@ class StudentHome extends React.Component {
             <div className="image-container">
               <img src={company} className="img-background" alt="polytech" />
               <div className="main-container align-items-end" >
-                <div className="row no-gutters" style={{ width: '100%', height: '90%'}}>
+                <div className="row no-gutters" style={{ width: '100%', height: '90%' }}>
 
-                  <div className="col-sm-12 col-md-9 fill-container no-gutters" style={{paddingRight: '0%'}}>
+                  <div className="col-sm-12 col-md-9 fill-container no-gutters" style={{ paddingRight: '0%' }}>
 
                     <div className="row no-gutters" style={{ width: '100%', height: '50%' }}>
                       <div className="col-sm-12 col-md-6 fill-container" style={{ padding: '0.7%' }}>
                         <div className="fill-container shadow-lg white">
-                        </div>
+                          <MyAppliance />
+                        </div >
                       </div>
                       <div className="col-sm-12 col-md-6 fill-container " style={{ padding: '0.7%' }}>
                         <div className="fill-container shadow-lg white">
+                          <MyInterviews />
                         </div>
                       </div>
                     </div>
@@ -42,6 +47,7 @@ class StudentHome extends React.Component {
                     <div className="row no-gutters" style={{ width: '100%', height: '50%' }}>
                       <div className="col-sm-12 col-md-12 fill-container" style={{ padding: '0.7%' }}>
                         <div className="fill-container shadow-lg white">
+                         
                         </div>
                       </div>
                     </div>
@@ -51,6 +57,7 @@ class StudentHome extends React.Component {
                   {/*mail container*/}
                   <div className="col-sm-12 col-md-3 fill-container" style={{ padding: '0.7%' }}>
                     <div className="fill-container shadow-lg white">
+                      <MyMessages />
                     </div>
                   </div>
 
@@ -58,6 +65,9 @@ class StudentHome extends React.Component {
 
                 <div className="row no-gutters" style={{ width: '100%', height: '10%', padding: '0.7%' }}>
                   <div className="fill-container shadow-lg white">
+                    <p className="vertical-center" >Pour toute requête, merci de contacter
+                    <a href="help@polytech-montpellier.fr"> help@polytech-montpellier.fr </a>
+                      ou par téléphone au 01.23.45.67.89. </p>
                   </div>
                 </div>
 

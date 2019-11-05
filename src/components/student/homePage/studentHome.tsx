@@ -8,6 +8,7 @@ import StudentNav from '../studentNav';
 import MyAppliance from './myApplication';
 import MyMessages from './myMessages';
 import MyInterviews from './myInterviews';
+import BottomBar from '../../helpers/bottomBar';
 
 class StudentHome extends React.Component {
 
@@ -64,11 +65,7 @@ class StudentHome extends React.Component {
                 </div>
 
                 <div className="row no-gutters" style={{ width: '100%', height: '10%', padding: '0.7%' }}>
-                  <div className="fill-container shadow-lg white">
-                    <p className="vertical-center" >Pour toute requête, merci de contacter
-                      <a href="help@polytech-montpellier.fr"> help@polytech-montpellier.fr </a>
-                      ou par téléphone au 01.23.45.67.89. </p>
-                  </div>
+                  <BottomBar />
                 </div>
 
               </div>

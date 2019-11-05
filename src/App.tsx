@@ -8,6 +8,7 @@ import student from './img/fond-student.jpeg';
 import AdminHome from './components/administration/homePage/adminHome';
 import StudentHome from './components/student/homePage/studentHome';
 import CompanyHome from './components/company/homePage/companyHome';
+import ApplicationsContainer from './components/administration/applicationsPage/applicationsContainer';
 
 
 
@@ -19,13 +20,13 @@ export default function App() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/connexion/etudiant">
-            <ConnexionContainer image={student} text="ESPACE ETUDIANT"/>
+            <ConnexionContainer image={student} text="ESPACE ETUDIANT" />
           </Route>
           <Route path="/connexion/entreprise">
-            <ConnexionContainer image={company} text="ESPACE ENTREPRISE"/>
+            <ConnexionContainer image={company} text="ESPACE ENTREPRISE" />
           </Route>
           <Route path="/connexion/administration">
-            <ConnexionContainer image={polytech} text="ESPACE ADMINISTRATION"/>
+            <ConnexionContainer image={polytech} text="ESPACE ADMINISTRATION" />
           </Route>
           <Route path="/administration/accueil">
             <AdminHome />
@@ -35,6 +36,9 @@ export default function App() {
           </Route>
           <Route path="/entreprise/accueil">
             <CompanyHome />
+          </Route>
+          <Route path="/administration/candidatures">
+            <ApplicationsContainer />
           </Route>
           <Route path="/">
             <CardContainer />

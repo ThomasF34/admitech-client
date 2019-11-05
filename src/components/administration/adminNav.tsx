@@ -16,7 +16,7 @@ class AdminNav extends React.Component<IProps> {
         userImage={this.props.userImage}
         routes={[
           [
-            ['Candidatures', '#'],
+            ['Candidatures', '/administration/candidatures'],
             ['QCM', '#'],
           ],
           [

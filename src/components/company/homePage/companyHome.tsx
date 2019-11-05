@@ -1,9 +1,9 @@
-import '../../style/container.css';
+import '../../../style/container.css';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import company from '../../img/fond-company.jpeg';
-import user from '../../img/user.png';
-import CompanyNav from './companyNav';
+import company from '../../../img/fond-company.jpeg';
+import user from '../../../img/user.png';
+import CompanyNav from '../companyNav';
 
 class CompanyHome extends React.Component {
 

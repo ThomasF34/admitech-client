@@ -1,10 +1,10 @@
 import React from 'react';
-import '../../style/home.css';
-import '../../style/container.css';
+import '../../../style/home.css';
+import '../../../style/container.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import company from '../../img/fond-student.jpeg';
-import user from '../../img/user.png';
-import StudentNav from './studentNav';
+import company from '../../../img/fond-student.jpeg';
+import user from '../../../img/user.png';
+import StudentNav from '../studentNav';
 import MyAppliance from './myApplication';
 import MyMessages from './myMessages';
 import MyInterviews from './myInterviews';
@@ -66,7 +66,7 @@ class StudentHome extends React.Component {
                 <div className="row no-gutters" style={{ width: '100%', height: '10%', padding: '0.7%' }}>
                   <div className="fill-container shadow-lg white">
                     <p className="vertical-center" >Pour toute requête, merci de contacter
-                    <a href="help@polytech-montpellier.fr"> help@polytech-montpellier.fr </a>
+                      <a href="help@polytech-montpellier.fr"> help@polytech-montpellier.fr </a>
                       ou par téléphone au 01.23.45.67.89. </p>
                   </div>
                 </div>

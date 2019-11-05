@@ -1,9 +1,9 @@
-import '../../style/container.css';
+import '../../../style/container.css';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import company from '../../img/fond-polytech.jpeg';
-import user from '../../img/user.png';
-import AdminNav from './adminNav';
+import company from '../../../img/fond-polytech.jpeg';
+import user from '../../../img/user.png';
+import AdminNav from '../adminNav';
 
 class AdminHome extends React.Component {
 

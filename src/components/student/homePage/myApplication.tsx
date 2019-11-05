@@ -1,6 +1,6 @@
 import React from 'react';
-import pensil from '../../img/icons/pensil.png';
-import '../../style/home.css';
+import pensil from '../../../img/icons/pensil.png';
+import '../../../style/home.css';
 
 class MyAppliance extends React.Component {
 

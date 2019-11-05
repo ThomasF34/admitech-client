@@ -1,6 +1,6 @@
 import React from 'react';
-import chat from '../../img/icons/chat.png';
-import '../../style/home.css';
+import chat from '../../../img/icons/chat.png';
+import '../../../style/home.css';
 
 class MyMessages extends React.Component {
 

@@ -9,7 +9,7 @@ import AdminHome from './components/administration/homePage/adminHome';
 import StudentHome from './components/student/homePage/studentHome';
 import CompanyHome from './components/company/homePage/companyHome';
 import ApplicationsContainer from './components/administration/applicationsPage/applicationsContainer';
-import MyApplicationContainer from './components/student/myApplicationPage/myApplicationContainer';
+import MyApplicationPage from './components/student/myApplicationPage/myApplicationPage';
 
 
 
@@ -42,7 +42,7 @@ export default function App() {
             <ApplicationsContainer />
           </Route>
           <Route path="/etudiant/candidature">
-            <MyApplicationContainer />
+            <MyApplicationPage />
           </Route>
           <Route path="/">
             <CardContainer />

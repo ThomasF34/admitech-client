@@ -9,6 +9,7 @@ import AdminHome from './components/administration/homePage/adminHome';
 import StudentHome from './components/student/homePage/studentHome';
 import CompanyHome from './components/company/homePage/companyHome';
 import ApplicationsContainer from './components/administration/applicationsPage/applicationsContainer';
+import MyApplicationContainer from './components/student/myApplicationPage/myApplicationContainer';
 
 
 
@@ -39,6 +40,9 @@ export default function App() {
           </Route>
           <Route path="/administration/candidatures">
             <ApplicationsContainer />
+          </Route>
+          <Route path="/etudiant/candidature">
+            <MyApplicationContainer />
           </Route>
           <Route path="/">
             <CardContainer />

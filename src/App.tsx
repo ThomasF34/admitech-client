@@ -10,6 +10,7 @@ import StudentHome from './components/student/homePage/studentHome';
 import CompanyHome from './components/company/homePage/companyHome';
 import ApplicationsContainer from './components/administration/applicationsPage/applicationsContainer';
 import MyApplicationPage from './components/student/myApplicationPage/myApplicationPage';
+import StudentApplicationPage from './components/administration/studentApplicationPage/studentApplicationPage';
 
 
 
@@ -43,6 +44,9 @@ export default function App() {
           </Route>
           <Route path="/etudiant/candidature">
             <MyApplicationPage />
+          </Route>
+          <Route path="/administration/candidature">
+            <StudentApplicationPage />
           </Route>
           <Route path="/">
             <CardContainer />

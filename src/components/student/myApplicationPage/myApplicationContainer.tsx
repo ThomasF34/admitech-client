@@ -7,6 +7,7 @@ import user from '../../../img/user.png';
 import StudentNav from '../studentNav';
 import BottomBar from '../../helpers/bottomBar';
 import zoomApplication from '../../../img/icons/zoomApplication.png';
+import StepsBar from '../../helpers/stepsBar';
 
 class MyApplicationContainer extends React.Component {
 
@@ -32,6 +33,7 @@ class MyApplicationContainer extends React.Component {
                     <div className="name-mainTitle" >
                       <img src={zoomApplication} className="img-icon" alt="files" />
                       Ma Canditature
+                      <StepsBar />
                     </div>
                   </div>
                 </div>
@@ -39,7 +41,7 @@ class MyApplicationContainer extends React.Component {
                   <div className="fill-container shadow-lg white">
                     <div className="row fill-container align-items-center">
                       <div className="container">
-                       
+                     
                       </div>
                     </div>
                   </div>

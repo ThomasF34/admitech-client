@@ -1,16 +1,16 @@
 import React from 'react';
-import '../style/stepsBar.css';
+import '../../style/stepsBar.css';
 
 class StepsBar extends React.Component {
   render() {
     return (
-      <div className="container">
+      <div className="custom-container">
         <ul className="progressbar">
-          <li className="active">dossier complet</li>
-          <li className="active">QCM</li>
-          <li className="current">Prise de RDV entretien</li>
-          <li>Entretien</li>
-          <li>resultat</li>
+          <li className="active li-custom">dossier complet</li>
+          <li className="active li-custom">QCM</li>
+          <li className="current li-custom">Prise de RDV entretien</li>
+          <li className="li-custom">Entretien</li>
+          <li className="li-custom">resultat</li>
         </ul>
       </div>
     );

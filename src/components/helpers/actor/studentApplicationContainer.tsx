@@ -6,7 +6,10 @@ import BottomBar from '../bottomBar';
 import zoomApplication from '../../../img/icons/zoomApplication.png';
 import StepsBar from '../stepsBar';
 
-class StudentApplicationContainer extends React.Component {
+interface IProps {
+  title: string,
+}
+class StudentApplicationContainer extends React.Component<IProps> {
 
   render() {
     return (
@@ -19,7 +22,7 @@ class StudentApplicationContainer extends React.Component {
             <div className="fill-container shadow-lg white">
               <div className="name-mainTitle" >
                 <img src={zoomApplication} className="img-icon" alt="files" />
-                Ma Canditature
+                {this.props.title}
             </div>
             </div>
           </div>

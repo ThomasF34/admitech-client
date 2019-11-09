@@ -19,7 +19,7 @@ class MyApplicationPage extends React.Component {
           </div>
 
           <div className="col-sm-12 col-md-10 fill">
-            <StudentApplicationContainer />
+            <StudentApplicationContainer title="Ma Candidature en ??"/>
           </div>
 
         </div>

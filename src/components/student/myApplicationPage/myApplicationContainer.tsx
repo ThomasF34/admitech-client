@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../../style/home.css';
 import '../../../style/container.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import company from '../../../img/fond-student.jpeg';
@@ -33,15 +32,17 @@ class MyApplicationContainer extends React.Component {
                     <div className="name-mainTitle" >
                       <img src={zoomApplication} className="img-icon" alt="files" />
                       Ma Canditature
-                      <StepsBar />
                     </div>
                   </div>
                 </div>
                 <div className="row no-gutters " style={{ width: '100%', height: '80%', padding: '0.7%' }}>
                   <div className="fill-container shadow-lg white">
-                    <div className="row fill-container align-items-center">
-                      <div className="container">
+                    <div className="row align-items-center">
                      
+                        <div className="container" >
+                          <StepsBar />
+                        
+
                       </div>
                     </div>
                   </div>

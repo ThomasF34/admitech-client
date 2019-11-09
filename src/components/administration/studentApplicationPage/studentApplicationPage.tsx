@@ -3,6 +3,7 @@ import '../../../style/container.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import user from '../../../img/user.png';
 import StudentApplicationContainer from '../../helpers/actor/studentApplicationContainer';
+import polytech from '../../../img/fond-polytech.jpeg';
 import AdminNav from '../adminNav';
 
 class StudentApplicationPage extends React.Component {
@@ -18,15 +19,25 @@ class StudentApplicationPage extends React.Component {
           </div>
 
           <div className="col-sm-12 col-md-8 fill">
-            <StudentApplicationContainer title="Candidature de ?? en ??"/>
+            <div className="image-container">
+              <img src={polytech} className="img-background" alt="polytech" />
+              <StudentApplicationContainer title="Candidature de ?? en ??" />
+            </div>
           </div>
+
 
           <div className="col-sm-12 col-md-2 fill">
-            hello
+            <div className="fill-container shadow-lg" style={{ backgroundColor: 'rgb(163, 162, 162)' }}>
+              <h4 color="white" className="text-center">Détail des étapes</h4>
+            </div>
           </div>
 
+
         </div>
-      </div>
+
+
+      </div >
+
 
     );
   }

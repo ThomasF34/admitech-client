@@ -1,18 +1,15 @@
 import React from 'react';
-import '../../style/stepsBar.css';
+import Stepper from "react-stepper-horizontal";
 
 class StepsBar extends React.Component {
   render() {
     return (
-      <div className="custom-container">
-        <ul className="progressbar">
-          <li className="active li-custom">dossier complet</li>
-          <li className="active li-custom">QCM</li>
-          <li className="current li-custom">Prise de RDV entretien</li>
-          <li className="li-custom">Entretien</li>
-          <li className="li-custom">resultat</li>
-        </ul>
-      </div>
+      <Stepper steps={ [{title: 'Dossier Complet'}, {title: 'QCM'}, {title: 'Prise de RDV entretien'}, {title: 'Entretien'}, {title: 'Résultat'}] } 
+      activeStep={ 2 } 
+      activeColor="#49e051"
+      completeColor="rgb(0, 204, 255)"
+      completeBarColor="rgb(0, 204, 255)"
+      />
     );
   }
 }

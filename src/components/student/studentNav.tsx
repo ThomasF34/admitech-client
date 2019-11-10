@@ -1,5 +1,5 @@
 import React from 'react';
-import ActorNavContainer from '../actor/actorNavContainer';
+import ActorNavContainer from '../helpers/actor/actorNavContainer';
 
 interface IProps {
   userName: string,

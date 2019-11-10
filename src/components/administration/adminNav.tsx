@@ -1,5 +1,5 @@
 import React from 'react';
-import ActorNavContainer from '../actor/actorNavContainer';
+import ActorNavContainer from '../helpers/actor/actorNavContainer';
 
 interface IProps {
   userName: string,
@@ -16,7 +16,7 @@ class AdminNav extends React.Component<IProps> {
         userImage={this.props.userImage}
         routes={[
           [
-            ['Candidatures', '#'],
+            ['Candidatures', '/administration/candidatures'],
             ['QCM', '#'],
           ],
           [

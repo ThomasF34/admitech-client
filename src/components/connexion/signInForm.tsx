@@ -1,8 +1,10 @@
 import React from 'react';
+import UserSignInDto from '../../models/user/userSignInDto';
+import { login } from '../../services/auth.service';
 
 interface ISignInForm {
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  submit: () => void
+  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  submit: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
 interface IState {
@@ -14,23 +16,26 @@ interface IProps {
 }
 
 class SignInForm extends React.Component<IProps, IState> implements ISignInForm {
-  submit = (): void => {
-
+  submit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+   const user = new UserSignInDto(this.state.email, this.state.password)
+    event.preventDefault();
+    login(user).then(x => console.log("ok"))
+      .catch(y => console.log("not ok"))
   }
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target != null) {
       switch (event.target.name) {
-      case 'email':
-        this.setState({
-          email: event.target.value
-        });
-        break;
-      case 'password':
-        this.setState({
-          password: event.target.value
-        });
-        break;
+        case 'email':
+          this.setState({
+            email: event.target.value
+          });
+          break;
+        case 'password':
+          this.setState({
+            password: event.target.value
+          });
+          break;
       }
     }
   }

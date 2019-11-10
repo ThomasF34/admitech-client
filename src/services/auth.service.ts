@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setToken, removeToken, getToken } from './token.service';
+import { setToken } from './token.service';
 import * as config from './configApi.service';
 import UserSignInDto from '../models/user/userSignInDto';
 
@@ -10,10 +10,19 @@ const login = async (user: UserSignInDto) => {
         login: user.login,
         password: user.password
       });
-    setToken(res.data);
-    return res.data;
+    switch (res.status) {
+      case 200:
+        setToken(res.data);
+        console.log("200")
+        return res.data;
+      case 401:
+          console.log("401")
+    }
+
   }
   catch (err) {
-    console.log(err);
+    console.log("ERREUR INES "+err);
   }
 };
+
+export { login };

@@ -2,6 +2,7 @@ import React from 'react';
 
 interface ISignInForm {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  submit: () => void
 }
 
 interface IState {
@@ -13,20 +14,23 @@ interface IProps {
 }
 
 class SignInForm extends React.Component<IProps, IState> implements ISignInForm {
+  submit = (): void => {
 
+  }
+  
   handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target != null) {
       switch (event.target.name) {
-      case 'email':
-        this.setState({
-          email: event.target.value
-        });
-        break;
-      case 'password':
-        this.setState({
-          password: event.target.value
-        });
-        break;
+        case 'email':
+          this.setState({
+            email: event.target.value
+          });
+          break;
+        case 'password':
+          this.setState({
+            password: event.target.value
+          });
+          break;
       }
     }
   }
@@ -54,7 +58,7 @@ class SignInForm extends React.Component<IProps, IState> implements ISignInForm 
               placeholder="Mot de passe" value={this.state.password} required />
           </div>
           <div className="form-group text-center" style={{ marginTop: '15%' }}>
-            <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit">Connexion</button>
+            <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={this.submit}>Connexion</button>
             <p>Powered by Polytech Connect</p>
           </div>
         </form>

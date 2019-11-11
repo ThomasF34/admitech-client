@@ -1,15 +1,19 @@
 import React from 'react';
+import UserSignUpDto from '../../models/user/userSignUpDto';
+import { signUp } from '../../services/auth.service';
 interface ISignUpForm {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
   submit: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
 interface IState {
+  email: string,
   firstName: string,
   lastName: string,
   password: string,
   confirmPassword: string,
   error: string,
+  MatchingPwdError: string,
   signUpDone: boolean
 }
 
@@ -22,11 +26,13 @@ class SignUpForm extends React.Component<IProps, IState> implements ISignUpForm 
   constructor(props: IProps) {
     super(props);
     this.state = {
+      email: '',
       firstName: '',
       lastName: '',
       password: '',
       confirmPassword: '',
       error: '',
+      MatchingPwdError: '',
       signUpDone: false
     };
   }
@@ -34,31 +40,47 @@ class SignUpForm extends React.Component<IProps, IState> implements ISignUpForm 
   submit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
 
     event.preventDefault();
+    if (this.state.password !== this.state.confirmPassword)
+      this.setState({
+        MatchingPwdError: "Les mots de passes ne sont pas identiques."
+      })
+    else {
+      const user = new UserSignUpDto(this.state.email, this.state.firstName, this.state.lastName, this.state.password, "student");
+      //call to the api
+      signUp(user)
+        .catch()
+        .then();
+    }
   }
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target != null) {
       switch (event.target.name) {
-      case 'firstname':
-        this.setState({
-          firstName: event.target.value
-        });
-        break;
-      case 'lastname':
-        this.setState({
-          lastName: event.target.value
-        });
-        break;
-      case 'password':
-        this.setState({
-          password: event.target.value
-        });
-        break;
-      case 'confirm_password':
-        this.setState({
-          confirmPassword: event.target.value
-        });
-        break;
+        case 'email':
+          this.setState({
+            email: event.target.value
+          });
+          break;
+        case 'firstname':
+          this.setState({
+            firstName: event.target.value,
+          });
+          break;
+        case 'lastname':
+          this.setState({
+            lastName: event.target.value
+          });
+          break;
+        case 'password':
+          this.setState({
+            password: event.target.value
+          });
+          break;
+        case 'confirm_password':
+          this.setState({
+            confirmPassword: event.target.value
+          });
+          break;
       }
     }
   }
@@ -70,6 +92,10 @@ class SignUpForm extends React.Component<IProps, IState> implements ISignUpForm 
         <form className="needs-validation">
 
           <div className="form-group" style={{ marginBottom: '8%' }} >
+            <div className="form-group">
+              <input name="email" type="text" className="form-control form-control-lg text-center" placeholder="Adresse email"
+                onChange={this.handleChange} value={this.state.email} required />
+            </div>
             <div className="form-group">
               <input name="lastname" type="text" className="form-control form-control-lg text-center" placeholder="Nom"
                 onChange={this.handleChange} value={this.state.lastName} required />
@@ -89,6 +115,7 @@ class SignUpForm extends React.Component<IProps, IState> implements ISignUpForm 
               <input name="confirm_password" type="password" className="form-control form-control-lg text-center" placeholder="Répétez votre mot de passe" minLength={6}
                 onChange={this.handleChange} value={this.state.confirmPassword} required />
             </div>
+            <h6 className="text-danger">{this.state.MatchingPwdError}</h6>
           </div>
 
           <div className="form-group">
@@ -100,7 +127,7 @@ class SignUpForm extends React.Component<IProps, IState> implements ISignUpForm 
 
 
           <div className="form-group text-center" style={{ marginTop: '15%', marginBottom: '10%' }}>
-            <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit">Créer votre compte</button>
+            <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={this.submit}>Créer votre compte</button>
           </div>
           <h5>Votre identifiant sera unique aux plateformes de Polytech.</h5>
         </form>

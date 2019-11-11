@@ -10,8 +10,10 @@ const login = async (user: UserSignInDto) => {
       email: user.login,
       password: user.password
     });
+
   if (res.status === 200)
     setToken(res.data)
+
   return res;
 };
 

@@ -30,7 +30,7 @@ class ConnexionContainer extends React.Component<IProps, IState> {
   showComponent = (isSignInActive: boolean) => {
     if (!isSignInActive)
       this.setState({
-        form: <SignUpForm />
+        form: <SignUpForm redirectPath={this.props.connexionRedirectPath}/>
       });
     else
       this.setState({

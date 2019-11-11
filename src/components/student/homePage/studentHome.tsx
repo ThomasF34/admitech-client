@@ -16,7 +16,9 @@ import { getToken } from '../../../services/token.service';
 class StudentHome extends React.Component {
 
   render() {
-    if (getToken == null) {
+    const token = getToken();
+    
+    if (token === null) {
       return <Redirect to="/connexion/etudiant" />;
     } else {
       return (
@@ -27,7 +29,6 @@ class StudentHome extends React.Component {
             <div className="d-none d-md-block col-md-2 shadow-lg fill" >
               {/* should deal here with burger menu when small*/}
               <StudentNav userImage={user} userName="Romain Planchet" />
-
             </div>
 
             <div className="col-sm-12 col-md-10 fill">

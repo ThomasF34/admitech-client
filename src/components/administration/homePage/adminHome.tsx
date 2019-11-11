@@ -4,34 +4,40 @@ import 'bootstrap/dist/css/bootstrap.css';
 import company from '../../../img/fond-polytech.jpeg';
 import user from '../../../img/user.png';
 import AdminNav from '../adminNav';
+import { Redirect } from 'react-router';
+import { getToken } from '../../../services/token.service';
 
 class AdminHome extends React.Component {
 
   render() {
-    return (
+    if (getToken == null) {
+      return <Redirect to="/connexion/administration" />;
+    } else {
+      return (
 
-      <div className="root fill ">
-        <div className="row fill no-gutters">
+        <div className="root fill ">
+          <div className="row fill no-gutters">
 
-          <div className="d-none d-md-block col-md-2 shadow-lg fill" >
-            {/* should deal here with burger menu when small*/}
-            <AdminNav userImage={user} userName="Membre Polytech"/>
+            <div className="d-none d-md-block col-md-2 shadow-lg fill" >
+              {/* should deal here with burger menu when small*/}
+              <AdminNav userImage={user} userName="Membre Polytech" />
 
-          </div>
-
-          <div className="col-sm-12 col-md-10 fill">
-            <div className="image-container">
-              <img src={company} className="img-background" alt="polytech" />
             </div>
 
+            <div className="col-sm-12 col-md-10 fill">
+              <div className="image-container">
+                <img src={company} className="img-background" alt="polytech" />
+              </div>
+
+
+            </div>
 
           </div>
-
         </div>
-      </div>
 
 
-    );
+      );
+    }
   }
 }
 

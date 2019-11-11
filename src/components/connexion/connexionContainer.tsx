@@ -8,6 +8,7 @@ import SignUpForm from './sighUpForm';
 interface IProps {
   text: string,
   image: string,
+  connexionRedirectPath:string
 }
 
 interface IState {
@@ -22,7 +23,7 @@ class ConnexionContainer extends React.Component<IProps, IState> {
     this.state = {
       text: this.props.text,
       image: this.props.image,
-      form: <SignInForm />
+      form: <SignInForm redirectPath={this.props.connexionRedirectPath}/>
     };
   }
 
@@ -33,7 +34,7 @@ class ConnexionContainer extends React.Component<IProps, IState> {
       });
     else
       this.setState({
-        form: <SignInForm />
+        form: <SignInForm redirectPath={this.props.connexionRedirectPath}/>
       });
   }
 

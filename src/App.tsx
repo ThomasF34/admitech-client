@@ -15,6 +15,7 @@ import StudentApplicationPage from './components/administration/studentApplicati
 
 
 export default function App() {
+ 
   return (
     <Router>
       <div>
@@ -22,13 +23,13 @@ export default function App() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/connexion/etudiant">
-            <ConnexionContainer image={student} text="ESPACE ETUDIANT" />
+            <ConnexionContainer image={student} text="ESPACE ETUDIANT" connexionRedirectPath="/etudiant/accueil"/>
           </Route>
           <Route path="/connexion/entreprise">
-            <ConnexionContainer image={company} text="ESPACE ENTREPRISE" />
+            <ConnexionContainer image={company} text="ESPACE ENTREPRISE" connexionRedirectPath="/entreprise/accueil"/>
           </Route>
           <Route path="/connexion/administration">
-            <ConnexionContainer image={polytech} text="ESPACE ADMINISTRATION" />
+            <ConnexionContainer image={polytech} text="ESPACE ADMINISTRATION" connexionRedirectPath="/administration/accueil"/>
           </Route>
           <Route path="/administration/accueil">
             <AdminHome />

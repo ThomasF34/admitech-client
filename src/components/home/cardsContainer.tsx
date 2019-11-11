@@ -14,13 +14,13 @@ class CardContainer extends React.Component {
       <div className="root container-fluid fill" style = {{backgroundColor:'rgb(51, 96, 138)'}}>
         <div className="row fill align-items-center">
           <div className="col-sm-12 col-md-4 ">
-            <Card title="Accès étudiants" clickLink="/connexion/etudiant" image={student} text="Voici un texte de présentation de la connexion étudiant" />
+            <Card title="Accès étudiants" clickLink="/etudiant/accueil" image={student} text="Voici un texte de présentation de la connexion étudiant" />
           </div>
           <div className="col-sm-12 col-md-4">
-            <Card title="Accès entreprises" clickLink="/connexion/entreprise" image={company} text="Voici un texte de présentation de la connexion entreprise" />
+            <Card title="Accès entreprises" clickLink="/entreprise/accueil" image={company} text="Voici un texte de présentation de la connexion entreprise" />
           </div>
           <div className="col-sm-12 col-md-4">
-            <Card title="Accès administration" clickLink="/connexion/administration" image={polytech} text="Voici un texte de présentation de la connexion admin" />
+            <Card title="Accès administration" clickLink="/administration/accueil" image={polytech} text="Voici un texte de présentation de la connexion admin" />
           </div>
         </div>
       </div>

@@ -39,26 +39,26 @@ class SignUpForm extends React.Component<IProps, IState> implements ISignUpForm 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target != null) {
       switch (event.target.name) {
-        case 'firstname':
-          this.setState({
-            firstName: event.target.value
-          });
-          break;
-        case 'lastname':
-          this.setState({
-            lastName: event.target.value
-          });
-          break;
-        case 'password':
-          this.setState({
-            password: event.target.value
-          });
-          break;
-        case 'confirm_password':
-          this.setState({
-            confirmPassword: event.target.value
-          });
-          break;
+      case 'firstname':
+        this.setState({
+          firstName: event.target.value
+        });
+        break;
+      case 'lastname':
+        this.setState({
+          lastName: event.target.value
+        });
+        break;
+      case 'password':
+        this.setState({
+          password: event.target.value
+        });
+        break;
+      case 'confirm_password':
+        this.setState({
+          confirmPassword: event.target.value
+        });
+        break;
       }
     }
   }

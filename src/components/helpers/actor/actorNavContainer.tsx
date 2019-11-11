@@ -2,6 +2,8 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import logo from '../../../img/polytechLogo.svg';
 import ActorNavBloc from './actorNavBloc';
+import logoutIcon from '../../../img/icons/logout.png';
+import { logout } from '../../../services/auth.service';
 
 interface IProps {
   userName: string,
@@ -20,17 +22,22 @@ class ActorNavContainer extends React.Component<IProps> {
             <div className="row justify-content-md-center" style={{ padding: '5%' }}>
               <img src={this.props.userImage} className="rounded-circle img-fluid shadow-lg" style={{ width: '60%', backgroundColor: 'white' }} alt="profile" />
             </div>
-            <div className="row">
+            <div className="row justify-content-md-center" >
               <h4 style={{ color: 'white', paddingTop: '3%' }}>{this.props.userName}</h4>
             </div>
+
           </div>
 
           {/*nav*/}
-          <div className="row container justify-content-md-center" style={{ height: '65%', paddingBottom:'30%'}}>
-            <ul className="nav flex-column justify-content-md-center" style ={{width: '100%'}}>
-              {this.props.routes.map(bloc => <ActorNavBloc blocList={bloc} key={'keyBlock'}/>)}
+          <div className="row container justify-content-md-center" style={{ height: '65%', paddingBottom: '30%' }}>
+            <ul className="nav flex-column justify-content-md-center" style={{ width: '100%' }}>
+              {this.props.routes.map(bloc => <ActorNavBloc blocList={bloc} key={'keyBlock'} />)}
             </ul>
+            <a href="/" style={{ textDecoration: 'none' }} onClick={() => logout()}>
+              <img src={logoutIcon} className="img-icon" alt="off" />
+            </a>
           </div>
+
         </div>
 
         {/*logo*/}

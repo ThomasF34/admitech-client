@@ -8,7 +8,8 @@ import SignUpForm from './sighUpForm';
 interface IProps {
   text: string,
   image: string,
-  connexionRedirectPath:string
+  connexionRedirectPath:string,
+  role:string
 }
 
 interface IState {
@@ -30,7 +31,7 @@ class ConnexionContainer extends React.Component<IProps, IState> {
   showComponent = (isSignInActive: boolean) => {
     if (!isSignInActive)
       this.setState({
-        form: <SignUpForm redirectPath={this.props.connexionRedirectPath}/>
+        form: <SignUpForm redirectPath={this.props.connexionRedirectPath} role={this.props.role}/>
       });
     else
       this.setState({

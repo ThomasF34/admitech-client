@@ -9,18 +9,10 @@ import MyAppliance from './myApplication';
 import MyMessages from './myMessages';
 import MyInterviews from './myInterviews';
 import BottomBar from '../../helpers/bottomBar';
-import { Redirect } from 'react-router';
-import { getToken } from '../../../services/token.service';
-
 
 class StudentHome extends React.Component {
 
   render() {
-    const token = getToken();
-    
-    if (token === null) {
-      return <Redirect to="/connexion/etudiant" />;
-    } else {
       return (
 
         <div className="root fill ">
@@ -85,7 +77,7 @@ class StudentHome extends React.Component {
 
       );
     }
-  }
+  //}
 }
 
 export default StudentHome;

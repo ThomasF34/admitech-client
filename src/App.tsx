@@ -11,11 +11,12 @@ import CompanyHome from './components/company/homePage/companyHome';
 import ApplicationsContainer from './components/administration/applicationsPage/applicationsContainer';
 import MyApplicationPage from './components/student/myApplicationPage/myApplicationPage';
 import StudentApplicationPage from './components/administration/studentApplicationPage/studentApplicationPage';
+import { PrivateStudentRoute, PrivateAdminRoute, PrivateCompanyRoute } from './helpers/routesHelper';
 
 
 
 export default function App() {
- 
+
   return (
     <Router>
       <div>
@@ -23,31 +24,31 @@ export default function App() {
             renders the first one that matches the current URL. */}
         <Switch>
           <Route path="/connexion/etudiant">
-            <ConnexionContainer image={student} text="ESPACE ETUDIANT" connexionRedirectPath="/etudiant/accueil"/>
+            <ConnexionContainer image={student} text="ESPACE ETUDIANT" connexionRedirectPath="/etudiant/accueil" role="student" />
           </Route>
           <Route path="/connexion/entreprise">
-            <ConnexionContainer image={company} text="ESPACE ENTREPRISE" connexionRedirectPath="/entreprise/accueil"/>
+            <ConnexionContainer image={company} text="ESPACE ENTREPRISE" connexionRedirectPath="/entreprise/accueil" role="admin" />
           </Route>
           <Route path="/connexion/administration">
-            <ConnexionContainer image={polytech} text="ESPACE ADMINISTRATION" connexionRedirectPath="/administration/accueil"/>
+            <ConnexionContainer image={polytech} text="ESPACE ADMINISTRATION" connexionRedirectPath="/administration/accueil" role="company" />
           </Route>
           <Route path="/administration/accueil">
-            <AdminHome />
+            {PrivateAdminRoute(<AdminHome />)}
           </Route>
           <Route path="/etudiant/accueil">
-            <StudentHome />
+            {PrivateStudentRoute(<StudentHome />)}
           </Route>
           <Route path="/entreprise/accueil">
-            <CompanyHome />
+            {PrivateCompanyRoute(<CompanyHome />)}
           </Route>
           <Route path="/administration/candidatures">
-            <ApplicationsContainer />
+            {PrivateAdminRoute(<ApplicationsContainer />)}
           </Route>
           <Route path="/etudiant/candidature">
-            <MyApplicationPage />
+            {PrivateStudentRoute(<MyApplicationPage />)}
           </Route>
           <Route path="/administration/candidature">
-            <StudentApplicationPage />
+            {PrivateAdminRoute(<StudentApplicationPage />)}
           </Route>
           <Route path="/">
             <CardContainer />

@@ -2,6 +2,7 @@ import React from 'react';
 import UserSignInDto from '../../models/user/userSignInDto';
 import { login } from '../../services/auth.service';
 import { Redirect } from 'react-router-dom';
+import { isLogin } from '../../helpers/authorizationHelper';
 
 interface ISignInForm {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
@@ -27,11 +28,11 @@ class SignInForm extends React.Component<IProps, IState> implements ISignInForm 
       email: '',
       password: '',
       error: '',
-      connexionDone: false
+      connexionDone: isLogin()
     };
   }
 
-  submit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+  submit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 
     event.preventDefault();
     const setError = () => this.setState({
@@ -46,8 +47,8 @@ class SignInForm extends React.Component<IProps, IState> implements ISignInForm 
     const user = new UserSignInDto(this.state.email, this.state.password);
     //call to the api
     login(user)
-      .catch(setError)
-      .then(validConnexion);
+      .then(validConnexion)
+      .catch(setError);
   }
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {

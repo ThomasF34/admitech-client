@@ -2,6 +2,8 @@ import React from 'react';
 import UserSignUpDto from '../../models/user/userSignUpDto';
 import { signUp } from '../../services/auth.service';
 import { Redirect } from 'react-router';
+import { isLogin } from '../../helpers/authorizationHelper';
+
 interface ISignUpForm {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
   submit: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
@@ -19,7 +21,8 @@ interface IState {
 }
 
 interface IProps {
-  redirectPath: string
+  redirectPath: string,
+  role:string
 }
 
 class SignUpForm extends React.Component<IProps, IState> implements ISignUpForm {
@@ -34,7 +37,7 @@ class SignUpForm extends React.Component<IProps, IState> implements ISignUpForm 
       confirmPassword: '',
       error: '',
       MatchingPwdError: '',
-      signUpDone: false
+      signUpDone: isLogin()
     };
   }
 
@@ -50,11 +53,11 @@ class SignUpForm extends React.Component<IProps, IState> implements ISignUpForm 
         MatchingPwdError: 'Les mots de passes ne sont pas identiques.'
       });
     else {
-      const user = new UserSignUpDto(this.state.email, this.state.firstName, this.state.lastName, this.state.password, 'student');
+      const user = new UserSignUpDto(this.state.email, this.state.firstName, this.state.lastName, this.state.password, this.props.role);
       //call to the api
       signUp(user)
-        .catch()
-        .then(validConnexion);
+        .then(validConnexion)
+        .catch();
     }
   }
 

@@ -9,31 +9,31 @@ interface IToken {
 
 }
 const getTokenJson = (): IToken | null => {
-  const token = getToken()
+  const token = getToken();
   if (token != null) {
-    console.log(decoder(token))
+    console.log(decoder(token));
     const decoded = decoder<IToken>(token);
     return decoded;
   }
   return null;
-}
+};
 const getRole = (): string | null => {
   const decoded = getTokenJson();
-  if (typeof decoded == "object" && decoded != null)
+  if (typeof decoded == 'object' && decoded != null)
     return decoded.role;
   else
     return null;
-}
+};
 const getUsername = (): string | null => {
 
   const decoded = getTokenJson();
-  if (typeof decoded == "object" && decoded != null)
-    return decoded.lname + " " + decoded.fname;
+  if (typeof decoded == 'object' && decoded != null)
+    return decoded.lname + ' ' + decoded.fname;
   else
     return null;
-}
+};
 
 const isLogin = (): boolean => getToken() != null;
 
 
-export { isLogin, getUsername };
+export { isLogin, getUsername, getRole };

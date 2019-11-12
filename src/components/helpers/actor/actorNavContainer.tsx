@@ -1,19 +1,11 @@
 import React from 'react';
-import decoder from 'jwt-decode';
 import 'bootstrap/dist/css/bootstrap.css';
 import logo from '../../../img/polytechLogo.svg';
 import ActorNavBloc from './actorNavBloc';
 import logoutIcon from '../../../img/icons/logout.png';
 import { logout } from '../../../services/auth.service';
-import { getToken } from '../../../services/token.service';
+import { getUsername } from '../../../helpers/authorizationHelper';
 
-interface IToken{
-  fname:string,
-  lname:string,
-  role:string,
-  email:string
-
-}
 interface IProps {
   userName: string,
   userImage: string,
@@ -21,20 +13,7 @@ interface IProps {
 }
 
 class ActorNavContainer extends React.Component<IProps> {
-  getUsername = (): string | null => {
-    const token = getToken()
-    if(token!=null){
-      console.log(decoder(token))
-     const decoded = decoder<IToken>(token);
-     if(typeof decoded == "object" && decoded!=null){
-      return decoded.lname+" "+decoded.fname;
-     }
-      
-      
-    }
-    return null;
-  }
-  
+
   render() {
     return (
       <div style={{ height: '100%' }}>
@@ -46,7 +25,7 @@ class ActorNavContainer extends React.Component<IProps> {
               <img src={this.props.userImage} className="rounded-circle img-fluid shadow-lg" style={{ width: '60%', backgroundColor: 'white' }} alt="profile" />
             </div>
             <div className="row justify-content-md-center" >
-              <h4 style={{ color: 'white', paddingTop: '3%' }}>{this.getUsername()}</h4>
+              <h4 style={{ color: 'white', paddingTop: '3%' }}>{getUsername()}</h4>
             </div>
 
           </div>

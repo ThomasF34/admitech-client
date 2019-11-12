@@ -12,6 +12,7 @@ import ApplicationsContainer from './components/administration/applicationsPage/
 import MyApplicationPage from './components/student/myApplicationPage/myApplicationPage';
 import StudentApplicationPage from './components/administration/studentApplicationPage/studentApplicationPage';
 import { PrivateStudentRoute, PrivateAdminRoute, PrivateCompanyRoute } from './helpers/routesHelper';
+import CreateApplicationContainer from './components/student/createApplicationPage/createApplicationContainer';
 
 
 
@@ -49,6 +50,9 @@ export default function App() {
           </Route>
           <Route path="/administration/candidature">
             {PrivateAdminRoute(<StudentApplicationPage />)}
+          </Route>
+          <Route path="/etudiant/nouvelleCandidature">
+            {PrivateStudentRoute(<CreateApplicationContainer />)}
           </Route>
           <Route path="/">
             <CardContainer />

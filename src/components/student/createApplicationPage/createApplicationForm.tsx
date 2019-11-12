@@ -1,19 +1,9 @@
 import React from 'react';
+import Application from '../../../models/application/application';
+import { draftApplication } from '../../../services/application.service';
 
 export interface IFields {
   [key: string]: any;
-  /*first_name?: string,
-  last_name?: string,
-  phone?: string,
-  nationnality?: string,
-  //birth_date?:Date,
-  birth_place?: string,
-  //family_status?:string,
-  address?: string,
-  postal_code?: string,
-  city?: string,
-  state?: string*/
-
 }
 
 interface IForm {
@@ -43,14 +33,22 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
   submit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 
     event.preventDefault();
+    const formValues = this.state.values
+    const application = new Application(formValues)
+    console.log(application)
+
+    //call to the api
+    draftApplication(application)
+      .then(e=>console.log("ok"))
+      .catch(e=>console.log("error"));
 
   }
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target != null) {
       const newValues = this.state.values
-      const field : string = event.target.name
-      const value : string = event.target.value
+      const field: string = event.target.name
+      const value: string = event.target.value
       newValues[field] = value
       console.log(newValues)
 
@@ -77,11 +75,11 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
             <div className="row" style={{ padding: '5px' }}>
               <div className="col">
                 <h6>Nom : </h6>
-                <input name="last_name" type="text" className="form-control" placeholder="Nom" value={this.state.values.last_name} onChange={this.handleChange}/>
+                <input name="last_name" type="text" className="form-control" placeholder="Nom" value={this.state.values.last_name} onChange={this.handleChange} />
               </div>
               <div className="col">
                 <h6>Prénom : </h6>
-                <input name="first_name" type="text" className="form-control" placeholder="Prénom" value={this.state.values.first_name} onChange={this.handleChange}/>
+                <input name="first_name" type="text" className="form-control" placeholder="Prénom" value={this.state.values.first_name} onChange={this.handleChange} />
               </div>
             </div>
 
@@ -92,14 +90,14 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
               </div>
               <div className="col">
                 <h6>Lieu de naissance : </h6>
-                <input name="birth_place" type="text" className="form-control" placeholder="Lieu de naissance" />
+                <input name="birth_place" type="text" className="form-control" placeholder="Lieu de naissance" value={this.state.values.birth_place} onChange={this.handleChange} />
               </div>
             </div>
 
             <div className="row" style={{ padding: '5px' }}>
               <div className="col">
                 <h6>Nationalité : </h6>
-                <input name="nationnality" type="text" className="form-control" placeholder="Nationalité" />
+                <input name="nationnality" type="text" className="form-control" placeholder="Nationalité" value={this.state.values.nationnality} onChange={this.handleChange} />
               </div>
               <div className="col">
                 <h6>Situation familiale : </h6>
@@ -153,7 +151,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
             <small className="text-info">Enregistrer en tant que brouillon</small>
           </div>
           <div className="col-md-2">
-            <button className="btn btn btn-success btn-lg btn-block shadow" type="submit" onClick={this.submit}>Envoyer</button>
+            <button className="btn btn btn-success btn-lg btn-block shadow" type="submit">Envoyer</button>
             <small className="text-success">Soumettre à Polytech</small>
           </div>
         </div>

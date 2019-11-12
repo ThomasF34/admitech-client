@@ -1,12 +1,29 @@
 import React from 'react';
 
+export interface IFields {
+  [key: string]: any;
+  /*first_name?: string,
+  last_name?: string,
+  phone?: string,
+  nationnality?: string,
+  //birth_date?:Date,
+  birth_place?: string,
+  //family_status?:string,
+  address?: string,
+  postal_code?: string,
+  city?: string,
+  state?: string*/
+
+}
+
 interface IForm {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
   submit: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
 interface IState {
-
+  values: IFields,
+  errors: IFields
 }
 
 interface IProps {
@@ -18,6 +35,8 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
   constructor(props: IProps) {
     super(props);
     this.state = {
+      values: {},
+      errors: {}
     };
   }
 
@@ -28,7 +47,20 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
   }
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    if (event.target != null) {
+      const newValues = this.state.values
+      const field : string = event.target.name
+      const value : string = event.target.value
+      newValues[field] = value
+      console.log(newValues)
 
+      this.setState({
+        values: newValues
+      });
+
+
+
+    }
   }
 
   render() {
@@ -45,11 +77,11 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
             <div className="row" style={{ padding: '5px' }}>
               <div className="col">
                 <h6>Nom : </h6>
-                <input name="last_name" type="text" className="form-control" placeholder="Nom" />
+                <input name="last_name" type="text" className="form-control" placeholder="Nom" value={this.state.values.last_name} onChange={this.handleChange}/>
               </div>
               <div className="col">
                 <h6>Prénom : </h6>
-                <input name="first_name" type="text" className="form-control" placeholder="Prénom" />
+                <input name="first_name" type="text" className="form-control" placeholder="Prénom" value={this.state.values.first_name} onChange={this.handleChange}/>
               </div>
             </div>
 

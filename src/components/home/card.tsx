@@ -1,5 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import { Link } from 'react-router-dom';
 
 interface IProps {
   title: string,
@@ -15,7 +16,7 @@ class Card extends React.Component<IProps> {
 
       <div className="root">
         <div className="container">
-          <a href={this.props.clickLink} style={{ textDecoration: 'none' }}>
+          <Link to={this.props.clickLink} style={{ textDecoration: 'none' }}>
             <div className="card" style={{ width: '18rem;' }}  >
               <img src={this.props.image} className="card-img-top" alt="..." />
               <div className="card-body text-center">
@@ -23,7 +24,7 @@ class Card extends React.Component<IProps> {
                 <h5 className="card-text text-dark">{this.props.text}</h5>
               </div>
             </div>
-          </a>
+          </Link>
         </div>
       </div>
     );

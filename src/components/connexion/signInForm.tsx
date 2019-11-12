@@ -1,8 +1,8 @@
 import React from 'react';
 import UserSignInDto from '../../models/user/userSignInDto';
 import { login } from '../../services/auth.service';
-import { RouteComponentProps, withRouter, Redirect } from "react-router-dom";
-import { isLogin } from '../../helpers/authorizationHelper';
+import { RouteComponentProps, withRouter, Redirect } from 'react-router-dom';
+import { isLoggedIn } from '../../helpers/authorizationHelper';
 
 interface ISignInForm {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
@@ -29,7 +29,7 @@ class SignInForm extends React.Component<SignInFormProps, IState> implements ISi
       email: '',
       password: '',
       error: '',
-      loggegIn: isLogin()
+      loggegIn: isLoggedIn()
     };
     this.submit=this.submit.bind(this);
     this.handleChange=this.handleChange.bind(this);
@@ -83,19 +83,19 @@ class SignInForm extends React.Component<SignInFormProps, IState> implements ISi
       return <Redirect to={this.props.redirectPath} />
     } else {
       return (
-        <div className="container" style={{ width: '75%', marginTop: '15%' }}>
-          <h6 className="text-danger">{this.state.error}</h6>
-          <form className="needs-validation">
-            <div className="form-group" style={{ marginBottom: '8%' }} >
-              <input name="email" type="email" className="form-control form-control-lg text-center" onChange={this.handleChange}
-                placeholder="Adresse email" value={this.state.email} required />
+        <div className='container' style={{ width: '75%', marginTop: '15%' }}>
+          <h6 className='text-danger'>{this.state.error}</h6>
+          <form className='needs-validation'>
+            <div className='form-group' style={{ marginBottom: '8%' }} >
+              <input name='email' type='email' className='form-control form-control-lg text-center' onChange={this.handleChange}
+                placeholder='Adresse email' value={this.state.email} required />
             </div>
-            <div className="form-group" style={{ marginBottom: '8%' }}>
-              <input name="password" type="password" className="form-control form-control-lg text-center" onChange={this.handleChange}
-                placeholder="Mot de passe" value={this.state.password} required />
+            <div className='form-group' style={{ marginBottom: '8%' }}>
+              <input name='password' type='password' className='form-control form-control-lg text-center' onChange={this.handleChange}
+                placeholder='Mot de passe' value={this.state.password} required />
             </div>
-            <div className="form-group text-center" style={{ marginTop: '15%' }}>
-              <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={(e) => this.submit(e)}>Connexion</button>
+            <div className='form-group text-center' style={{ marginTop: '15%' }}>
+              <button className='btn btn-outline-secondary btn-lg btn-block shadow' type='submit' onClick={(e) => this.submit(e)}>Connexion</button>
               <p>Powered by Polytech Connect</p>
             </div>
           </form>

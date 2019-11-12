@@ -33,7 +33,7 @@ const getUsername = (): string | null => {
     return null;
 };
 
-const isLogin = (): boolean => getToken() != null;
+const isLoggedIn = (): boolean => getToken() != null;
 
 
-export { isLogin, getUsername, getRole };
+export { isLoggedIn, getUsername, getRole };

@@ -11,7 +11,7 @@ import CompanyHome from './components/company/homePage/companyHome';
 import ApplicationsContainer from './components/administration/applicationsPage/applicationsContainer';
 import MyApplicationPage from './components/student/myApplicationPage/myApplicationPage';
 import StudentApplicationPage from './components/administration/studentApplicationPage/studentApplicationPage';
-import { PrivateStudentRoute, PrivateAdminRoute, PrivateCompanyRoute } from './helpers/routesHelper';
+import { PrivateStudentRoute, PrivateAdminRoute, PrivateCompanyRoute, LoginRoute } from './helpers/routesHelper';
 
 
 
@@ -24,13 +24,13 @@ function App() {
             renders the first one that matches the current URL. */}
       <Switch>
         <Route exact path="/connexion/etudiant">
-          <ConnexionContainer image={student} text="ESPACE ETUDIANT" connexionRedirectPath="/etudiant/accueil" role="etudiant" />
+          {LoginRoute(<ConnexionContainer image={student} text="ESPACE ETUDIANT" connexionRedirectPath="/etudiant/accueil" role="etudiant" />)}
         </Route>
         <Route exact path="/connexion/entreprise">
-          <ConnexionContainer image={company} text="ESPACE ENTREPRISE" connexionRedirectPath="/entreprise/accueil" role="entreprise" />
+          {LoginRoute(<ConnexionContainer image={company} text="ESPACE ENTREPRISE" connexionRedirectPath="/entreprise/accueil" role="entreprise" />)}
         </Route>
         <Route exact path="/connexion/administration">
-          <ConnexionContainer image={polytech} text="ESPACE ADMINISTRATION" connexionRedirectPath="/administration/accueil" role="administration" />
+          {LoginRoute(<ConnexionContainer image={polytech} text="ESPACE ADMINISTRATION" connexionRedirectPath="/administration/accueil" role="administration" />)}
         </Route>
         <Route exact path="/administration/accueil">
           {PrivateAdminRoute(<AdminHome />)}

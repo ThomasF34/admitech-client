@@ -71,4 +71,10 @@ const PrivateCompanyRoute = (component: any) => {
   );
 };
 
-export { PrivateStudentRoute, PrivateAdminRoute, PrivateCompanyRoute };
+const LoginRoute = (component: any) => {
+  return (
+    !isLoggedIn ? component : <Redirect to="/" push/>
+  );
+};
+
+export { PrivateStudentRoute, PrivateAdminRoute, PrivateCompanyRoute, LoginRoute };

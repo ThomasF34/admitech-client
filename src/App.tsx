@@ -24,7 +24,7 @@ function App() {
             renders the first one that matches the current URL. */}
       <Switch>
         <Route exact path="/connexion/etudiant">
-          {LoginRoute(<ConnexionContainer image={student} text="ESPACE ETUDIANT" connexionRedirectPath="/etudiant/accueil" role="etudiant" />)}
+          {LoginRoute(<ConnexionContainer image={student} text="ESPACE ETUDIANT" connexionRedirectPath="/etudiant/accueil" role="eleve" />)}
         </Route>
         <Route exact path="/connexion/entreprise">
           {LoginRoute(<ConnexionContainer image={company} text="ESPACE ENTREPRISE" connexionRedirectPath="/entreprise/accueil" role="entreprise" />)}

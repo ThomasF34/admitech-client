@@ -73,7 +73,7 @@ const PrivateCompanyRoute = (component: any) => {
 
 const LoginRoute = (component: any) => {
   return (
-    !isLoggedIn ? component : <Redirect to="/" push/>
+    !isLoggedIn() ? component : <Redirect to="/" push/>
   );
 };
 

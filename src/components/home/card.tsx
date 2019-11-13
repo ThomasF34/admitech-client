@@ -16,7 +16,7 @@ class Card extends React.Component<IProps> {
       <div className="root">
         <div className="container">
           <a href={this.props.clickLink} style={{ textDecoration: 'none' }}>
-            <div className="card" style={{ width: '18rem;' }}  >
+            <div className="card" style={{ width: '18rem' }}  >
               <img src={this.props.image} className="card-img-top" alt="..." />
               <div className="card-body text-center">
                 <h2 className="card-title text-dark">{this.props.title}</h2>

@@ -1,5 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import { Link } from 'react-router-dom';
 
 interface IProps {
   title: string,
@@ -23,7 +24,7 @@ class Card extends React.Component<IProps> {
                 <h5 className="card-text text-dark">{this.props.text}</h5>
               </div>
             </div>
-          </a>
+          </Link>
         </div>
       </div>
     );

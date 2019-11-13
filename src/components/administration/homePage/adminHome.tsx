@@ -4,15 +4,11 @@ import 'bootstrap/dist/css/bootstrap.css';
 import company from '../../../img/fond-polytech.jpeg';
 import user from '../../../img/user.png';
 import AdminNav from '../adminNav';
-import { Redirect } from 'react-router';
-import { getToken } from '../../../services/token.service';
 
 class AdminHome extends React.Component {
 
   render() {
-    if (getToken == null) {
-      return <Redirect to="/connexion/administration" />;
-    } else {
+    
       return (
 
         <div className="root fill ">
@@ -38,7 +34,6 @@ class AdminHome extends React.Component {
 
       );
     }
-  }
 }
 
 export default AdminHome;

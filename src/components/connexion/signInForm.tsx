@@ -2,7 +2,6 @@ import React from 'react';
 import UserSignInDto from '../../models/user/userSignInDto';
 import { login } from '../../services/auth.service';
 import { RouteComponentProps, withRouter, Redirect } from 'react-router-dom';
-import { isLoggedIn } from '../../helpers/authorizationHelper';
 
 interface ISignInForm {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
@@ -29,7 +28,7 @@ class SignInForm extends React.Component<SignInFormProps, IState> implements ISi
       email: '',
       password: '',
       error: '',
-      loggegIn: isLoggedIn()
+      loggegIn: false
     };
     this.submit=this.submit.bind(this);
     this.handleChange=this.handleChange.bind(this);
@@ -47,11 +46,10 @@ class SignInForm extends React.Component<SignInFormProps, IState> implements ISi
     const user = new UserSignInDto(this.state.email, this.state.password);
     //call to the api
     login(user)
-      .then(res => {
+      .then( res => {
         if (res) {
           if (this.state.loggegIn===false) {
-            this.setState({
-              loggegIn: true
+            this.setState({ loggegIn: true }, () => {
             });
           }
         }
@@ -79,8 +77,7 @@ class SignInForm extends React.Component<SignInFormProps, IState> implements ISi
   render() {
     const loggegIn = this.state.loggegIn;
     if (loggegIn === true) {
-      window.location.reload();
-      return <Redirect to={this.props.redirectPath} />
+      return <Redirect to={this.props.redirectPath} push/>
     } else {
       return (
         <div className='container' style={{ width: '75%', marginTop: '15%' }}>

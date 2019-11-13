@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
 import ConnexionContainer from './components/connexion/connexionContainer';
 import CardContainer from './components/home/cardsContainer';
 import polytech from './img/fond-polytech.jpeg';
@@ -15,46 +15,47 @@ import { PrivateStudentRoute, PrivateAdminRoute, PrivateCompanyRoute } from './h
 
 
 
-export default function App() {
+function App() {
 
   return (
-    <Router>
-      <div>
-        {/* A <Switch> looks through its children <Route>s and
+
+    <div>
+      {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/connexion/etudiant">
-            <ConnexionContainer image={student} text="ESPACE ETUDIANT" connexionRedirectPath="/etudiant/accueil" role="student" />
-          </Route>
-          <Route path="/connexion/entreprise">
-            <ConnexionContainer image={company} text="ESPACE ENTREPRISE" connexionRedirectPath="/entreprise/accueil" role="admin" />
-          </Route>
-          <Route path="/connexion/administration">
-            <ConnexionContainer image={polytech} text="ESPACE ADMINISTRATION" connexionRedirectPath="/administration/accueil" role="company" />
-          </Route>
-          <Route path="/administration/accueil">
-            {PrivateAdminRoute(<AdminHome />)}
-          </Route>
-          <Route path="/etudiant/accueil">
-            {PrivateStudentRoute(<StudentHome />)}
-          </Route>
-          <Route path="/entreprise/accueil">
-            {PrivateCompanyRoute(<CompanyHome />)}
-          </Route>
-          <Route path="/administration/candidatures">
-            {PrivateAdminRoute(<ApplicationsContainer />)}
-          </Route>
-          <Route path="/etudiant/candidature">
-            {PrivateStudentRoute(<MyApplicationPage />)}
-          </Route>
-          <Route path="/administration/candidature">
-            {PrivateAdminRoute(<StudentApplicationPage />)}
-          </Route>
-          <Route path="/">
-            <CardContainer />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+      <Switch>
+        <Route exact path="/connexion/etudiant">
+          <ConnexionContainer image={student} text="ESPACE ETUDIANT" connexionRedirectPath="/etudiant/accueil" role="etudiant" />
+        </Route>
+        <Route exact path="/connexion/entreprise">
+          <ConnexionContainer image={company} text="ESPACE ENTREPRISE" connexionRedirectPath="/entreprise/accueil" role="entreprise" />
+        </Route>
+        <Route exact path="/connexion/administration">
+          <ConnexionContainer image={polytech} text="ESPACE ADMINISTRATION" connexionRedirectPath="/administration/accueil" role="administration" />
+        </Route>
+        <Route exact path="/administration/accueil">
+          {PrivateAdminRoute(<AdminHome />)}
+        </Route>
+        <Route exact path="/etudiant/accueil">
+          {PrivateStudentRoute(<StudentHome />)}
+        </Route>
+        <Route exact path="/entreprise/accueil">
+          {PrivateCompanyRoute(<CompanyHome />)}
+        </Route>
+        <Route exact path="/administration/candidatures">
+          {PrivateAdminRoute(<ApplicationsContainer />)}
+        </Route>
+        <Route exact path="/etudiant/candidature">
+          {PrivateStudentRoute(<MyApplicationPage />)}
+        </Route>
+        <Route exact path="/administration/candidature">
+          {PrivateAdminRoute(<StudentApplicationPage />)}
+        </Route>
+        <Route exact path="/">
+          <CardContainer />
+        </Route>
+      </Switch>
+    </div>
   );
 }
+
+export default withRouter(App);

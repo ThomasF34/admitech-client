@@ -2,8 +2,8 @@ import { getToken } from '../services/token.service';
 import decoder from 'jwt-decode';
 
 interface IToken {
-  fname: string,
-  lname: string,
+  first_name: string,
+  last_name: string,
   role: string,
   email: string
 
@@ -28,7 +28,7 @@ const getUsername = (): string | null => {
 
   const decoded = getTokenJson();
   if (typeof decoded == 'object' && decoded != null)
-    return decoded.lname + ' ' + decoded.fname;
+    return decoded.last_name + ' ' + decoded.first_name;
   else
     return null;
 };

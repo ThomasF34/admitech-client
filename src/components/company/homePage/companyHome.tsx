@@ -8,6 +8,7 @@ import CompanyNav from '../companyNav';
 class CompanyHome extends React.Component {
 
   render() {
+    console.log('Jesuis chargé----------')
     return (
 
       <div className="root fill ">
@@ -15,7 +16,7 @@ class CompanyHome extends React.Component {
 
           <div className="d-none d-md-block col-md-2 shadow-lg fill" >
             {/* should deal here with burger menu when small*/}
-            <CompanyNav userImage={user} userName="Entreprise XXX"/>
+            <CompanyNav userImage={user} userName="Entreprise XXX" />
 
           </div>
 

@@ -11,9 +11,8 @@ import CompanyHome from './components/company/homePage/companyHome';
 import ApplicationsContainer from './components/administration/applicationsPage/applicationsContainer';
 import MyApplicationPage from './components/student/myApplicationPage/myApplicationPage';
 import StudentApplicationPage from './components/administration/studentApplicationPage/studentApplicationPage';
+import CreateApplicationContainer from './components/student/createApplicationPage/createApplicationContainer';
 import { PrivateStudentRoute, PrivateAdminRoute, PrivateCompanyRoute, LoginRoute } from './helpers/routesHelper';
-
-
 
 function App() {
 
@@ -22,6 +21,7 @@ function App() {
     <div>
       {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
+
       <Switch>
         <Route exact path="/connexion/etudiant">
           {LoginRoute(<ConnexionContainer image={student} text="ESPACE ETUDIANT" connexionRedirectPath="/etudiant/accueil" role="eleve" />)}
@@ -50,6 +50,9 @@ function App() {
         <Route exact path="/administration/candidature">
           {PrivateAdminRoute(<StudentApplicationPage />)}
         </Route>
+        <Route path="/etudiant/nouvelleCandidature">
+            {PrivateStudentRoute(<CreateApplicationContainer />)}
+          </Route>
         <Route exact path="/">
           <CardContainer />
         </Route>

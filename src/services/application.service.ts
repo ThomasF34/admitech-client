@@ -6,9 +6,7 @@ import { getToken } from './token.service';
 
 const draftApplication = async (application: Application) => {
   const res = await axios
-    .post(`${config.API_URL}/candidature`, 
-      application
-    ,
+    .post(`${config.API_URL}/candidature`, application,
       {
         headers: { Authorization: `Bearer ${getToken()}` }
       }

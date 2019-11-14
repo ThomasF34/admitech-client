@@ -25,71 +25,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
   constructor(props: IProps) {
     super(props);
     this.state = {
-      values: {
-    /*
-          address: null,
-          admin_comment: null,
-          attachments: [
-              {
-                  attach_type: null,
-                  url: null,
-              }
-          ],
-          bac_mention: null,
-          bac_name: null,
-          bac_realname:null,
-          bac_year: null,
-          birth_date: null,
-          birth_place: null,
-          branch: null,
-          candidate_comment: null,
-          certified: null,
-          certified_at: null, // ??
-          city: null,
-          experiences: [
-              {
-                  degree: null,
-                  facility_name: null,
-                  facility_place: null,
-                  mean: null,
-                  name: null,
-                  ranking: null,
-                  rating: null,
-                  year: null,
-              }
-          ],
-          family_status: null,
-          first_lang_level: null,
-          first_lang_name: null,
-          first_name: null,
-          internships: null,
-          it_knowledge: null,
-          last_facility_address:null,
-          last_facility_city: null,
-          last_facility_name: null,
-          last_facility_postal_code: null,
-          last_facility_state:null,
-          last_name: null,
-          nationnality: null,
-          native_lang_name: null,
-          other_apply: null,
-          other_apply_apprentise: null,
-          other_apply_name: null,
-          other_apply_place: null,
-          phone: null,
-          postal_code: null,
-          second_lang_level: null,
-          second_lang_name: null,
-          sports_interests: null,
-          state: null,
-          status: null,
-          strengths: null,
-          third_lang_level: null,
-          third_lang_name: null,
-          travels:null
-          */
-      
-      },
+      values: {},
       errors: {}
     };
   }
@@ -234,12 +170,6 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
         </div>
 
       </form >
-
-
-
-
-
-
     );
   }
 }

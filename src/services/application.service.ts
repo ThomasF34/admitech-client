@@ -1,6 +1,7 @@
 import axios from 'axios';
 import * as config from './configApi.service';
 import Application from '../models/application/application';
+import { getToken } from './token.service';
 
 
 const draftApplication = async (application: Application) => {
@@ -10,8 +11,12 @@ const draftApplication = async (application: Application) => {
       last_name: application.last_name,
       nationnality: application.nationnality,
       birth_place: application.birth_place,
-      draft:true
-    });
+      draft: true
+    },
+      {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      }
+    );
   return res;
 };
 

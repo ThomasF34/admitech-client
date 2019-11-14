@@ -33,7 +33,9 @@ const getUsername = (): string | null => {
     return null;
 };
 
-const isLogin = (): boolean => getToken() != null;
+const isLoggedIn = (): boolean => getToken() != null;
+const isStudent = (): boolean => getRole() === 'eleve';
+const isAdmin = (): boolean => getRole() === 'administration';
+const isCompany = (): boolean => getRole() === 'entreprise';
 
-
-export { isLogin, getUsername, getRole };
+export { isLoggedIn, getUsername, getRole, isStudent,isAdmin, isCompany };

@@ -12,7 +12,7 @@ class ActorNavBloc extends React.Component<IProps> {
     return (
       <ul className="decor-line justify-content-md-start" style={{ listStyleType: 'none', paddingLeft: '0%' }}>
         {this.props.blocList.map(e =>
-          <li className="nav-item" key={'key'} >
+          <li className="nav-item" key={e[1]} >
             <a className="nav-link active" style={{  textDecoration: 'none' ,color: 'white'}} href={e[1]}>
               <h5>{e[0]}</h5>
             </a>

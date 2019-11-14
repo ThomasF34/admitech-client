@@ -2,7 +2,6 @@ import React from 'react';
 import UserSignUpDto from '../../models/user/userSignUpDto';
 import { signUp } from '../../services/auth.service';
 import { Redirect } from 'react-router';
-import { isLogin } from '../../helpers/authorizationHelper';
 
 interface ISignUpForm {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
@@ -37,7 +36,7 @@ class SignUpForm extends React.Component<IProps, IState> implements ISignUpForm 
       confirmPassword: '',
       error: '',
       MatchingPwdError: '',
-      signUpDone: isLogin()
+      signUpDone: false
     };
   }
 

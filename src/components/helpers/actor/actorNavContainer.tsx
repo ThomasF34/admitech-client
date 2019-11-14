@@ -33,7 +33,7 @@ class ActorNavContainer extends React.Component<IProps> {
           {/*nav*/}
           <div className="row container justify-content-md-center" style={{ height: '65%', paddingBottom: '30%' }}>
             <ul className="nav flex-column justify-content-md-center" style={{ width: '100%' }}>
-              {this.props.routes.map(bloc => <ActorNavBloc blocList={bloc} key={'keyBlock'} />)}
+              {this.props.routes.map(bloc => <ActorNavBloc blocList={bloc} key={getUsername()!} />)}
             </ul>
             <a href="/" style={{ textDecoration: 'none' }} onClick={() => logout()}>
               <img src={logoutIcon} className="img-icon" alt="off" />

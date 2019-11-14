@@ -4,40 +4,35 @@ import 'bootstrap/dist/css/bootstrap.css';
 import company from '../../../img/fond-company.jpeg';
 import user from '../../../img/user.png';
 import CompanyNav from '../companyNav';
-import { getToken } from '../../../services/token.service';
-import { Redirect } from 'react-router';
 
 class CompanyHome extends React.Component {
 
   render() {
-    if (getToken == null) {
-      return <Redirect to="/connexion/entreprise" />;
-    } else {
-      return (
+    console.log('Jesuis chargé----------')
+    return (
 
-        <div className="root fill ">
-          <div className="row fill no-gutters">
+      <div className="root fill ">
+        <div className="row fill no-gutters">
 
-            <div className="d-none d-md-block col-md-2 shadow-lg fill" >
-              {/* should deal here with burger menu when small*/}
-              <CompanyNav userImage={user} userName="Entreprise XXX" />
-
-            </div>
-
-            <div className="col-sm-12 col-md-10 fill">
-              <div className="image-container">
-                <img src={company} className="img-background" alt="polytech" />
-              </div>
-
-
-            </div>
+          <div className="d-none d-md-block col-md-2 shadow-lg fill" >
+            {/* should deal here with burger menu when small*/}
+            <CompanyNav userImage={user} userName="Entreprise XXX" />
 
           </div>
+
+          <div className="col-sm-12 col-md-10 fill">
+            <div className="image-container">
+              <img src={company} className="img-background" alt="polytech" />
+            </div>
+
+
+          </div>
+
         </div>
+      </div>
 
 
-      );
-    }
+    );
   }
 }
 

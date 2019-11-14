@@ -90,10 +90,11 @@ class Application implements IFields {
   public third_lang_level: string | null;
   public third_lang_name: string | null;
   public travels: string | null;
+  public draft: boolean;
 
 
-  constructor(application: IFields) {
-
+  constructor(application: IFields, isDraft: boolean) {
+    this.draft = isDraft
     this.address = application.address === undefined ? null : application.address;
     this.admin_comment = application.admin_comment === undefined ? null : application.admin_comment;
     this.attachments = application.attachments === undefined ? [] : application.attachments;

@@ -8,7 +8,7 @@ export interface IFields {
 
 interface IForm {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  submit: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  submitDraft: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
 interface IState {
@@ -94,11 +94,11 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     };
   }
 
-  submit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  submitDraft = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 
     event.preventDefault();
     const formValues = this.state.values
-    const application = new Application(formValues)
+    const application = new Application(formValues, true)
     console.log("mon app : ")
     console.log(application)
 
@@ -224,7 +224,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
         </div>
         <div className="row justify-content-md-center" style={{ marginTop: '3%' }}>
           <div className="col-md-2">
-            <button className="btn btn btn btn-info btn-lg btn-block shadow" type="submit" onClick={this.submit}>Enregistrer</button>
+            <button className="btn btn btn btn-info btn-lg btn-block shadow" type="submit" onClick={this.submitDraft}>Enregistrer</button>
             <small className="text-info">Enregistrer en tant que brouillon</small>
           </div>
           <div className="col-md-2">

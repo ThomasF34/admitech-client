@@ -26,17 +26,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     super(props);
     this.state = {
       values: {
-       /* address: null,
-        birth_date: null,
-        birth_place: null,
-        city: null,
-        family_status: null,
-        first_name: null,
-        last_name: null,
-        nationnality: null,
-        phone: null,
-        postal_code: null,
-        state: null*/
+    /*
           address: null,
           admin_comment: null,
           attachments: [
@@ -97,6 +87,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
           third_lang_level: null,
           third_lang_name: null,
           travels:null
+          */
       
       },
       errors: {}

@@ -99,6 +99,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     event.preventDefault();
     const formValues = this.state.values
     const application = new Application(formValues)
+    console.log("mon app : ")
     console.log(application)
 
     //call to the api
@@ -106,6 +107,18 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       .then(e => console.log("ok"))
       .catch(e => console.log(e));
 
+  }
+
+  setSelect = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+
+    if (event.target != null) {
+      const newValues = this.state.values
+      newValues.family_status = event.target.value
+      console.log(newValues)
+      this.setState({
+        values: newValues
+      });
+    }
   }
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -150,7 +163,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
             <div className="row" style={{ padding: '5px' }}>
               <div className="col">
                 <h6>Date de naissance : </h6>
-                <input name="birth_date" type="date" className="form-control" placeholder="Date de naissance" />
+                <input name="birth_date" type="date" className="form-control" placeholder="Date de naissance" value={this.state.values.birth_date} onChange={this.handleChange}/>
               </div>
               <div className="col">
                 <h6>Lieu de naissance : </h6>
@@ -165,10 +178,10 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
               </div>
               <div className="col">
                 <h6>Situation familiale : </h6>
-                <select name="family_status" className="form-control" placeholder="Sélectionner une valeur">
-                  <option id="single">Célibataire</option>
-                  <option id="married">Marié(e)</option>
-                  <option id="other">Autre</option>
+                <select name="family_status" className="form-control" placeholder="Sélectionner une valeur" value={this.state.values.family_status} onChange={this.setSelect}>
+                  <option value="single" >Célibataire</option>
+                  <option value="married">Marié(e)</option>
+                  <option value="other">Autre</option>
                 </select>
               </div>
             </div>
@@ -176,29 +189,29 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
             <div className="row" style={{ padding: '5px' }}>
               <div className="col">
                 <h6>Adresse : </h6>
-                <input name="address" type="text" className="form-control" placeholder="Adresse" />
+                <input name="address" type="text" className="form-control" placeholder="Adresse" value={this.state.values.address} onChange={this.handleChange} />
               </div>
             </div>
 
             <div className="row" style={{ padding: '5px' }}>
               <div className="col">
                 <h6>Code Postal : </h6>
-                <input name="postal_code" type="text" className="form-control" placeholder="Code Postal" />
+                <input name="postal_code" type="text" className="form-control" placeholder="Code Postal"  value={this.state.values.postal_code} onChange={this.handleChange}/>
               </div>
               <div className="col">
                 <h6>Ville : </h6>
-                <input name="city" type="text" className="form-control" placeholder="Ville" />
+                <input name="city" type="text" className="form-control" placeholder="Ville"  value={this.state.values.city} onChange={this.handleChange}/>
               </div>
               <div className="col">
                 <h6>Pays : </h6>
-                <input name="state" type="text" className="form-control" placeholder="Pays" />
+                <input name="state" type="text" className="form-control" placeholder="Pays"  value={this.state.values.state} onChange={this.handleChange}/>
               </div>
             </div>
 
             <div className="row" style={{ padding: '5px' }}>
               <div className="col">
                 <h6>Téléphone : </h6>
-                <input name="phone" type="text" className="form-control" placeholder="Téléphone" />
+                <input name="phone" type="text" className="form-control" placeholder="Téléphone"  value={this.state.values.phone} onChange={this.handleChange}/>
               </div>
               <div className="col">
                 <h6>Email : </h6>

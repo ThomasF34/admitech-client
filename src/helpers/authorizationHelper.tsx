@@ -24,6 +24,13 @@ const getRole = (): string | null => {
   else
     return null;
 };
+const getEmail = (): string  => {
+  const decoded = getTokenJson();
+  if (typeof decoded == 'object' && decoded != null)
+    return decoded.email;
+  else
+    return "";
+};
 const getUsername = (): string | null => {
 
   const decoded = getTokenJson();
@@ -38,4 +45,4 @@ const isStudent = (): boolean => getRole() === 'eleve';
 const isAdmin = (): boolean => getRole() === 'administration';
 const isCompany = (): boolean => getRole() === 'entreprise';
 
-export { isLoggedIn, getUsername, getRole, isStudent,isAdmin, isCompany };
+export { isLoggedIn, getUsername, getRole, isStudent,isAdmin, isCompany, getEmail };

@@ -47,12 +47,23 @@ class FileContainer extends React.Component<IProps, IState> {
         return [cover_letter, cv, bac_marks, year_marks, current_year_marks, notice_further_study];
     }
 
-    getTypeByNameType(typeFile: string): IType {
+    getTypeByNameValue(value: string): IType {
+        console.log('Type '+value)
         const list = this.getListOfTypesOfFiles()
         const elem = list.filter(function (type) {
-            return type.value === typeFile;
+            return type.value === value;
         });
+console.log("List "+elem[0])
+        return elem[0];
+    }
 
+    getTypeByName(typeFile: string): IType {
+        console.log('Type '+typeFile)
+        const list = this.getListOfTypesOfFiles()
+        const elem = list.filter(function (type) {
+            return type.name === typeFile;
+        });
+console.log("List "+elem[0])
         return elem[0];
     }
 
@@ -77,7 +88,8 @@ class FileContainer extends React.Component<IProps, IState> {
 
     addNewFile(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         e.preventDefault();
-        const newFile: IFile = { typeFile: this.getTypeByNameType(this.state.curentTypeFile).name, file: this.state.currentFile }
+        console.log('Add '+this.getTypeByNameValue(this.state.curentTypeFile).value)
+        const newFile: IFile = { typeFile: this.getTypeByNameValue(this.state.curentTypeFile).name, file: this.state.currentFile }
         this.setState(previousState => ({
             filesAdded: [...previousState.filesAdded, newFile],
             curentTypeFile: '',
@@ -98,10 +110,14 @@ class FileContainer extends React.Component<IProps, IState> {
     }
 
     resetListOfTypes(typeFile: string) {
-        const type = this.getTypeByNameType(typeFile);
+        const type = this.getTypeByName(typeFile);
+        console.log("Delete "+type.value)
+        console.log(this.state.typesList)
         this.setState(previousState => ({
             typesList: [...previousState.typesList, type]
         }));
+
+        console.log(this.state.typesList)
     }
 
 

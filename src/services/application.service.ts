@@ -14,5 +14,15 @@ const draftApplication = async (application: Application) => {
   return res;
 };
 
-export { draftApplication };
+const myApplication = async (application: Application) => {
+  const res = await axios
+    .post(`${config.API_URL}/profil`, {},
+      {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      }
+    );
+  return res;
+};
+
+export { draftApplication, myApplication };
 

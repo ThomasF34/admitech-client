@@ -44,7 +44,7 @@ class FileContainer extends React.Component<IProps, IState> {
     getListOfTypesOfFiles() {
 
         const default_value: IType = { value: '', name: '--Type de fichier--' }
-        const cover_letter: IType = { value: 'cover_letter', name: 'Lette de motivation' }
+        const cover_letter: IType = { value: 'cover_letter', name: 'Lettre de motivation' }
         const cv: IType = { value: 'cv', name: 'CV' }
         const bac_marks: IType = { value: 'bac_marks', name: 'Notes du Bac' }
         const year_marks: IType = { value: 'year_marks', name: 'Notes' }
@@ -167,8 +167,10 @@ class FileContainer extends React.Component<IProps, IState> {
                     {this.state.deleted ? <div className="alert alert-success mt-2 text-center" role="alert"> Suppression réussie !</div> : null}
                 </div>
                 <div>
+                    <hr/>
+                    <h4>Mes fichiers téléchargés</h4>
                     {this.state.filesAdded.map(file => (
-                        <p>{file.typeFile} -- {file.file.name} <button className='btn btn-danger' onClick={(e) => this.removeElemFromListAdded(e, file)} > X</button> </p>
+                        <p> <span className='text-info'>{file.typeFile}</span> : <span className='text-secondary'>{file.file.name}</span> <button className='btn btn-danger ml-1' onClick={(e) => this.removeElemFromListAdded(e, file)} > X</button> </p>
                     ))}
                 </div>
             </div>

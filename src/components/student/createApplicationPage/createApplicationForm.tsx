@@ -1,6 +1,7 @@
 import React from 'react';
 import Application from '../../../models/application/application';
 import { draftApplication } from '../../../services/application.service';
+import PopUp from '../../helpers/popUp';
 
 export interface IFields {
   [key: string]: any;
@@ -13,7 +14,8 @@ interface IForm {
 
 interface IState {
   values: IFields,
-  errors: IFields
+  errors: IFields,
+  draftSuccess: boolean
 }
 
 interface IProps {
@@ -26,8 +28,10 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     super(props);
     this.state = {
       values: {},
-      errors: {}
+      errors: {},
+      draftSuccess: false
     };
+    //showDraftSuccess: () => {this.state.draftSuccess}
   }
 
   submitDraft = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -35,13 +39,23 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     event.preventDefault();
     const formValues = this.state.values
     const application = new Application(formValues, true)
-    console.log("mon app : ")
-    console.log(application)
+    const success = () => {
+      this.setState({
+        draftSuccess: true
+      })
+    }
+    const error = (e:Error) => {
+      this.setState({
+        draftSuccess: false
+      })
+      console.log(e)
+
+    }
 
     //call to the api
     draftApplication(application)
-      .then(e => console.log("ok"))
-      .catch(e => console.log(e));
+      .then(rep => success())
+      .catch(e => error(e));
 
   }
 
@@ -159,6 +173,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
           </div>
         </div>
+
         <div className="row justify-content-md-center" style={{ marginTop: '3%' }}>
           <div className="col-md-2">
             <button className="btn btn btn btn-info btn-lg btn-block shadow" type="submit" onClick={this.submitDraft}>Enregistrer</button>
@@ -168,6 +183,8 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
             <button className="btn btn btn-success btn-lg btn-block shadow" type="submit">Envoyer</button>
             <small className="text-success">Soumettre à Polytech</small>
           </div>
+          <PopUp title="Brouillon Candidature" content="Votre brouillon de candidature a bien été sauvegardé. Vous pourrez le retrouver dans le menu 'Mes candidatures'."
+            show={this.state.draftSuccess} />
         </div>
 
       </form >

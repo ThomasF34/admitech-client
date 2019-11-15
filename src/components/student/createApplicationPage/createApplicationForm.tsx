@@ -16,6 +16,7 @@ interface IForm {
 interface IState {
   values: IFields,
   errors: IFields,
+  AreDisplayedBlock: IFields,
   draftSuccess: boolean
 }
 
@@ -30,6 +31,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     this.state = {
       values: {},
       errors: {},
+      AreDisplayedBlock: {},
       draftSuccess: false
     };
   }
@@ -64,6 +66,14 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       .then(rep => success())
       .catch(e => error(e));
 
+  }
+
+  changeDisplayMode = (blockName: string) => {
+    const newDisplayedBlocks = this.state.AreDisplayedBlock
+    newDisplayedBlocks[blockName] = !this.state.AreDisplayedBlock[blockName]
+    this.setState({
+      AreDisplayedBlock: newDisplayedBlocks
+    })
   }
 
   setSelect = (event: React.ChangeEvent<HTMLSelectElement>): void => {
@@ -102,7 +112,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       <form style={{ width: '100%', height: '100%' }}>
 
         {/* SPECIALITE */}
-        <div className="container" style={{ width: '40%', padding: '5%'}}>
+        <div className="container" style={{ width: '40%', padding: '5%' }}>
           <h4 className="text-danger">Candidature pour : </h4>
           <select name="branch" className="form-control" placeholder="Sélectionner une valeur" value={this.state.values.branch} onChange={this.setSelect}>
             <option value="single" selected >Selectionner ...</option>
@@ -110,11 +120,16 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
             <option value="married">SE</option>
           </select>
         </div>
-        <div className="row">
-          {/* ETAT CIVIL */}
-          <div className="col-md-6">
-            <h4 className="text-info">Etat Civil</h4>
-            <div className="form-group border border-info rounded" style={{ height: '95%' }}>
+
+        {/* ETAT CIVIL */}
+        <div className="col-md-12">
+
+          <button className="btn btn-lg btn-block shadow" onClick={(e) => { e.preventDefault(); this.changeDisplayMode("civil") }}
+            style={{ backgroundColor: 'rgba(0, 204, 255, 0.863)', marginBottom: '1%' }}>
+            <h4 className="text-white">Etat Civil</h4>
+          </button>
+          {this.state.AreDisplayedBlock["civil"] ? (
+            <div className="form-group border border-info rounded">
 
               <div style={{ padding: '2%' }}>
 
@@ -192,11 +207,15 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
               </div>
             </div>
-          </div>
 
-          {/* BAC */}
-          <div className="col-md-6">
-            <h4 className="text-info">Baccalauréat</h4>
+          ) : null}
+        </div>
+        {/* BAC */}
+        <div className="col-md-12">
+          <button className="btn btn-lg btn-block shadow" onClick={(e) => { e.preventDefault(); this.changeDisplayMode("bac") }} style={{ backgroundColor: 'rgba(0, 204, 255, 0.863)', marginBottom: '1%' }}>
+            <h4 className="text-white">Baccalauréat</h4>
+          </button>
+          {this.state.AreDisplayedBlock["bac"] ? (
             <div className="form-group border border-info rounded" style={{ height: '95%' }}>
 
               <div style={{ padding: '2%' }}>
@@ -254,16 +273,17 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
               </div>
             </div>
-          </div>
+          ) : null}
         </div>
+
 
         <div className="row justify-content-md-center" style={{ marginTop: '3%' }}>
           <div className="col-md-2">
-            <button className="btn btn btn btn-info btn-lg btn-block shadow" type="submit" onClick={this.submitDraft}>Enregistrer</button>
-            <small className="text-info">Enregistrer en tant que brouillon</small>
+            <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={this.submitDraft}>Enregistrer</button>
+            <small className="text-secondary">Enregistrer en tant que brouillon</small>
           </div>
           <div className="col-md-2">
-            <button className="btn btn btn-success btn-lg btn-block shadow" type="submit">Envoyer</button>
+            <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit">Envoyer</button>
             <small className="text-success">Soumettre à Polytech</small>
           </div>
           <PopUp title="Brouillon Candidature" content="Votre brouillon de candidature a bien été sauvegardé. Vous pourrez le retrouver dans le menu 'Mes candidatures'."

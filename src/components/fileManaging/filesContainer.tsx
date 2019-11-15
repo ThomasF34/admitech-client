@@ -70,7 +70,6 @@ class FileContainer extends React.Component<IProps, IState> {
         return elem[0];
     }
 
-
     handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
 
         let reader = new FileReader();
@@ -79,7 +78,6 @@ class FileContainer extends React.Component<IProps, IState> {
             currentFile: file,
             added: false,
             deleted: false
-
         });
         reader.readAsDataURL(file);
     }
@@ -94,14 +92,11 @@ class FileContainer extends React.Component<IProps, IState> {
 
     addNewFile(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         e.preventDefault();
-
-
         if (this.state.curentTypeFile === '' || this.state.currentFile === null) {
             this.setState({
                 error: true
-            })
+            });
         } else {
-
             const newFile: IFile = { typeFile: this.getTypeByNameValue(this.state.curentTypeFile).name, file: this.state.currentFile }
             this.removeElementInTypes();
             this.setState(previousState => ({
@@ -111,10 +106,7 @@ class FileContainer extends React.Component<IProps, IState> {
                 error: false,
                 added: true
             }));
-
         }
-
-
     }
 
     removeElementInTypes() {
@@ -136,7 +128,6 @@ class FileContainer extends React.Component<IProps, IState> {
         }));
     }
 
-
     removeElemFromListAdded(event: React.MouseEvent<HTMLButtonElement, MouseEvent>, file: IFile) {
         event.preventDefault();
         const listAdded = this.state.filesAdded;
@@ -148,9 +139,7 @@ class FileContainer extends React.Component<IProps, IState> {
             deleted: true,
             added: false
         });
-
         this.resetListOfTypes(file.typeFile);
-
     }
 
     render() {

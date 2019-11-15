@@ -143,66 +143,6 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
           </button>
 
           <ALevelForm isDisplayedBlock={this.state.AreDisplayedBlock["bac"]} handleChange={this.handleChange} values={this.state.values} />
-
-          {/*this.state.AreDisplayedBlock["bac"] ? (
-            <div className="form-group border border-info rounded" style={{ height: '95%' }}>
-
-              <div style={{ padding: '2%' }}>
-
-                <div className="row" style={{ padding: '5px' }}>
-                  <div className="col">
-                    <h6>Bac : </h6>
-                    <input name="bac_name" type="text" className="form-control" placeholder="Bac" value={this.state.values.bac_name} onChange={this.handleChange} />
-                  </div>
-                  <div className="col">
-                    <h6>Année : </h6>
-                    <input name="bac_year" type="text" className="form-control" placeholder="Année" value={this.state.values.bac_year} onChange={this.handleChange} />
-                  </div>
-                </div>
-
-                <div className="row" style={{ padding: '5px' }}>
-                  <div className="col">
-                    <h6>Mention : </h6>
-                    <input name="bac_mention" type="text" className="form-control" placeholder="Mention" value={this.state.values.bac_mention} onChange={this.handleChange} />
-                  </div>
-                  <div className="col">
-                    <h6>Dénomination exacte : </h6>
-                    <input name="bac_realname" type="text" className="form-control" placeholder="Dénomination exacte" value={this.state.values.bac_realname} onChange={this.handleChange} />
-                  </div>
-                </div>
-
-                <div className="row" style={{ padding: '5px' }}>
-                  <div className="col">
-                    <h6>Nom de la formation suivie cette année : </h6>
-                    <input name="last_facility_name" type="text" className="form-control" placeholder="Nom de la formation" value={this.state.values.last_facility_name} onChange={this.handleChange} />
-                  </div>
-                </div>
-
-                <div className="row" style={{ padding: '5px' }}>
-                  <div className="col">
-                    <h6>Adresse de l'établissement: </h6>
-                    <input name="last_facility_address" type="text" className="form-control" placeholder="Adresse de l'établissement" value={this.state.values.last_facility_address} onChange={this.handleChange} />
-                  </div>
-                </div>
-
-                <div className="row" style={{ padding: '5px' }}>
-                  <div className="col">
-                    <h6>Code Postal : </h6>
-                    <input name="last_facility_postal_code" type="text" className="form-control" placeholder="Code Postal" value={this.state.values.last_facility_postal_code} onChange={this.handleChange} />
-                  </div>
-                  <div className="col">
-                    <h6>Ville : </h6>
-                    <input name="last_facility_city" type="text" className="form-control" placeholder="Ville" value={this.state.values.last_facility_city} onChange={this.handleChange} />
-                  </div>
-                  <div className="col">
-                    <h6>Pays : </h6>
-                    <input name="last_facility_state" type="text" className="form-control" placeholder="Pays" value={this.state.values.last_facility_state} onChange={this.handleChange} />
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          ) : null*/}
         </div>
 
 

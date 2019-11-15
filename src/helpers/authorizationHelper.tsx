@@ -28,7 +28,7 @@ const getEmail = (): string  => {
   if (typeof decoded == 'object' && decoded != null)
     return decoded.email;
   else
-    return "";
+    return '';
 };
 const getUsername = (): string | null => {
 

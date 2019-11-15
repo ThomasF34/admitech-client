@@ -31,7 +31,13 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       errors: {},
       draftSuccess: false
     };
-    //showDraftSuccess: () => {this.state.draftSuccess}
+  }
+
+  closeDraftPopUP = () => {
+    if (this.state.draftSuccess === true)
+    this.setState({
+      draftSuccess: false
+    });
   }
 
   submitDraft = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -72,6 +78,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
   }
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    
     if (event.target != null) {
       const newValues = this.state.values
       const field: string = event.target.name
@@ -184,7 +191,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
             <small className="text-success">Soumettre à Polytech</small>
           </div>
           <PopUp title="Brouillon Candidature" content="Votre brouillon de candidature a bien été sauvegardé. Vous pourrez le retrouver dans le menu 'Mes candidatures'."
-            show={this.state.draftSuccess} />
+            show={this.state.draftSuccess} onClose={this.closeDraftPopUP}/>
         </div>
 
       </form >

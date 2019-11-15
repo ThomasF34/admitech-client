@@ -1,5 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import '../../style/fileManaging.css';
 
 interface IProps {
 
@@ -20,23 +21,29 @@ interface IState {
     typesList: Array<IType>,
     currentFile: any,
     curentTypeFile: string
-    filesAdded: Array<IFile>
+    filesAdded: Array<IFile>,
+    error: boolean,
+    added: boolean,
+    deleted: boolean
 }
 class FileContainer extends React.Component<IProps, IState> {
-
     constructor(props: IProps) {
         super(props);
         this.state = {
             typesList: this.getListOfTypesOfFiles(),
             currentFile: null,
             curentTypeFile: '',
-            filesAdded: []
+            filesAdded: [],
+            error: false,
+            added: false,
+            deleted: false
         };
         this.removeElementInTypes = this.removeElementInTypes.bind(this);
     }
 
     getListOfTypesOfFiles() {
 
+        const default_value: IType = { value: '', name: '--Type de fichier--' }
         const cover_letter: IType = { value: 'cover_letter', name: 'Lette de motivation' }
         const cv: IType = { value: 'cv', name: 'CV' }
         const bac_marks: IType = { value: 'bac_marks', name: 'Notes du Bac' }
@@ -44,58 +51,70 @@ class FileContainer extends React.Component<IProps, IState> {
         const current_year_marks: IType = { value: 'current_year_marks', name: 'Notes année courante' }
         const notice_further_study: IType = { value: 'notice_further_study', name: 'Avis poursuite d\'études' }
 
-        return [cover_letter, cv, bac_marks, year_marks, current_year_marks, notice_further_study];
+        return [default_value, cover_letter, cv, bac_marks, year_marks, current_year_marks, notice_further_study];
     }
 
     getTypeByNameValue(value: string): IType {
-        console.log('Type '+value)
         const list = this.getListOfTypesOfFiles()
         const elem = list.filter(function (type) {
             return type.value === value;
         });
-console.log("List "+elem[0])
         return elem[0];
     }
 
     getTypeByName(typeFile: string): IType {
-        console.log('Type '+typeFile)
         const list = this.getListOfTypesOfFiles()
         const elem = list.filter(function (type) {
             return type.name === typeFile;
         });
-console.log("List "+elem[0])
         return elem[0];
     }
 
 
     handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
-        console.log(e.currentTarget.value)
 
         let reader = new FileReader();
         let file = e.target.files![0];
         this.setState({
-            currentFile: file
+            currentFile: file,
+            added: false,
+            deleted: false
+
         });
         reader.readAsDataURL(file);
     }
 
     handleTypeChange(e: React.MouseEvent<HTMLOptionElement, MouseEvent>) {
-        console.log(e.currentTarget.value)
         this.setState({
-            curentTypeFile: e.currentTarget.value
+            curentTypeFile: e.currentTarget.value,
+            added: false,
+            deleted: false
         });
     }
 
     addNewFile(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         e.preventDefault();
-        console.log('Add '+this.getTypeByNameValue(this.state.curentTypeFile).value)
-        const newFile: IFile = { typeFile: this.getTypeByNameValue(this.state.curentTypeFile).name, file: this.state.currentFile }
-        this.setState(previousState => ({
-            filesAdded: [...previousState.filesAdded, newFile],
-            curentTypeFile: '',
-            currentFile: null
-        }));
-        this.removeElementInTypes();
+
+
+        if (this.state.curentTypeFile === '' || this.state.currentFile === null) {
+            this.setState({
+                error: true
+            })
+        } else {
+
+            const newFile: IFile = { typeFile: this.getTypeByNameValue(this.state.curentTypeFile).name, file: this.state.currentFile }
+            this.removeElementInTypes();
+            this.setState(previousState => ({
+                filesAdded: [...previousState.filesAdded, newFile],
+                curentTypeFile: '',
+                currentFile: null,
+                error: false,
+                added: true
+            }));
+
+        }
+
+
     }
 
     removeElementInTypes() {
@@ -104,6 +123,7 @@ console.log("List "+elem[0])
         const newList = listTypes.filter(function (type) {
             return type.value !== currentFile;
         });
+
         this.setState({
             typesList: newList
         })
@@ -111,13 +131,9 @@ console.log("List "+elem[0])
 
     resetListOfTypes(typeFile: string) {
         const type = this.getTypeByName(typeFile);
-        console.log("Delete "+type.value)
-        console.log(this.state.typesList)
         this.setState(previousState => ({
             typesList: [...previousState.typesList, type]
         }));
-
-        console.log(this.state.typesList)
     }
 
 
@@ -128,7 +144,9 @@ console.log("List "+elem[0])
             return elem.typeFile !== file.typeFile;
         });
         this.setState({
-            filesAdded: newList
+            filesAdded: newList,
+            deleted: true,
+            added: false
         });
 
         this.resetListOfTypes(file.typeFile);
@@ -142,23 +160,28 @@ console.log("List "+elem[0])
                     <div className="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
                         <div className="btn-group mr-2" role="group" aria-label="First group">
                             <select id="file-select" className='form-control'>
-                                <option value="">--Type de fichier--</option>
                                 {this.state.typesList.map(file => (
                                     <option value={file.value} onClick={(e) => this.handleTypeChange(e)} >{file.name}</option>
                                 ))}
                             </select>
-                            <input type="file" className="form-control-file ml-3 mr-3" id="exampleFormControlFile1" onChange={(e) => this.handleImageChange(e)} />
-                            <button className='btn btn-outline-secondary btn-md' onClick={(e) => this.addNewFile(e)}>Ajouter</button>
+                            <label htmlFor="file" className="label-file btn btn-info ml-2 mr-2">Télécharger</label>
+                            <input id="file" type="file" className="form-control-file input-file ml-3 mr-3"  onChange={(e) => this.handleImageChange(e)} />
+                            
+                            <button className='btn btn-success' onClick={(e) => this.addNewFile(e)}>Ajouter</button>
                         </div>
                     </div>
-
-                    <div>
-                        {this.state.filesAdded.map(file => (
-                            <p>{file.typeFile} -- {file.file.name} <button className='btn btn-danger' onClick={(e) => this.removeElemFromListAdded(e, file)} > X</button> </p>
-                        ))}
-                    </div>
-
                 </form>
+                <div>
+                {this.state.currentFile !== null? <small className='display'>Fichier téléchargé : {this.state.currentFile.name}</small>: null }
+                    {this.state.error ? <div className="alert alert-danger mt-2 text-center" role="alert"> Choisissez un fichier et un type de fichier svp</div> : null}
+                    {this.state.added ? <div className="alert alert-success mt-2 text-center" role="alert"> Ajout réussi !</div> : null}
+                    {this.state.deleted ? <div className="alert alert-success mt-2 text-center" role="alert"> Suppression réussie !</div> : null}
+                </div>
+                <div>
+                    {this.state.filesAdded.map(file => (
+                        <p>{file.typeFile} -- {file.file.name} <button className='btn btn-danger' onClick={(e) => this.removeElemFromListAdded(e, file)} > X</button> </p>
+                    ))}
+                </div>
             </div>
         );
     }

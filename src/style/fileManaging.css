@@ -1,0 +1,13 @@
+
+.label-file {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.display{
+    color: #00b1ca;
+}
+
+.input-file {
+    display: none;
+}

@@ -11,7 +11,6 @@ interface IToken {
 const getTokenJson = (): IToken | null => {
   const token = getToken();
   if (token != null) {
-    console.log(decoder(token));
     const decoded = decoder<IToken>(token);
     return decoded;
   }

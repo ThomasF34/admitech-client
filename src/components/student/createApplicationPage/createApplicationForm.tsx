@@ -2,7 +2,8 @@ import React from 'react';
 import Application from '../../../models/application/application';
 import { draftApplication } from '../../../services/application.service';
 import PopUp from '../../helpers/popUp';
-import { getEmail } from '../../../helpers/authorizationHelper';
+import CivilForm from './civilForm';
+import ALevelForm from './aLevelForm';
 
 export interface IFields {
   [key: string]: any;
@@ -31,7 +32,10 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     this.state = {
       values: {},
       errors: {},
-      AreDisplayedBlock: {},
+      AreDisplayedBlock: {
+        civil: false,
+        bac: false
+      },
       draftSuccess: false
     };
   }
@@ -97,7 +101,6 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       const value: string = event.target.value
       newValues[field] = value
       console.log(newValues)
-
       this.setState({
         values: newValues
       });
@@ -115,7 +118,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
         <div className="container" style={{ width: '40%', padding: '5%' }}>
           <h4 className="text-danger">Candidature pour : </h4>
           <select name="branch" className="form-control" placeholder="Sélectionner une valeur" value={this.state.values.branch} onChange={this.setSelect}>
-            <option value="single" selected >Selectionner ...</option>
+            <option value="" >Selectionner ...</option>
             <option value="single" >DO</option>
             <option value="married">SE</option>
           </select>
@@ -128,94 +131,20 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
             style={{ backgroundColor: 'rgba(0, 204, 255, 0.863)', marginBottom: '1%' }}>
             <h4 className="text-white">Etat Civil</h4>
           </button>
-          {this.state.AreDisplayedBlock["civil"] ? (
-            <div className="form-group border border-info rounded">
 
-              <div style={{ padding: '2%' }}>
+          <CivilForm isDisplayedBlock={this.state.AreDisplayedBlock["civil"]} setSelect={this.setSelect} handleChange={this.handleChange} values={this.state.values} />
 
-                <div className="row" style={{ padding: '5px' }}>
-                  <div className="col">
-                    <h6>Nom : </h6>
-                    <input name="last_name" type="text" className="form-control" placeholder="Nom" value={this.state.values.last_name} onChange={this.handleChange} />
-                  </div>
-                  <div className="col">
-                    <h6>Prénom : </h6>
-                    <input name="first_name" type="text" className="form-control" placeholder="Prénom" value={this.state.values.first_name} onChange={this.handleChange} />
-                  </div>
-                </div>
-
-                <div className="row" style={{ padding: '5px' }}>
-                  <div className="col">
-                    <h6>Date de naissance : </h6>
-                    <input name="birth_date" type="date" className="form-control" placeholder="Date de naissance" value={this.state.values.birth_date} onChange={this.handleChange} />
-                  </div>
-                  <div className="col">
-                    <h6>Lieu de naissance : </h6>
-                    <input name="birth_place" type="text" className="form-control" placeholder="Lieu de naissance" value={this.state.values.birth_place} onChange={this.handleChange} />
-                  </div>
-                </div>
-
-                <div className="row" style={{ padding: '5px' }}>
-                  <div className="col">
-                    <h6>Nationalité : </h6>
-                    <input name="nationnality" type="text" className="form-control" placeholder="Nationalité" value={this.state.values.nationnality} onChange={this.handleChange} />
-                  </div>
-                  <div className="col">
-                    <h6>Situation familiale : </h6>
-                    <select name="family_status" className="form-control" placeholder="Sélectionner une valeur" value={this.state.values.family_status} onChange={this.setSelect}>
-                      <option value="" selected >Selectionner ...</option>
-                      <option value="single" >Célibataire</option>
-                      <option value="married">Marié(e)</option>
-                      <option value="other">Autre</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="row" style={{ padding: '5px' }}>
-                  <div className="col">
-                    <h6>Adresse : </h6>
-                    <input name="address" type="text" className="form-control" placeholder="Adresse" value={this.state.values.address} onChange={this.handleChange} />
-                  </div>
-                </div>
-
-                <div className="row" style={{ padding: '5px' }}>
-                  <div className="col">
-                    <h6>Code Postal : </h6>
-                    <input name="postal_code" type="text" className="form-control" placeholder="Code Postal" value={this.state.values.postal_code} onChange={this.handleChange} />
-                  </div>
-                  <div className="col">
-                    <h6>Ville : </h6>
-                    <input name="city" type="text" className="form-control" placeholder="Ville" value={this.state.values.city} onChange={this.handleChange} />
-                  </div>
-                  <div className="col">
-                    <h6>Pays : </h6>
-                    <input name="state" type="text" className="form-control" placeholder="Pays" value={this.state.values.state} onChange={this.handleChange} />
-                  </div>
-                </div>
-
-                <div className="row" style={{ padding: '5px' }}>
-                  <div className="col">
-                    <h6>Téléphone : </h6>
-                    <input name="phone" type="text" className="form-control" placeholder="Téléphone" value={this.state.values.phone} onChange={this.handleChange} />
-                  </div>
-                  <div className="col">
-                    <h6>Email : </h6>
-                    <input name="postal_code" type="text" className="form-control" placeholder={getEmail()} disabled />
-                    <small className="text-danger">/!\ Cette adresse sera utilisée pour les échanges</small>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-          ) : null}
         </div>
+
         {/* BAC */}
         <div className="col-md-12">
           <button className="btn btn-lg btn-block shadow" onClick={(e) => { e.preventDefault(); this.changeDisplayMode("bac") }} style={{ backgroundColor: 'rgba(0, 204, 255, 0.863)', marginBottom: '1%' }}>
             <h4 className="text-white">Baccalauréat</h4>
           </button>
-          {this.state.AreDisplayedBlock["bac"] ? (
+
+          <ALevelForm isDisplayedBlock={this.state.AreDisplayedBlock["bac"]} handleChange={this.handleChange} values={this.state.values} />
+
+          {/*this.state.AreDisplayedBlock["bac"] ? (
             <div className="form-group border border-info rounded" style={{ height: '95%' }}>
 
               <div style={{ padding: '2%' }}>
@@ -273,7 +202,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
               </div>
             </div>
-          ) : null}
+          ) : null*/}
         </div>
 
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './candidaturesListe.css';
-import Candidature from './candidature';
+import '../../../style/applications/applicationsList.css';
+import Application from './application';
 
 interface IProps {
   formation: string,
@@ -9,7 +9,7 @@ interface IProps {
   candidaturesListe: any
 }
 
-class CandidaturesListe extends React.Component<IProps> {
+class ApplicationsList extends React.Component<IProps> {
 
   render() {
     return (
@@ -17,7 +17,7 @@ class CandidaturesListe extends React.Component<IProps> {
         {
           this.props.candidaturesListe.map((candidature: any) =>   
             <p>
-              <Candidature formation={this.props.formation} category={this.props.category} student={candidature} />
+              <Application formation={this.props.formation} category={this.props.category} student={candidature} />
             </p>
           )
         }
@@ -26,4 +26,4 @@ class CandidaturesListe extends React.Component<IProps> {
   }
 }
 
-export default CandidaturesListe;
+export default ApplicationsList;

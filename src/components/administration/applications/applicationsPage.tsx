@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import CandidaturesDropdown from './candidaturesDropdown';
-import CandidaturesNav from './candidaturesNav';
-import CandidaturesListe from './candidaturesListe';
+import ApplicationsDropdownComponent from './applicationsDropdownComponent';
+import ApplicationsNavbar from './applicationsNavbar';
+import ApplicationsList from './applicationsList';
 import 'bootstrap/dist/css/bootstrap.css';
-import './candidatures.css';
+import '../../../style/applications/applicationsPage.css';
 
 const eleve1 = {
   NOM:"Joe DOE",
@@ -42,7 +42,7 @@ interface IState {
 interface IProps {
 }
 
-class Candidatures extends Component<IProps, IState> {
+class ApplicationsPage extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
       this.state = {
@@ -73,17 +73,17 @@ class Candidatures extends Component<IProps, IState> {
   render() {
       return (
         <div>
-          <CandidaturesNav handleClickFormation={this.changeFormation} />
+          <ApplicationsNavbar handleClickFormation={this.changeFormation} />
           <h6 id="total" className="card-subtitle mb-2 text-muted"> Total : {this.getTotal(listes)} </h6>
           <p className="dpdn">
-            <CandidaturesDropdown  handleClickCategory={this.changeCategory} />
+            <ApplicationsDropdownComponent  handleClickCategory={this.changeCategory} />
           </p>
           <p className="list">
-            <CandidaturesListe formation={this.state.currentFormation} category={this.state.currentCategory} candidaturesListe={listes} />
+            <ApplicationsList formation={this.state.currentFormation} category={this.state.currentCategory} candidaturesListe={listes} />
           </p>
         </div>
       )
   } 
 }
 
-export default Candidatures;
+export default ApplicationsPage;

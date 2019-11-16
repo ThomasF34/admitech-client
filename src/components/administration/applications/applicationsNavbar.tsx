@@ -1,12 +1,12 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './candidaturesNav.css'
+import '../../../style/applications/applicationsNavbar.css';
 
 interface IProps {
   handleClickFormation: any
 }
 
-class CandidaturesNav extends React.Component<IProps> {
+class ApplicationsNavbar extends React.Component<IProps> {
   render() {
     return (
       <div>
@@ -18,4 +18,4 @@ class CandidaturesNav extends React.Component<IProps> {
   }
 }
 
-export default CandidaturesNav;
+export default ApplicationsNavbar;

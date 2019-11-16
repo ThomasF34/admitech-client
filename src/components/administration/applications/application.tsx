@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './candidature.css';
-import infoIcon from './info-icon.png';
+import '../../../style/applications/application.css';
+import infoIcon from '../../../img/icons/information.png';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
@@ -25,7 +25,7 @@ interface IProps {
   category: number
 }
 
-class Candidature extends React.Component<IProps> {
+class Application extends React.Component<IProps> {
   render() {
     return (
       ((this.props.student.FORMATION === this.props.formation || this.props.formation === 'Toutes') && (this.props.student.ETAT === this.props.category || this.props.category===0)) 
@@ -119,4 +119,4 @@ class Candidature extends React.Component<IProps> {
   }
 }
 
-export default Candidature;
+export default Application;

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import './candidaturesDropdown.css';
-import { number } from 'prop-types';
+import '../../../style/applications/applicationsDropdownComponent.css';
 
 let categories = new Map<number, string>();
 categories.set(0, 'Tous');
@@ -27,7 +26,7 @@ interface IState {
   currentCategory: string|undefined,
 }
 
-class CandidaturesDropdown extends Component<IProps, IState> {
+class ApplicationsDropdownComponent extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     
@@ -90,4 +89,4 @@ class CandidaturesDropdown extends Component<IProps, IState> {
   }
 }
 
-export default CandidaturesDropdown;
+export default ApplicationsDropdownComponent;

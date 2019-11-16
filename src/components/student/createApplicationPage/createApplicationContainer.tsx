@@ -27,7 +27,7 @@ class CreateApplicationContainer extends React.Component {
             </div>
               </div>
               <div className="row" >
-                <CreateApplicationForm />
+                <CreateApplicationForm existingApplication={null}/>
               </div>
             </div>
           </div>

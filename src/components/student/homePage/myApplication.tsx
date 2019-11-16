@@ -4,6 +4,7 @@ import plusButtonSmall from '../../../img/icons/plus32px.png'
 import '../../../style/home.css';
 import SoftApplication from '../../../models/application/softApplication';
 import ApplicationTab from './applicationTab';
+import { Link } from 'react-router-dom';
 
 interface IProps {
   applications: SoftApplication[] | null,
@@ -13,7 +14,9 @@ class AddButton extends React.Component {
   render() {
     return (
       <div className="text-center">
-      <img src={plusButtonSmall} className="img-icon " alt="button" />
+        <Link to="/etudiant/candidature/creation" style={{ textDecoration: 'none' }}>
+          <img src={plusButtonSmall} className="img-icon " alt="button" />
+        </Link>
       </div>
     );
   }

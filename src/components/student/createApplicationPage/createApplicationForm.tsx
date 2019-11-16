@@ -22,7 +22,7 @@ interface IState {
 }
 
 interface IProps {
-
+  existingApplication: Application | null
 }
 
 class CreateApplicationForm extends React.Component<IProps, IState> implements IForm {
@@ -30,7 +30,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
   constructor(props: IProps) {
     super(props);
     this.state = {
-      values: {},
+      values: this.props.existingApplication ? this.props.existingApplication : {},
       errors: {},
       AreDisplayedBlock: {
         civil: false,

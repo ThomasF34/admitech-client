@@ -49,8 +49,8 @@ class ConnexionContainer extends React.Component<IProps, IState> {
             <div className="image-container">
               <img src={this.props.image} className="img-background" alt="polytech" />
               <div className="centered-text">
-                <h1 className="display-1"><u>{this.props.text}</u></h1>
-                <h1 className="display-4">PLATEFORME CANDIDATURE POLYTECH</h1>
+                <h1 className="display-1">{this.props.text}</h1>
+                <h1 className="display-5">PLATEFORME CANDIDATURE POLYTECH</h1>
               </div>
             </div>
           </div>

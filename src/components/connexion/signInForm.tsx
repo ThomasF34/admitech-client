@@ -84,16 +84,16 @@ class SignInForm extends React.Component<SignInFormProps, IState> implements ISi
           <h6 className='text-danger'>{this.state.error}</h6>
           <form className='needs-validation'>
             <div className='form-group' style={{ marginBottom: '8%' }} >
-              <input name='email' type='email' className='form-control form-control-lg text-center' onChange={this.handleChange}
+              <input name='email' type='email' className='form-control form-control-sm text-center' onChange={this.handleChange}
                 placeholder='Adresse email' value={this.state.email} required />
             </div>
             <div className='form-group' style={{ marginBottom: '8%' }}>
-              <input name='password' type='password' className='form-control form-control-lg text-center' onChange={this.handleChange}
+              <input name='password' type='password' className='form-control form-control-sm text-center' onChange={this.handleChange}
                 placeholder='Mot de passe' value={this.state.password} required />
             </div>
             <div className='form-group text-center' style={{ marginTop: '15%' }}>
-              <button className='btn btn-outline-secondary btn-lg btn-block shadow' type='submit' onClick={(e) => this.submit(e)}>Connexion</button>
-              <p>Powered by Polytech Connect</p>
+              <button className='btn btn-outline-secondary btn-sm btn-block shadow' type='submit' onClick={(e) => this.submit(e)}>Connexion</button>
+              <p className='font-italic small'>Polytech Connect</p>
             </div>
           </form>
         </div>

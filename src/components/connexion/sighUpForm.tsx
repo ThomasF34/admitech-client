@@ -2,6 +2,7 @@ import React from 'react';
 import UserSignUpDto from '../../models/user/userSignUpDto';
 import { signUp } from '../../services/auth.service';
 import { Redirect } from 'react-router';
+import '../../style/connexion.css'
 
 interface ISignUpForm {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
@@ -103,26 +104,26 @@ class SignUpForm extends React.Component<IProps, IState> implements ISignUpForm 
 
             <div className="form-group" style={{ marginBottom: '8%' }} >
               <div className="form-group">
-                <input name="email" type="text" className="form-control form-control-lg text-center" placeholder="Adresse email"
+                <input name="email" type="text" className="form-control form-control-sm text-center" placeholder="Adresse email"
                   onChange={this.handleChange} value={this.state.email} required />
               </div>
               <div className="form-group">
-                <input name="lastname" type="text" className="form-control form-control-lg text-center" placeholder="Nom"
+                <input name="lastname" type="text" className="form-control form-control-sm text-center" placeholder="Nom"
                   onChange={this.handleChange} value={this.state.lastName} required />
               </div>
               <div className="form-group" >
-                <input name="firstname" type="text" className="form-control form-control-lg text-center" placeholder="Prénom"
+                <input name="firstname" type="text" className="form-control form-control-sm text-center" placeholder="Prénom"
                   onChange={this.handleChange} value={this.state.firstName} required />
               </div>
             </div>
 
             <div className="form-group" style={{ marginBottom: '8%' }} >
               <div className="form-group">
-                <input name="password" type="password" className="form-control form-control-lg text-center" placeholder="Mot de passe" minLength={6}
+                <input name="password" type="password" className="form-control form-control-sm text-center" placeholder="Mot de passe" minLength={6}
                   onChange={this.handleChange} value={this.state.password} required />
               </div>
               <div className="form-group">
-                <input name="confirm_password" type="password" className="form-control form-control-lg text-center" placeholder="Répétez votre mot de passe" minLength={6}
+                <input name="confirm_password" type="password" className="form-control form-control-sm text-center" placeholder="Répétez votre mot de passe" minLength={6}
                   onChange={this.handleChange} value={this.state.confirmPassword} required />
               </div>
               <h6 className="text-danger">{this.state.MatchingPwdError}</h6>
@@ -130,16 +131,18 @@ class SignUpForm extends React.Component<IProps, IState> implements ISignUpForm 
 
             <div className="form-group">
               <div className="form-check">
-                <input id="check" className="form-check-input input-lg" type="checkbox" required />
-                J&apos;accepte les conditions générales d&apos;utilisation
+                <label className="accept">
+                <input id="check" className="form-check-input input-sm" type="checkbox" required />
+                J'accepte les conditions générales d'utilisation
+                    </label>
               </div>
             </div>
 
 
             <div className="form-group text-center" style={{ marginTop: '15%', marginBottom: '10%' }}>
-              <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={this.submit}>Créer votre compte</button>
+              <button className="btn btn-outline-secondary btn-sm btn-block shadow" type="submit" onClick={this.submit}>Créer votre compte</button>
             </div>
-            <h5>Votre identifiant sera unique aux plateformes de Polytech.</h5>
+            <h5 className='alert alert-info'>Votre identifiant sera unique aux plateformes de Polytech.</h5>
           </form>
         </div>
       );

@@ -18,14 +18,14 @@ class Application extends React.Component<IProps> {
     return (
       ((this.props.application.FORMATION === this.props.formation || this.props.formation === 'Toutes') && (this.props.application.ETAT === this.props.category || this.props.category===0)) 
         ? (
-            <div className="card border-secondary mb-3">
-              <div className="card-body">
+            <div className="card border-secondary mb-3" id="card-application">
+              <div className="card-body" id="card-body-application">
                 <h5 className="card-title">{this.props.application.NOM}</h5>
                 {
                   this.props.formation === 'Toutes'
                     ? (
-                      <h6 className="card-subtitle mb-2 text-muted"> 
-                        Formation : <span className="card-subtitle-span"> {this.props.application.FORMATION} </span>
+                      <h6 className="card-subtitle mb-2 text-muted" id="card-subtitle-application"> 
+                        Formation : <span className="card-subtitle-span" id="card-subtitle-span-application"> {this.props.application.FORMATION} </span>
                       </h6>
                     ) : (null)
                 }
@@ -33,8 +33,8 @@ class Application extends React.Component<IProps> {
                 {
                   this.props.application.ETAT !== null
                     ? (
-                      <h6 className="card-subtitle mb-2 text-muted"> 
-                        ETAT : <span className="card-subtitle-span"> {categories.get(this.props.application.ETAT)} </span>
+                      <h6 className="card-subtitle mb-2 text-muted" id="card-subtitle-application"> 
+                        ETAT : <span className="card-subtitle-span" id="card-subtitle-span-application"> {categories.get(this.props.application.ETAT)} </span>
                       </h6>
                     ) : (null)
                 }
@@ -42,8 +42,8 @@ class Application extends React.Component<IProps> {
                 {
                   this.props.application.QCM !== null
                     ? (
-                      <h6 className="card-subtitle mb-2 text-muted"> 
-                        QCM : <span className="card-subtitle-span"> {this.props.application.QCM} </span>
+                      <h6 className="card-subtitle mb-2 text-muted" id="card-subtitle-application"> 
+                        QCM : <span className="card-subtitle-span" id="card-subtitle-span-application"> {this.props.application.QCM} </span>
                       </h6>
                     ) : (null)
                 }
@@ -51,15 +51,15 @@ class Application extends React.Component<IProps> {
                 {
                   this.props.application.JURY !== null
                     ? (
-                      <h6 className="card-subtitle mb-2 text-muted"> 
-                        JURY : <span className="card-subtitle-span"> TODO ID </span>
+                      <h6 className="card-subtitle mb-2 text-muted" id="card-subtitle-application"> 
+                        JURY : <span className="card-subtitle-span" id="card-subtitle-span-application"> TODO ID </span>
                         <OverlayTrigger
                           placement='right'
                           overlay={
                             <Tooltip id="idTooltip"> {this.props.application.JURY.map(elem => <div> {elem} </div>)} </Tooltip>
                           }
                         >
-                        <img src={infoIcon} alt=''/>
+                        <img className="info-icon" src={infoIcon} alt=''/>
                         </OverlayTrigger>
                       </h6>
                     ) : (null)
@@ -68,8 +68,8 @@ class Application extends React.Component<IProps> {
                 {
                   this.props.application.NOTE !== null
                     ? (
-                      <h6 className="card-subtitle mb-2 text-muted"> 
-                        Note : <span className="card-subtitle-span"> {this.props.application.NOTE} </span>
+                      <h6 className="card-subtitle mb-2 text-muted" id="card-subtitle-application"> 
+                        Note : <span className="card-subtitle-span" id="card-subtitle-span-application"> {this.props.application.NOTE} </span>
                       </h6>
                     ) : (null)
                 }

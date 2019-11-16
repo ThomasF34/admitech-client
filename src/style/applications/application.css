@@ -1,20 +1,20 @@
-.card {
+#card-application {
     width:80% !important;
     margin-left:10%;
     margin-right:10%;
 }
 
-.card-subtitle {
+#card-subtitle-application {
     color:black !important;
     display:inline-block;
     margin-left: 4%;
 }
 
-.card-subtitle-span {
+#card-subtitle-span-application {
     color:grey;
 }
 
-.card-body {
+#card-body-application {
     display:block;
     padding-bottom:1%;
 }
@@ -39,7 +39,7 @@
     margin-left:5%;
 }
 
-img {
+.info-icon {
     width:14px;
     height:14px;
 }

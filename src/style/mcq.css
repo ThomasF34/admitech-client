@@ -1,0 +1,12 @@
+label{
+  font-weight:300;
+}
+
+input{
+  margin-right:10px;
+}
+
+.message{
+  font-size:10px;
+  color:#555;
+}

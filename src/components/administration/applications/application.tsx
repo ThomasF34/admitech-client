@@ -4,23 +4,11 @@ import '../../../style/applications/application.css';
 import infoIcon from '../../../img/icons/information.png';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
-
-let categories = new Map<number, string>();
-categories.set(0, 'Tous');
-categories.set(1, 'Brouillon');
-categories.set(2, 'Soumis');
-categories.set(3, 'Dossier incomplet');
-categories.set(4, 'Dossier complet');
-categories.set(5, 'QCM à effectuer');
-categories.set(6, 'QCM effectué');
-categories.set(7, 'Entretien à programmer');
-categories.set(8, 'Entretien programmé');
-categories.set(9, 'Entretien passé');
-categories.set(10, 'Admis');
-categories.set(11, 'Refusé');
+import {categories} from "../../utils/categoriesEnum";
+import SingleApplication from "../../../models/singleApplication";
 
 interface IProps {
-  student : any,
+  application : SingleApplication,
   formation: string,
   category: number
 }
@@ -28,47 +16,47 @@ interface IProps {
 class Application extends React.Component<IProps> {
   render() {
     return (
-      ((this.props.student.FORMATION === this.props.formation || this.props.formation === 'Toutes') && (this.props.student.ETAT === this.props.category || this.props.category===0)) 
+      ((this.props.application.FORMATION === this.props.formation || this.props.formation === 'Toutes') && (this.props.application.ETAT === this.props.category || this.props.category===0)) 
         ? (
             <div className="card border-secondary mb-3">
               <div className="card-body">
-                <h5 className="card-title">{this.props.student.NOM}</h5>
+                <h5 className="card-title">{this.props.application.NOM}</h5>
                 {
                   this.props.formation === 'Toutes'
                     ? (
                       <h6 className="card-subtitle mb-2 text-muted"> 
-                        Formation : <span className="card-subtitle-span"> {this.props.student.FORMATION} </span>
+                        Formation : <span className="card-subtitle-span"> {this.props.application.FORMATION} </span>
                       </h6>
                     ) : (null)
                 }
                 
                 {
-                  this.props.student.ETAT !== null
+                  this.props.application.ETAT !== null
                     ? (
                       <h6 className="card-subtitle mb-2 text-muted"> 
-                        ETAT : <span className="card-subtitle-span"> {categories.get(this.props.student.ETAT)} </span>
+                        ETAT : <span className="card-subtitle-span"> {categories.get(this.props.application.ETAT)} </span>
                       </h6>
                     ) : (null)
                 }
 
                 {
-                  this.props.student.QCM !== null
+                  this.props.application.QCM !== null
                     ? (
                       <h6 className="card-subtitle mb-2 text-muted"> 
-                        QCM : <span className="card-subtitle-span"> {this.props.student.QCM} </span>
+                        QCM : <span className="card-subtitle-span"> {this.props.application.QCM} </span>
                       </h6>
                     ) : (null)
                 }
       
                 {
-                  this.props.student.JURY !== null
+                  this.props.application.JURY !== null
                     ? (
                       <h6 className="card-subtitle mb-2 text-muted"> 
                         JURY : <span className="card-subtitle-span"> TODO ID </span>
                         <OverlayTrigger
                           placement='right'
                           overlay={
-                            <Tooltip id="idTooltip"> {this.props.student.JURY.map((elem: string) => <div> {elem} </div>)} </Tooltip>
+                            <Tooltip id="idTooltip"> {this.props.application.JURY.map(elem => <div> {elem} </div>)} </Tooltip>
                           }
                         >
                         <img src={infoIcon} alt=''/>
@@ -78,10 +66,10 @@ class Application extends React.Component<IProps> {
                 }
       
                 {
-                  this.props.student.NOTE !== null
+                  this.props.application.NOTE !== null
                     ? (
                       <h6 className="card-subtitle mb-2 text-muted"> 
-                        Note : <span className="card-subtitle-span"> {this.props.student.NOTE} </span>
+                        Note : <span className="card-subtitle-span"> {this.props.application.NOTE} </span>
                       </h6>
                     ) : (null)
                 }
@@ -89,7 +77,7 @@ class Application extends React.Component<IProps> {
 
               <div className="buttonsTuile">
                 {
-                   (this.props.student.ETAT !== 11) 
+                   (this.props.application.ETAT !== 11) 
                     ? (
                         <button id="buttonRefuse" type="button" className="btn btn-secondary btn-sm"> Refuser </button>
                     ) : (null)
@@ -97,14 +85,14 @@ class Application extends React.Component<IProps> {
                 } 
 
                 {
-                  (4 <= this.props.student.ETAT && this.props.student.ETAT <= 5 && this.props.student.ETAT !== 11)
+                  (4 <= this.props.application.ETAT && this.props.application.ETAT <= 5 && this.props.application.ETAT !== 11)
                     ? (
                         <button id="buttonMCQ" type="button" className="btn btn-secondary btn-sm"> + QCM </button>
                     ) : (null)
                 }
       
                 {
-                  (6 <= this.props.student.ETAT && this.props.student.ETAT <= 7 && this.props.student.ETAT !== 11)
+                  (6 <= this.props.application.ETAT && this.props.application.ETAT <= 7 && this.props.application.ETAT !== 11)
                     ? (
                         <button id="buttonJury" type="button" className="btn btn-secondary btn-sm"> + JURY </button>
                     ) : (null)

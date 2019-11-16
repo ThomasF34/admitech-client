@@ -4,33 +4,34 @@ import ApplicationsNavbar from './applicationsNavbar';
 import ApplicationsList from './applicationsList';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../../../style/applications/applicationsPage.css';
+import SingleApplication from "../../../models/singleApplication";
 
-const eleve1 = {
-  NOM:"Joe DOE",
-  FORMATION:"SE",
-  ETAT:4,
-  JURY: ["Paul Durand", "Lucas Dupont", "Charles Despres"],
-  NOTE:14,
-  QCM:"ID10"
-}
+const eleve1 = new SingleApplication(
+  "Joe DOE",
+  "SE",
+  4,
+  ['Paul Durand', 'Lucas Dupont', 'Charles Despres'],
+  14,
+  "ID10"
+)
 
-const eleve2 = {
-  NOM:"Juliette MARIN",
-  FORMATION:"DEVOPS",
-  ETAT:8,
-  JURY: ["Corinne", "Arnaud", "Vincent"],
-  NOTE:10,
-  QCM:"ID9"
-}
+const eleve2 = new SingleApplication(
+  "Juliette MARIN",
+  "DEVOPS",
+  8,
+  ["Corinne", "Arnaud", "Vincent"],
+  10,
+  "ID9"
+)
 
-const eleve3 = {
-  NOM:"Martin DUMAS",
-  FORMATION:"SE",
-  ETAT:2,
-  JURY: ["Paul Durand", "Lucas Dupont", "Charles Despres"],
-  NOTE:17,
-  QCM:"ID10"
-}
+const eleve3 = new SingleApplication(
+  "Martin DUMAS",
+  "SE",
+  2,
+  ["Paul Durand", "Lucas Dupont", "Charles Despres"],
+  17,
+  "ID10"
+)
 
 const listes=[eleve1, eleve2, eleve3]
 

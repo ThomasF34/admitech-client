@@ -1,21 +1,7 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../../../style/applications/applicationsDropdownComponent.css';
-
-let categories = new Map<number, string>();
-categories.set(0, 'Tous');
-categories.set(1, 'Brouillon');
-categories.set(2, 'Soumis');
-categories.set(3, 'Dossier incomplet');
-categories.set(4, 'Dossier complet');
-categories.set(5, 'QCM à effectuer');
-categories.set(6, 'QCM effectué');
-categories.set(7, 'Entretien à programmer');
-categories.set(8, 'Entretien programmé');
-categories.set(9, 'Entretien passé');
-categories.set(10, 'Admis');
-categories.set(11, 'Refusé');
-
+import {categories} from "../../utils/categoriesEnum";
 
 interface IProps {
   handleClickCategory: any

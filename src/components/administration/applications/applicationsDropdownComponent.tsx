@@ -54,7 +54,7 @@ class ApplicationsDropdownComponent extends Component<IProps, IState> {
         {
           this.state.showMenu
             ? (
-              <div className="dropdown-content">
+              <div className="dropdown-content" id="dropdown-content-application">
                 {Array.from(categories.keys()).map(index => 
                   this.state.currentCategory !== categories.get(index) 
                     ? (

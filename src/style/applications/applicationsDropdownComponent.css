@@ -3,14 +3,14 @@
     font-size: 90%;
 }
 
-.dropdown-content {
+#dropdown-content-application {
   background-color: #f9f9f9;
   width:180px;
   position:absolute;
   z-index:99999;
 }
 
-.dropdown-content div {
+#dropdown-content-application div {
   color: black;
   padding: 5%;
   text-decoration: none;
@@ -18,4 +18,4 @@
   font-size: 90%;
 }
 
-.dropdown-content div:hover {background-color: #f1f1f1}
+#dropdown-content-application div:hover {background-color: #f1f1f1}

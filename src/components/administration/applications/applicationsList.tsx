@@ -17,7 +17,7 @@ class ApplicationsList extends React.Component<IProps> {
       <div>
         {
           this.props.candidaturesListe.map((candidature: SingleApplication) =>   
-            <p>
+            <p className="applications-list-p">
               <Application formation={this.props.formation} category={this.props.category} application={candidature} />
             </p>
           )

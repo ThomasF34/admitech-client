@@ -3,7 +3,7 @@ import ApplicationsDropdownComponent from './applicationsDropdownComponent';
 import ApplicationsNavbar from './applicationsNavbar';
 import ApplicationsList from './applicationsList';
 import 'bootstrap/dist/css/bootstrap.css';
-import '../../../style/applications/applicationsPage.css';
+import '../../../style/applications/applicationsContainer.css';
 import SingleApplication from "../../../models/singleApplication";
 
 const eleve1 = new SingleApplication(

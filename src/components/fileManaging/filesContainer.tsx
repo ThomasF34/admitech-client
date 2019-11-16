@@ -32,6 +32,7 @@ interface IAttachement {
   id?: number,
   attach_type: string,
   url: string,
+  fileName: string
   file: any
 }
 
@@ -104,16 +105,10 @@ class FileContainer extends React.Component<IProps, IState> {
       this.setState({ error: true });
     } else {
       let urlFile: string = '';
-
-      if (this.props.candId !== null) {
-        /*  handleUpload(this.state.currentFile).then(url =>{
-                          if(url){
-                              urlFile = url
-                          }
-                      });*/
+      if (this.props.candId > 0) {
+        urlFile = await handleUpload(this.state.currentFile);
       }
-
-      const newAttachement: IAttachement = { url: urlFile, attach_type: this.state.curentTypeFile, file: this.state.currentFile }
+      const newAttachement: IAttachement = { url: urlFile, attach_type: this.state.curentTypeFile, file: this.state.currentFile, fileName: this.state.currentFile.name }
       this.removeElementInTypes();
       this.setState(previousState => ({
         filesAdded: [...previousState.filesAdded, newAttachement],
@@ -145,9 +140,8 @@ class FileContainer extends React.Component<IProps, IState> {
 
   removeElemFromListAdded(event: React.MouseEvent<HTMLButtonElement, MouseEvent>, file: IAttachement) {
     event.preventDefault();
-    if (this.props.candId !== null) {
-      console.log('candid ok')
-      // deleteAttachmentInApplication(this.props.candId, file.id!);
+    if (this.props.candId > 0) {
+      deleteAttachmentInApplication(this.props.candId, file.id!);
     }
     const listAdded = this.state.filesAdded;
     const newList = listAdded.filter(function (elem) {
@@ -193,8 +187,8 @@ class FileContainer extends React.Component<IProps, IState> {
           <hr />
           <h4>Mes fichiers téléchargés</h4>
           {this.state.filesAdded.map(file => (
-            <div className='mb-2' key={file.id}><span className="badge badge-success">OK</span> <span className='text-info'>{getTypeConverted(file.attach_type)}</span> :
-                   {file.file === null ? <span className='text-secondary'> <a href={file.url} target='_blank' rel="noopener noreferrer">voir</a></span> : <span className='text-secondary'> {file.file.name} </span>}
+            <div className='mb-2' key={file.url}><span className="badge badge-success">OK</span> <span className='text-info'>{getTypeConverted(file.attach_type)}</span> :
+                   {file.url !== '' ? <span className='text-secondary'> <a href={file.url} target='_blank' rel="noopener noreferrer">voir</a></span> : <span className='text-secondary'> {file.fileName} </span>}
               <button className='btn btn-sm btn-danger ml-1' onClick={(e) => this.removeElemFromListAdded(e, file)} > <FontAwesomeIcon icon={faTimesCircle} /></button> </div>
           ))}
         </div>

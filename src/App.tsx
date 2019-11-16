@@ -11,7 +11,7 @@ import CompanyHome from './components/company/homePage/companyHome';
 import MyApplicationPage from './components/student/myApplicationPage/myApplicationPage';
 import StudentApplicationPage from './components/administration/studentApplicationPage/studentApplicationPage';
 import CreateApplicationContainer from './components/student/createApplicationPage/createApplicationContainer';
-import ApplicationsContainer from './components/administration/applications/applicationsContainer';
+import ApplicationsPage from './components/administration/applications/applicationsPage';
 import { PrivateStudentRoute, PrivateAdminRoute, PrivateCompanyRoute, LoginRoute } from './helpers/routesHelper';
 
 function App() {
@@ -42,7 +42,7 @@ function App() {
           {PrivateCompanyRoute(<CompanyHome />)}
         </Route>
         <Route exact path="/administration/candidatures">
-          {PrivateAdminRoute(<ApplicationsContainer />)}
+          {PrivateAdminRoute(<ApplicationsPage />)}
         </Route>
         <Route exact path="/etudiant/candidature">
           {PrivateStudentRoute(<MyApplicationPage />)}

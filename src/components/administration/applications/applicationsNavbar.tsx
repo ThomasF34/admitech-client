@@ -10,9 +10,9 @@ class ApplicationsNavbar extends React.Component<IProps> {
   render() {
     return (
       <div>
-        <button className="btn btn-light" onClick = {() => this.props.handleClickFormation('Toutes')}> Tous </button>
-        <button className="btn btn-light" onClick = {() => this.props.handleClickFormation('DEVOPS')}> DEVOPS </button>
-        <button className="btn btn-light" onClick = {() => this.props.handleClickFormation('SE')}> SE </button>
+        <button id="button-navbar-applications" className="btn btn-light" onClick = {() => this.props.handleClickFormation('Toutes')}> Tous </button>
+        <button id="button-navbar-applications" className="btn btn-light" onClick = {() => this.props.handleClickFormation('DEVOPS')}> DEVOPS </button>
+        <button id="button-navbar-applications" className="btn btn-light" onClick = {() => this.props.handleClickFormation('SE')}> SE </button>
       </div>
     );
   }

@@ -10,7 +10,7 @@ export const categories = Object.freeze(
         [7, 'Entretien à programmer'],
         [8, 'Entretien programmé'],
         [9, 'Entretien passé'], 
-        [10, 'Admins'],
+        [10, 'Admis'],
         [11, 'Refusé']
     ])
 )

@@ -71,7 +71,7 @@ class Application extends React.Component<IProps> {
                             <Tooltip id="idTooltip"> {this.props.student.JURY.map((elem: string) => <div> {elem} </div>)} </Tooltip>
                           }
                         >
-                        <img src={infoIcon}/>
+                        <img src={infoIcon} alt=''/>
                         </OverlayTrigger>
                       </h6>
                     ) : (null)

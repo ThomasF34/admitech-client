@@ -42,7 +42,7 @@ interface IState {
 interface IProps {
 }
 
-class ApplicationsPage extends Component<IProps, IState> {
+class ApplicationsContainer extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
       this.state = {
@@ -86,4 +86,4 @@ class ApplicationsPage extends Component<IProps, IState> {
   } 
 }
 
-export default ApplicationsPage;
+export default ApplicationsContainer;

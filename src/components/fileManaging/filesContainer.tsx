@@ -1,6 +1,8 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../../style/fileManaging.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 interface IProps {
 
@@ -10,7 +12,6 @@ interface IFile {
     typeFile: string,
     file: any
 }
-
 
 interface IType {
     value: string,
@@ -145,32 +146,36 @@ class FileContainer extends React.Component<IProps, IState> {
     render() {
         return (
             <div className='container bg-light mt-5 p-3'>
-                <form className='needs-validation'>
-                    <div className="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
-                        <div className="btn-group mr-2" role="group" aria-label="First group">
-                            <select id="file-select" className='form-control'>
-                                {this.state.typesList.map(file => (
-                                    <option value={file.value} onClick={(e) => this.handleTypeChange(e)} >{file.name}</option>
-                                ))}
-                            </select>
-                            <label htmlFor="file" className="label-file btn btn-info ml-2 mr-2">Télécharger</label>
-                            <input id="file" type="file" className="form-control-file input-file ml-3 mr-3"  onChange={(e) => this.handleImageChange(e)} />
-                            
-                            <button className='btn btn-success' onClick={(e) => this.addNewFile(e)}>Ajouter</button>
-                        </div>
+
+
+                <form className="form-inline">
+                    <div className="form-group mb-2">
+                        <select id="file-select" className='form-control'>
+                            {this.state.typesList.map(file => (
+                                <option value={file.value} onClick={(e) => this.handleTypeChange(e)} >{file.name}</option>
+                            ))}
+                        </select>
                     </div>
+                    <div className="form-group mx-sm-3 mb-2">
+                        <label htmlFor="file" className="label-file btn btn-info">Télécharger</label>
+                        <input id="file" type="file" className="form-control-file input-file " onChange={(e) => this.handleImageChange(e)} />
+                    </div>
+                    <div className="form-group mb-2">
+                        <button className='btn btn-success' onClick={(e) => this.addNewFile(e)}>Ajouter</button>
+                    </div>
+
                 </form>
                 <div>
-                {this.state.currentFile !== null? <small className='display'>Fichier téléchargé : {this.state.currentFile.name}</small>: null }
+                    {this.state.currentFile !== null ? <small className='display'>Fichier téléchargé : {this.state.currentFile.name}</small> : null}
                     {this.state.error ? <div className="alert alert-danger mt-2 text-center" role="alert"> Choisissez un fichier et un type de fichier svp</div> : null}
                     {this.state.added ? <div className="alert alert-success mt-2 text-center" role="alert"> Ajout réussi !</div> : null}
                     {this.state.deleted ? <div className="alert alert-success mt-2 text-center" role="alert"> Suppression réussie !</div> : null}
                 </div>
                 <div>
-                    <hr/>
+                    <hr />
                     <h4>Mes fichiers téléchargés</h4>
                     {this.state.filesAdded.map(file => (
-                        <p> <span className='text-info'>{file.typeFile}</span> : <span className='text-secondary'>{file.file.name}</span> <button className='btn btn-danger ml-1' onClick={(e) => this.removeElemFromListAdded(e, file)} > X</button> </p>
+                        <div className='mb-2'><span className="badge badge-success">OK</span> <span className='text-info'>{file.typeFile}</span> : <span className='text-secondary'>{file.file.name}</span> <button className='btn btn-sm btn-danger ml-1' onClick={(e) => this.removeElemFromListAdded(e, file)} > <FontAwesomeIcon icon={faTimesCircle} /></button> </div>
                     ))}
                 </div>
             </div>

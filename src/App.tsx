@@ -13,6 +13,7 @@ import StudentApplicationPage from './components/administration/studentApplicati
 import CreateApplicationContainer from './components/student/createApplicationPage/createApplicationContainer';
 import ApplicationsPage from './components/administration/applications/applicationsPage';
 import { PrivateStudentRoute, PrivateAdminRoute, PrivateCompanyRoute, LoginRoute } from './helpers/routesHelper';
+import FakeContainerFiles from './components/fileManaging/containerTestFilesManaging';
 
 function App() {
 
@@ -51,8 +52,11 @@ function App() {
           {PrivateAdminRoute(<StudentApplicationPage />)}
         </Route>
         <Route path="/etudiant/nouvelleCandidature">
-            {PrivateStudentRoute(<CreateApplicationContainer />)}
-          </Route>
+          {PrivateStudentRoute(<CreateApplicationContainer />)}
+        </Route>
+        <Route exact path="/files">
+          <FakeContainerFiles />
+        </Route>
         <Route exact path="/">
           <CardContainer />
         </Route>

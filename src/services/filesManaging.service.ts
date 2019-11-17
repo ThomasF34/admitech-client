@@ -10,7 +10,7 @@ const handleUpload = async (file: File) => {
     let fileName = fileParts[0];
     let fileType = fileParts[1];
 
-    let url: string = '';
+    let key: string = '';
     axios.post(`${configApi.API_URL}/document/upload`, {
       fileName: fileName,
       fileType: fileType
@@ -18,7 +18,7 @@ const handleUpload = async (file: File) => {
       headers: { Authorization: `Bearer ${getToken()}` }
     }).then(response => {
       const signedUrl = response.data.signedUrl;
-      url = response.data.url;
+      key = response.data.key;
 
       console.log("Recieved a signed request " + signedUrl);
       // Put the fileType in the headers for the upload
@@ -27,7 +27,7 @@ const handleUpload = async (file: File) => {
           'Content-Type': fileType
         }
       };
-      resolve(url);
+      resolve(key);
 
       axios.put(signedUrl, file, options)
         .then(result => {
@@ -40,9 +40,15 @@ const handleUpload = async (file: File) => {
     }).catch(error => {
       alert(JSON.stringify(error));
     })
-
-
   });
 }
 
-export { handleUpload };
+const getRessource = (ressourceKey: string) => {
+  return axios.get(`${configApi.API_URL}/document/access`, {
+    params: {
+      key: ressourceKey,
+    },
+    headers: { Authorization: `Bearer ${getToken()}` }
+  }).then(res => res.data);
+}
+export { handleUpload, getRessource };

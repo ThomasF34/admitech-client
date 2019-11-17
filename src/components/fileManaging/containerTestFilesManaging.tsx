@@ -4,7 +4,7 @@ import FileContainer from './filesContainer';
 
 //State and Props
 interface IProps {
-  
+
 }
 
 interface IState {
@@ -14,7 +14,7 @@ interface IState {
 interface IAttachement {
   id?: number,
   attach_type: string,
-  url: string,
+  key: string,
   fileName: string
   file?: any
 }
@@ -23,12 +23,12 @@ class FakeContainerFiles extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      attachments: [{ id: 1, attach_type: 'cv', url: 'http://www.google.fr', fileName: 'fileNameExemple' }]
+      attachments: [{ id: 1, attach_type: 'cv', key: '1234.pdf', fileName: 'fileNameExemple' }]
     };
     this.handleChangeAttachement = this.handleChangeAttachement.bind(this);
   }
 
-  handleChangeAttachement(attachementsUpdated: IAttachement[]){
+  handleChangeAttachement(attachementsUpdated: IAttachement[]) {
     this.setState({
       attachments: attachementsUpdated
     })

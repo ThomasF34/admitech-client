@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import '../../../style/applications/applicationsContainer.css';
 import SingleApplication from "../../../models/singleApplication";
 
+//TO DO : to remove after the call to the api
 const eleve1 = new SingleApplication(
   "Joe DOE",
   "SE",
@@ -53,6 +54,7 @@ class ApplicationsContainer extends Component<IProps, IState> {
       this.changeCategory = this.changeCategory.bind(this);
       this.changeFormation = this.changeFormation.bind(this);
       this.getTotal = this.getTotal.bind(this);
+      this.getApplicationsToDisplay = this.getApplicationsToDisplay.bind(this);
   }
 
   changeFormation(elem: string) {
@@ -71,6 +73,16 @@ class ApplicationsContainer extends Component<IProps, IState> {
     return newListes.length
   }
 
+  getApplicationsToDisplay(listes: any) {
+    //TODO returns the applications to display: we have to use the category and the formation props 
+    //SELECT students where category of the application = this.props.category and formation = this.props.formation
+    const newListes = listes.filter((elem: { ETAT: number; FORMATION: string; }) => 
+      (elem.ETAT === this.state.currentCategory || this.state.currentCategory === 0) 
+        && (elem.FORMATION === this.state.currentFormation || this.state.currentFormation === 'Toutes')
+    )
+    return newListes
+  }
+
   render() {
       return (
         <div>
@@ -80,7 +92,7 @@ class ApplicationsContainer extends Component<IProps, IState> {
             <ApplicationsDropdownComponent  handleClickCategory={this.changeCategory} />
           </p>
           <p className="list">
-            <ApplicationsList formation={this.state.currentFormation} category={this.state.currentCategory} candidaturesListe={listes} />
+            <ApplicationsList formation={this.state.currentFormation} category={this.state.currentCategory} candidaturesListe={this.getApplicationsToDisplay(listes)} />
           </p>
         </div>
       )

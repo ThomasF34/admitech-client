@@ -4,6 +4,9 @@ import { createApplication, getSingleApplication, updateApplication } from '../.
 import CivilForm from './civilForm';
 import ALevelForm from './aLevelForm';
 import InfoPopUp from '../../helpers/InfoPopUp';
+import SpecialityForm from './specialityForm';
+import AdminForm from './adminForm';
+import { isAdmin } from '../../../helpers/authorizationHelper';
 
 export interface IFields {
   [key: string]: any;
@@ -54,7 +57,8 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       errors: {},
       AreDisplayedBlock: {
         civil: false,
-        bac: false
+        bac: false,
+        admin: false
       },
       draftSuccess: false,
       draftFailure: false,
@@ -197,7 +201,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     })
   }
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
+  handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
 
     if (event.target != null) {
       const newValues = this.state.values
@@ -221,17 +225,22 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       <form style={{ width: '100%', height: '100%' }}>
 
         {/* SPECIALITE */}
-        <div className="container" style={{ width: '30%', padding: '5%' }}>
-          <div className="row">
-            <h4 className="text-info">Candidature pour : </h4>
-            <select name="branch" className="form-control" onChange={this.handleChange}>
-              <option value="" >Selectionner ...</option>
-              <option value="do" selected={this.state.values.branch && this.state.values.branch.toUpperCase() === "DO"}>DO</option>
-              <option value="se" selected={this.state.values.branch && this.state.values.branch.toUpperCase() === "SE"}>SE</option>
-            </select>
-          </div>
-        </div>
+        <SpecialityForm handleChange={this.handleChange} values={this.state.values} />
 
+        {/* ADMIN*/}
+        {isAdmin() ? (
+          <div className="col-md-12">
+
+            <button className="btn btn-lg btn-block shadow" onClick={(e) => { e.preventDefault(); this.changeDisplayMode("admin") }}
+              style={{ backgroundColor: 'rgba(0, 204, 255, 0.863)', marginBottom: '1%' }}>
+              <h4 className="text-white">Administration</h4>
+            </button>
+
+            <AdminForm isDisplayedBlock={this.state.AreDisplayedBlock["admin"]} handleChange={this.handleChange} values={this.state.values} />
+
+          </div>
+        ) : null}
+        
         {/* ETAT CIVIL */}
         <div className="col-md-12">
 

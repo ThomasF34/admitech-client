@@ -42,6 +42,17 @@ const getListOfTypesOfFiles = (attachments: IAttachement[]): IOption[] => {
   return attachmentsBacis;
 }
 
+const getBasicsAttachements = () => {
+  const default_value: IOption = { attach_type: '', typeConverted: '--Type de fichier--' };
+  const cover_letter: IOption = { attach_type: 'cover_letter', typeConverted: 'Lettre de motivation' };
+  const cv: IOption = { attach_type: 'cv', typeConverted: 'CV' };
+  const bac_marks: IOption = { attach_type: 'bac_marks', typeConverted: 'Notes du Bac' };
+  const year_marks: IOption = { attach_type: 'year_marks', typeConverted: 'Notes' };
+  const current_year_marks: IOption = { attach_type: 'current_year_marks', typeConverted: 'Notes année courante' };
+  const notice_further_study: IOption = { attach_type: 'notice_further_study', typeConverted: 'Avis poursuite d\'études' };
+  return [default_value, cover_letter, cv, bac_marks, year_marks, current_year_marks, notice_further_study];
+}
+
 const getTypeConverted = (attach_type: string): string => {
   const typesConverted = ['--Type de fichier--', 'Lettre de motivation', 'CV', 'Notes du Bac', 'Notes', 'Notes année courante', 'Avis poursuite d\'études'];
   const attachTypes = ['', 'cover_letter', 'cv', 'bac_marks', 'year_marks', 'current_year_marks', 'notice_further_study'];
@@ -50,4 +61,4 @@ const getTypeConverted = (attach_type: string): string => {
 }
 
 
-export { getListOfTypesOfFiles, getTypeConverted };
+export { getListOfTypesOfFiles, getTypeConverted, getBasicsAttachements };

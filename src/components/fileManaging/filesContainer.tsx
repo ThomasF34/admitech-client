@@ -1,17 +1,14 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../../style/fileManaging.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-import { handleUpload } from '../../services/filesManaging.service';
 import { deleteAttachmentInApplication } from '../../services/application.service';
-import { getListOfTypesOfFiles, getTypeConverted } from '../../helpers/filesManaging.helper';
+import { getListOfTypesOfFiles, getTypeConverted, getBasicsAttachements } from '../../helpers/filesManaging.helper';
 
 //State and Props
 interface IProps {
   attachments: Array<IAttachement>,
   candId: number,
-  handleChangeAttachement: (elems : IAttachement[]) => void
+  handleChangeAttachement: (elems: IAttachement[]) => void
 }
 
 interface IState {
@@ -57,6 +54,7 @@ class FileContainer extends React.Component<IProps, IState> {
       sizeNotSupproted: false
     };
     this.removeElementInTypes = this.removeElementInTypes.bind(this);
+    this.displayNumberOfMissingFiles = this.displayNumberOfMissingFiles.bind(this);
   }
 
   handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -91,6 +89,13 @@ class FileContainer extends React.Component<IProps, IState> {
     }
   }
 
+  displayNumberOfMissingFiles(): JSX.Element {
+    const numberTotal = getBasicsAttachements().length-1;
+    const numberAdded = this.state.filesAdded.length;
+
+    return (<p>{numberAdded} sur {numberTotal} fichiers fournis</p>)
+  }
+
   handleTypeChange(attach_type: string) {
     this.setState({
       curentTypeFile: attach_type,
@@ -106,11 +111,11 @@ class FileContainer extends React.Component<IProps, IState> {
     } else {
       let urlFile: string = '';
       if (this.props.candId > 0) {
-       // urlFile = await handleUpload(this.state.currentFile);
+        // urlFile = await handleUpload(this.state.currentFile);
       }
       const newAttachement: IAttachement = { url: urlFile, attach_type: this.state.curentTypeFile, file: this.state.currentFile, fileName: this.state.currentFile.name }
       this.removeElementInTypes();
-      const newFiles = [...this.state.filesAdded,newAttachement];
+      const newFiles = [...this.state.filesAdded, newAttachement];
       this.setState({
         filesAdded: newFiles,
         curentTypeFile: '',
@@ -119,8 +124,8 @@ class FileContainer extends React.Component<IProps, IState> {
         added: true
       });
       this.props.handleChangeAttachement(newFiles);
-     
-      
+
+
     }
   }
 
@@ -142,7 +147,7 @@ class FileContainer extends React.Component<IProps, IState> {
     }));
   }
 
-  removeElemFromListAdded(event: React.MouseEvent<HTMLButtonElement, MouseEvent>, file: IAttachement) {
+  removeElemFromListAdded(event: React.MouseEvent<HTMLSpanElement, MouseEvent>, file: IAttachement) {
     event.preventDefault();
     if (this.props.candId > 0) {
       deleteAttachmentInApplication(this.props.candId, file.id!);
@@ -191,10 +196,11 @@ class FileContainer extends React.Component<IProps, IState> {
         <div>
           <hr />
           <h4>Mes fichiers téléchargés</h4>
+          {this.displayNumberOfMissingFiles()}
           {this.state.filesAdded.map(file => (
             <div className='mb-2' key={file.url}><span className="badge badge-success">OK</span> <span className='text-info'>{getTypeConverted(file.attach_type)}</span> :
-                   {file.url !== '' ? <span className='text-secondary'> <a href={file.url} target='_blank' rel="noopener noreferrer">voir</a></span> : <span className='text-secondary'> {file.fileName} </span>}
-              <button className='btn btn-sm btn-danger ml-1' onClick={(e) => this.removeElemFromListAdded(e, file)} > <FontAwesomeIcon icon={faTimesCircle} /></button> </div>
+                   {file.url !== '' ? <span className='text-secondary'> <a href={file.url} target='_blank' rel="noopener noreferrer">Voir</a> | </span> : <span className='text-secondary'> {file.fileName} | </span>}
+              <span className='text-danger ml-1 btn-delete' onClick={(e) => this.removeElemFromListAdded(e, file)}>Supprimer</span> </div>
           ))}
         </div>
       </div>

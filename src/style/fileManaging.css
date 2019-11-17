@@ -10,3 +10,9 @@
 .input-file {
     display: none;
 }
+
+
+.btn-delete:hover{
+text-decoration: underline;
+cursor: pointer;
+}

@@ -1,0 +1,51 @@
+#card-application {
+    width:80% !important;
+    margin-left:10%;
+    margin-right:10%;
+}
+
+#card-subtitle-application {
+    color:black !important;
+    display:inline-block;
+    margin-left: 4%;
+}
+
+#card-subtitle-span-application {
+    color:grey;
+}
+
+#card-body-application {
+    display:block;
+    padding-bottom:1%;
+}
+
+#buttonRefuse {
+    background-color:red;
+    border-color:red;
+    min-width:80px !important;
+    max-width:80px !important;
+    margin-left:5%;
+}
+
+#buttonMCQ {
+    min-width:80px !important;
+    max-width:80px  !important;
+    margin-left:5%;
+}
+
+#buttonJury {
+    min-width:80px !important;
+    max-width:80px !important;
+    margin-left:5%;
+}
+
+.info-icon {
+    width:14px;
+    height:14px;
+}
+
+.buttonsTuile {
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 1%;
+}

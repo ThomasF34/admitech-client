@@ -1,5 +1,29 @@
+
+@import url('https://fonts.googleapis.com/css?family=Oswald:400,500,600&display=swap');
+
+
 .decor-line {
  border-top: 1px solid white;
  margin-top: 10%;
  padding-top: 10%;
+
+}
+
+h5{
+  font-size: 14px;
+  font-weight: 200;
+}
+
+@media only screen and (min-width: 800px) {
+  .desktop{
+    display:block;
+  }
+
+}
+
+@media only screen and (max-width: 800px) {
+  .desktop{
+    display:none;
+  }
+
 }

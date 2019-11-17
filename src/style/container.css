@@ -12,14 +12,14 @@
 
 .main-container{
   position: absolute;
-  top: 5%;
-  left: 5%;
-  right: 5%;
-  bottom: 5%;
+  top: 2%;
+  left: 2%;
+  right: 2%;
+  bottom: 2%;
 }
 
 .white{
-  background-color: whitesmoke;
+  background-color: RGBA(245, 245, 245, 0.8);
   }
 
 h1{

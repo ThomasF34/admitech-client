@@ -22,7 +22,7 @@ interface IState {
 
 interface IProps {
   redirectPath: string,
-  role:string
+  role: string
 }
 
 class SignUpForm extends React.Component<IProps, IState> implements ISignUpForm {
@@ -64,31 +64,31 @@ class SignUpForm extends React.Component<IProps, IState> implements ISignUpForm 
   handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target != null) {
       switch (event.target.name) {
-      case 'email':
-        this.setState({
-          email: event.target.value
-        });
-        break;
-      case 'firstname':
-        this.setState({
-          firstName: event.target.value,
-        });
-        break;
-      case 'lastname':
-        this.setState({
-          lastName: event.target.value
-        });
-        break;
-      case 'password':
-        this.setState({
-          password: event.target.value
-        });
-        break;
-      case 'confirm_password':
-        this.setState({
-          confirmPassword: event.target.value
-        });
-        break;
+        case 'email':
+          this.setState({
+            email: event.target.value
+          });
+          break;
+        case 'firstname':
+          this.setState({
+            firstName: event.target.value,
+          });
+          break;
+        case 'lastname':
+          this.setState({
+            lastName: event.target.value
+          });
+          break;
+        case 'password':
+          this.setState({
+            password: event.target.value
+          });
+          break;
+        case 'confirm_password':
+          this.setState({
+            confirmPassword: event.target.value
+          });
+          break;
       }
     }
   }
@@ -132,8 +132,8 @@ class SignUpForm extends React.Component<IProps, IState> implements ISignUpForm 
             <div className="form-group">
               <div className="form-check">
                 <label className="accept">
-                <input id="check" className="form-check-input input-sm" type="checkbox" required />
-                J'accepte les conditions générales d'utilisation
+                  <input id="check" className="form-check-input input-sm" type="checkbox" required />
+                  J'accepte les conditions générales d'utilisation
                     </label>
               </div>
             </div>

@@ -17,15 +17,15 @@ class ActorNavContainer extends React.Component<IProps> {
   render() {
     return (
       <div style={{ height: '100%' }}>
-        <div className="row no-gutters justify-content-md-center" style={{ backgroundColor: 'rgb(0, 204, 255)', height: '92%', padding: '5%' }}>
+        <div className="row no-gutters justify-content-md-center" style={{ backgroundColor: '#53CDFC', height: '92%', padding: '5%' }}>
 
           {/*profile image and name*/}
           <div className="row justify-content-md-center " style={{ height: '35%' }}>
-            <div className="row justify-content-md-center" style={{ padding: '5%' }}>
+            <div className="row justify-content-md-center" style={{ padding: '1%' }}>
               <img src={this.props.userImage} className="rounded-circle img-fluid shadow-lg" style={{ width: '60%', backgroundColor: 'white' }} alt="profile" />
             </div>
             <div className="row justify-content-md-center" >
-              <h4 style={{ color: 'white', paddingTop: '3%' }}>{getUsername()}</h4>
+              <h4 style={{ color: 'white', fontSize: '12px' , paddingTop: '3%' }}>{getUsername()}</h4>
             </div>
 
           </div>
@@ -43,8 +43,8 @@ class ActorNavContainer extends React.Component<IProps> {
         </div>
 
         {/*logo*/}
-        <div className="row no-gutters" style={{ height: '8%' }}>
-          <div className="container" style={{ width: '60%', paddingTop: '5%' }}>
+        <div className="row no-gutters" style={{ height: '8%' ,boxShadow: '0px 0px 3px #bbb'}}>
+          <div className="container" style={{ width: '80%', paddingTop: '12px' }}>
             <img src={logo} className="img-fluid" alt="logo" />
           </div>
         </div>

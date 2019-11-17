@@ -1,12 +1,8 @@
 import React from 'react';
 import Application from '../../../models/application/application';
 import { createApplication, getSingleApplication, updateApplication } from '../../../services/application.service';
-import CivilForm from './civilForm';
-import ALevelForm from './aLevelForm';
 import InfoPopUp from '../../helpers/InfoPopUp';
-import SpecialityForm from './specialityForm';
-import AdminForm from './adminForm';
-import { isAdmin } from '../../../helpers/authorizationHelper';
+import GlobalApplicationForm from './globalApplicationForm';
 
 export interface IFields {
   [key: string]: any;
@@ -193,14 +189,6 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
   }
 
-  changeDisplayMode = (blockName: string) => {
-    const newDisplayedBlocks = this.state.AreDisplayedBlock
-    newDisplayedBlocks[blockName] = !this.state.AreDisplayedBlock[blockName]
-    this.setState({
-      AreDisplayedBlock: newDisplayedBlocks
-    })
-  }
-
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
 
     if (event.target != null) {
@@ -224,44 +212,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
       <form style={{ width: '100%', height: '100%' }}>
 
-        {/* SPECIALITE */}
-        <SpecialityForm handleChange={this.handleChange} values={this.state.values} />
-
-        {/* ADMIN*/}
-        {isAdmin() ? (
-          <div className="col-md-12">
-
-            <button className="btn btn-lg btn-block shadow" onClick={(e) => { e.preventDefault(); this.changeDisplayMode("admin") }}
-              style={{ backgroundColor: 'rgba(0, 204, 255, 0.863)', marginBottom: '1%' }}>
-              <h4 className="text-white">Administration</h4>
-            </button>
-
-            <AdminForm isDisplayedBlock={this.state.AreDisplayedBlock["admin"]} handleChange={this.handleChange} values={this.state.values} />
-
-          </div>
-        ) : null}
-        
-        {/* ETAT CIVIL */}
-        <div className="col-md-12">
-
-          <button className="btn btn-lg btn-block shadow" onClick={(e) => { e.preventDefault(); this.changeDisplayMode("civil") }}
-            style={{ backgroundColor: 'rgba(0, 204, 255, 0.863)', marginBottom: '1%' }}>
-            <h4 className="text-white">Etat Civil</h4>
-          </button>
-
-          <CivilForm isDisplayedBlock={this.state.AreDisplayedBlock["civil"]} handleChange={this.handleChange} values={this.state.values} />
-
-        </div>
-
-        {/* BAC */}
-        <div className="col-md-12">
-          <button className="btn btn-lg btn-block shadow" onClick={(e) => { e.preventDefault(); this.changeDisplayMode("bac") }} style={{ backgroundColor: 'rgba(0, 204, 255, 0.863)', marginBottom: '1%' }}>
-            <h4 className="text-white">Baccalauréat</h4>
-          </button>
-
-          <ALevelForm isDisplayedBlock={this.state.AreDisplayedBlock["bac"]} handleChange={this.handleChange} values={this.state.values} />
-        </div>
-
+        <GlobalApplicationForm handleChange={this.handleChange} values={this.state.values}/>
 
         <div className="row justify-content-md-center" style={{ marginTop: '3%' }}>
           <div className="col-md-2">

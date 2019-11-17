@@ -35,15 +35,13 @@ class ApplicationsPage extends React.Component {
                     </div>
                   </div>
                 </div>
+                
                 <div className="row no-gutters " style={{ padding: '0.7%' }}>
                   <div className="fill-container shadow-lg white">
-                    <div className="row fill-container align-items-center">
-                      <div className="container">
-                        <ApplicationsContainer />
-                      </div>
-                    </div>
+                    <ApplicationsContainer />
                   </div>
                 </div>
+
                 <div className="row no-gutters" style={{ width: '100%', height: '10%', padding: '0.7%' }}>
                   <BottomBar />
                 </div>

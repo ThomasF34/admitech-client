@@ -1,9 +1,9 @@
 import React from 'react';
 import Application from '../../../models/application/application';
-import { createApplication, getSingleApplication } from '../../../services/application.service';
-import PopUp from '../../helpers/popUp';
+import { createApplication, getSingleApplication, updateApplication } from '../../../services/application.service';
 import CivilForm from './civilForm';
 import ALevelForm from './aLevelForm';
+import InfoPopUp from '../../helpers/InfoPopUp';
 
 export interface IFields {
   [key: string]: any;
@@ -19,6 +19,9 @@ interface IState {
   errors: IFields,
   AreDisplayedBlock: IFields,
   draftSuccess: boolean,
+  draftFailure: boolean,
+  error: boolean,
+  errorMessage: string
 
 }
 
@@ -37,9 +40,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
             values: res.data
           });
         })
-        .catch((e) => {
-          console.log(e)
-        })
+        .catch((e) => this.error(e))
     }
 
   }
@@ -53,39 +54,56 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
         civil: false,
         bac: false
       },
-      draftSuccess: false
+      draftSuccess: false,
+      draftFailure: false,
+      error: false,
+      errorMessage:""
     };
   }
 
-  closeDraftPopUP = () => {
+  closeDraftSuccessPopUP = () => {
     if (this.state.draftSuccess === true)
       this.setState({
         draftSuccess: false
       });
   }
 
+  closeErrorPopUP = () => {
+    if (this.state.error === true)
+      this.setState({
+        error: false
+      });
+  }
+
+  error = (e: any) => {
+    this.setState({
+      error: true,
+      errorMessage: e.response.data
+    })
+  }
+
   submitDraft = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 
     event.preventDefault();
     const formValues = this.state.values
-    const application = new Application(formValues, true)
+
     const success = () => {
       this.setState({
         draftSuccess: true
       })
     }
-    const error = (e: Error) => {
-      this.setState({
-        draftSuccess: false
-      })
-      console.log(e)
 
-    }
+    let existingAppId = this.state.values.id
+    const application = new Application(formValues, true)
 
-    //call to the api !!!!!!!!!!! should check if should be post or update
-    createApplication(application)
-      .then(rep => success())
-      .catch(e => error(e));
+    if (existingAppId)
+      updateApplication(existingAppId, application)
+        .then(rep => success())
+        .catch(e => this.error(e));
+    else
+      createApplication(application)
+        .then(rep => success())
+        .catch(e => this.error(e));
 
   }
 
@@ -124,10 +142,10 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
         <div className="container" style={{ width: '40%', padding: '5%' }}>
 
           <h4 className="text-danger">Candidature pour : </h4>
-          <select name="branch" className="form-control"  onChange={this.handleChange}>
+          <select name="branch" className="form-control" onChange={this.handleChange}>
             <option value="" >Selectionner ...</option>
-            <option value="DO" selected={this.state.values.branch && this.state.values.branch.toUpperCase()==="DO"}>DO</option>
-            <option value="SE" selected={this.state.values.branch && this.state.values.branch.toUpperCase()==="SE"}>SE</option>
+            <option value="DO" selected={this.state.values.branch && this.state.values.branch.toUpperCase() === "DO"}>DO</option>
+            <option value="SE" selected={this.state.values.branch && this.state.values.branch.toUpperCase() === "SE"}>SE</option>
           </select>
         </div>
 
@@ -162,9 +180,12 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
             <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit">Envoyer</button>
             <small className="text-success">Soumettre à Polytech</small>
           </div>
-          <PopUp title="Brouillon Candidature" content="Votre brouillon de candidature a bien été sauvegardé. Vous pourrez le retrouver dans le menu 'Mes candidatures'."
-            show={this.state.draftSuccess} onClose={this.closeDraftPopUP} />
         </div>
+
+        <InfoPopUp isError={false} title="Brouillon Candidature" content="Votre brouillon de candidature a bien été sauvegardé. Vous pourrez le retrouver dans le menu 'Mes candidatures'."
+          show={this.state.draftSuccess} onClose={this.closeDraftSuccessPopUP} />
+        <InfoPopUp isError={true} title="ERREUR" content={this.state.errorMessage===""?"Une erreur innatendue s'est produite.":this.state.errorMessage}
+          show={this.state.error} onClose={this.closeErrorPopUP} />
 
       </form >
     );

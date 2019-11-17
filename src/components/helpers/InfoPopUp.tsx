@@ -3,6 +3,7 @@ import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
 interface IProps {
+  isError: boolean,
   title: string,
   content: string,
   show: boolean,
@@ -12,7 +13,7 @@ interface IProps {
 interface IState {
   closed: boolean
 }
-class PopUp extends React.Component<IProps, IState> {
+class InfoPopUp extends React.Component<IProps, IState> {
   render() {
     return (
 
@@ -20,9 +21,9 @@ class PopUp extends React.Component<IProps, IState> {
         <Modal.Header closeButton>
           <Modal.Title>{this.props.title}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{this.props.content}</Modal.Body>
+        <Modal.Body><p className={this.props.isError ? "text-danger" : "text-success"}>{this.props.content}</p></Modal.Body>
         <Modal.Footer>
-          <Button variant="success" onClick={() => this.props.onClose()}>
+          <Button variant={this.props.isError ? "danger" : "success"} onClick={() => this.props.onClose()}>
             OK
           </Button>
         </Modal.Footer>
@@ -32,4 +33,4 @@ class PopUp extends React.Component<IProps, IState> {
   }
 }
 
-export default PopUp;
+export default InfoPopUp;

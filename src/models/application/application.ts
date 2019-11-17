@@ -34,7 +34,6 @@ class Experiences {
 }
 class Application implements IFields {
 
-  public id: string | null;
   public address: string | null;
   public admin_comment: string | null;
   public attachments: [Attachments];
@@ -83,8 +82,8 @@ class Application implements IFields {
 
 
   constructor(application: IFields, isDraft: boolean) {
+    
     this.draft = isDraft
-    this.id = application.id === undefined ? null : application.id;
     this.address = application.address === undefined ? null : application.address;
     this.admin_comment = application.admin_comment === undefined ? null : application.admin_comment;
     this.attachments = application.attachments === undefined ? [] : application.attachments;

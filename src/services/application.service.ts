@@ -3,7 +3,7 @@ import * as config from './configApi.service';
 import Application from '../models/application/application';
 import { getToken } from './token.service';
 
-const getSingleApplication = async (id:string) => {
+const getSingleApplication = async (id: string) => {
   const res = await axios
     .get(`${config.API_URL}/candidature/${id}`,
       {
@@ -12,10 +12,20 @@ const getSingleApplication = async (id:string) => {
     );
   return res;
 };
- 
+
 const createApplication = async (application: Application) => {
   const res = await axios
     .post(`${config.API_URL}/candidature`, application,
+      {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      }
+    );
+  return res;
+};
+
+const updateApplication = async (id: string, application: Application) => {
+  const res = await axios
+    .put(`${config.API_URL}/candidature/${id}`, application,
       {
         headers: { Authorization: `Bearer ${getToken()}` }
       }
@@ -34,5 +44,5 @@ const myApplications = async () => {
 };
 
 
-export { createApplication, myApplications, getSingleApplication };
+export { createApplication, myApplications, getSingleApplication, updateApplication };
 

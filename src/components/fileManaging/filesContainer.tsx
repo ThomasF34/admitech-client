@@ -7,11 +7,11 @@ import { handleUpload } from '../../services/filesManaging.service';
 import { deleteAttachmentInApplication } from '../../services/application.service';
 import { getListOfTypesOfFiles, getTypeConverted } from '../../helpers/filesManaging.helper';
 
-
 //State and Props
 interface IProps {
   attachments: Array<IAttachement>,
-  candId: number
+  candId: number,
+  handleChangeAttachement: (elems : IAttachement[]) => void
 }
 
 interface IState {
@@ -33,7 +33,7 @@ interface IAttachement {
   attach_type: string,
   url: string,
   fileName: string
-  file: any
+  file?: any
 }
 
 interface IOption {
@@ -106,17 +106,21 @@ class FileContainer extends React.Component<IProps, IState> {
     } else {
       let urlFile: string = '';
       if (this.props.candId > 0) {
-        urlFile = await handleUpload(this.state.currentFile);
+       // urlFile = await handleUpload(this.state.currentFile);
       }
       const newAttachement: IAttachement = { url: urlFile, attach_type: this.state.curentTypeFile, file: this.state.currentFile, fileName: this.state.currentFile.name }
       this.removeElementInTypes();
-      this.setState(previousState => ({
-        filesAdded: [...previousState.filesAdded, newAttachement],
+      const newFiles = [...this.state.filesAdded,newAttachement];
+      this.setState({
+        filesAdded: newFiles,
         curentTypeFile: '',
         currentFile: null,
         error: false,
         added: true
-      }));
+      });
+      this.props.handleChangeAttachement(newFiles);
+     
+      
     }
   }
 
@@ -152,6 +156,7 @@ class FileContainer extends React.Component<IProps, IState> {
       deleted: true,
       added: false
     });
+    this.props.handleChangeAttachement(newList);
     this.resetListOfTypes(file.attach_type);
   }
 

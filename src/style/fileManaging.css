@@ -12,7 +12,8 @@
 }
 
 
-.btn-delete:hover{
+
+.btn-see:hover, .btn-delete:hover{
 text-decoration: underline;
 cursor: pointer;
 }

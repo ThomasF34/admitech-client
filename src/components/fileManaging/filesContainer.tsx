@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import '../../style/fileManaging.css';
 import { deleteAttachmentInApplication } from '../../services/application.service';
 import { getListOfTypesOfFiles, getTypeConverted, getBasicsAttachements } from '../../helpers/filesManaging.helper';
+import { handleUpload, getRessource } from '../../services/filesManaging.service';
 
 //State and Props
 interface IProps {
@@ -28,7 +29,7 @@ interface IState {
 interface IAttachement {
   id?: number,
   attach_type: string,
-  url: string,
+  key: string,
   fileName: string
   file?: any
 }
@@ -90,7 +91,7 @@ class FileContainer extends React.Component<IProps, IState> {
   }
 
   displayNumberOfMissingFiles(): JSX.Element {
-    const numberTotal = getBasicsAttachements().length-1;
+    const numberTotal = getBasicsAttachements().length - 1;
     const numberAdded = this.state.filesAdded.length;
 
     return (<p>{numberAdded} sur {numberTotal} fichiers fournis</p>)
@@ -109,11 +110,11 @@ class FileContainer extends React.Component<IProps, IState> {
     if (this.state.curentTypeFile === '' || this.state.currentFile === null) {
       this.setState({ error: true });
     } else {
-      let urlFile: string = '';
+      let fileKey: string = '';
       if (this.props.candId > 0) {
-        // urlFile = await handleUpload(this.state.currentFile);
+        fileKey = await handleUpload(this.state.currentFile);
       }
-      const newAttachement: IAttachement = { url: urlFile, attach_type: this.state.curentTypeFile, file: this.state.currentFile, fileName: this.state.currentFile.name }
+      const newAttachement: IAttachement = { key: fileKey, attach_type: this.state.curentTypeFile, file: this.state.currentFile, fileName: this.state.currentFile.name }
       this.removeElementInTypes();
       const newFiles = [...this.state.filesAdded, newAttachement];
       this.setState({
@@ -165,6 +166,15 @@ class FileContainer extends React.Component<IProps, IState> {
     this.resetListOfTypes(file.attach_type);
   }
 
+  async openDocTab(key: string) {
+    try {
+      const url = await getRessource(key);
+      window.open(url, '_blank');
+    } catch {
+      alert("Désolé, une erreur s'est produite");
+    }
+  }
+
   render() {
     return (
       <div className='container bg-light mt-5 p-3'>
@@ -198,8 +208,8 @@ class FileContainer extends React.Component<IProps, IState> {
           <h4>Mes fichiers téléchargés</h4>
           {this.displayNumberOfMissingFiles()}
           {this.state.filesAdded.map(file => (
-            <div className='mb-2' key={file.url}><span className="badge badge-success">OK</span> <span className='text-info'>{getTypeConverted(file.attach_type)}</span> :
-                   {file.url !== '' ? <span className='text-secondary'> <a href={file.url} target='_blank' rel="noopener noreferrer">Voir</a> | </span> : <span className='text-secondary'> {file.fileName} | </span>}
+            <div className='mb-2' key={file.key}><span className="badge badge-success">OK</span> <span className='text-info'>{getTypeConverted(file.attach_type)}</span> :
+                   {file.key !== '' ? <span className='text-secondary'> <span className="text-info mx-1 btn-see" onClick={(e) => this.openDocTab(file.key)}>Voir</span> | </span> : <span className='text-secondary'> {file.fileName} | </span>}
               <span className='text-danger ml-1 btn-delete' onClick={(e) => this.removeElemFromListAdded(e, file)}>Supprimer</span> </div>
           ))}
         </div>

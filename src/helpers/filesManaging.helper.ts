@@ -2,7 +2,7 @@
 interface IAttachement {
   id?: number,
   attach_type: string,
-  url: string,
+  key: string,
   file?: any,
   fileName: string
 }

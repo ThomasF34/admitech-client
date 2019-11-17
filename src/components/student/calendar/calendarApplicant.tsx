@@ -1,12 +1,16 @@
 import * as React from 'react';
 import Paper from '@material-ui/core/Paper';
-import { ViewState } from '@devexpress/dx-react-scheduler';
+import { ViewState, AppointmentModel } from '@devexpress/dx-react-scheduler';
 import { Scheduler, WeekView, Appointments, Toolbar, DateNavigator, TodayButton} from '@devexpress/dx-react-scheduler-material-ui';
+
+const Appointment: React.ComponentType<Appointments.AppointmentProps> = (props) => {
+  return <Appointments.Appointment {...props} onClick={()=>console.log(props.data)} />;
+};
 
 interface IProps {}
 
 interface IState {
-    data: any,
+    data: Array<AppointmentModel>,
 }
 
 class CalendarApplicant extends React.PureComponent<IProps, IState> {
@@ -28,6 +32,7 @@ class CalendarApplicant extends React.PureComponent<IProps, IState> {
         <Scheduler
           data={this.state.data}
           height={660}
+          locale='fr-FR'
         >
           <ViewState
             defaultCurrentDate="2019-11-18"
@@ -42,8 +47,9 @@ class CalendarApplicant extends React.PureComponent<IProps, IState> {
           <Toolbar />
           <DateNavigator />
           <TodayButton />
-          <Appointments />
-
+          <Appointments 
+            appointmentComponent={Appointment}
+          />
         </Scheduler>
       </Paper>
     );

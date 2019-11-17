@@ -43,6 +43,21 @@ const handleUpload = async (file: File) => {
   });
 }
 
+ const deleteFileInS3 = (fileKey: string) => {
+  const token = getToken();
+  try {
+    return axios.delete(`${configApi.API_URL}/document?key=${fileKey}`,{
+      headers: { Authorization: `Bearer ${token}` }
+    }).then(result => {
+      console.log("Response from s3 when deleting")
+    });
+  }
+  catch (error) {
+    throw error.response;
+  }
+};
+
+
 const getRessource = (ressourceKey: string) => {
   return axios.get(`${configApi.API_URL}/document/access`, {
     params: {
@@ -51,4 +66,4 @@ const getRessource = (ressourceKey: string) => {
     headers: { Authorization: `Bearer ${getToken()}` }
   }).then(res => res.data);
 }
-export { handleUpload, getRessource };
+export { handleUpload, getRessource, deleteFileInS3 };

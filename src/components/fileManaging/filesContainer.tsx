@@ -3,8 +3,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import '../../style/fileManaging.css';
 import { deleteAttachmentInApplication } from '../../services/application.service';
 import { getListOfTypesOfFiles, getTypeConverted, getBasicsAttachements } from '../../helpers/filesManaging.helper';
-import { handleUpload, getRessource } from '../../services/filesManaging.service';
-import { Modal, Button } from 'react-bootstrap';
+import { handleUpload, getRessource, deleteFileInS3 } from '../../services/filesManaging.service';
+import PopUpGuard from './popUpGuard';
 
 //State and Props
 interface IProps {
@@ -12,7 +12,7 @@ interface IProps {
   candId: number,
   handleChangeAttachement: (elems: IAttachement[]) => void
 }
- 
+
 interface IState {
   typesList: Array<IOption>,
   currentFile: any,
@@ -24,7 +24,9 @@ interface IState {
   formatNotSupproted: boolean,
   disabled: boolean,
   sizeNotSupproted: boolean,
-  showPopup: boolean
+  showPopup: boolean,
+  validated: boolean,
+  fileToDelete: IAttachement
 }
 //Utils Interfaces
 
@@ -33,7 +35,7 @@ interface IAttachement {
   attach_type: string,
   key: string,
   fileName: string
-  file?: any
+  file?: File
 }
 
 interface IOption {
@@ -55,15 +57,28 @@ class FileContainer extends React.Component<IProps, IState> {
       formatNotSupproted: false,
       disabled: true,
       sizeNotSupproted: false,
-      showPopup: false
+      showPopup: false,
+      validated: false,
+      fileToDelete: { attach_type: '', fileName: '', key: '' }
     };
     this.removeElementInTypes = this.removeElementInTypes.bind(this);
     this.displayNumberOfMissingFiles = this.displayNumberOfMissingFiles.bind(this);
   }
-  openPopUp = () => {
+
+  confirmPopUp = async (file: IAttachement) => {
     this.setState({
-      showPopup: true
-    })
+      showPopup: true,
+      fileToDelete: file
+    });
+  }
+
+  responsePopUp = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, value: boolean) => {
+    this.setState({
+      validated: value,
+      showPopup: false
+    }, () => {
+      this.removeElemFromListAdded(event, this.state.fileToDelete);
+    });
   }
 
   closePopUp = () => {
@@ -74,7 +89,6 @@ class FileContainer extends React.Component<IProps, IState> {
   }
 
   handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
-    let reader = new FileReader();
     let file = e.target.files![0];
     const extension = file.name.split('.')
 
@@ -96,7 +110,6 @@ class FileContainer extends React.Component<IProps, IState> {
         disabled: false,
         sizeNotSupproted: false,
       });
-      reader.readAsDataURL(file);
     } else {
       this.setState({
         formatNotSupproted: true,
@@ -108,7 +121,7 @@ class FileContainer extends React.Component<IProps, IState> {
   displayNumberOfMissingFiles(): JSX.Element {
     const numberTotal = getBasicsAttachements().length - 1;
     const numberAdded = this.state.filesAdded.length;
-    return (<p>{numberAdded} sur {numberTotal} fichiers fournis</p>)
+    return (<p>{numberAdded} sur {numberTotal} fichiers fournis</p>);
   }
 
   handleTypeChange(attach_type: string) {
@@ -125,9 +138,7 @@ class FileContainer extends React.Component<IProps, IState> {
       this.setState({ error: true });
     } else {
       let fileKey: string = '';
-      if (this.props.candId > 0) {
-        fileKey = await handleUpload(this.state.currentFile);
-      }
+      fileKey = await handleUpload(this.state.currentFile);
       const newAttachement: IAttachement = { key: fileKey, attach_type: this.state.curentTypeFile, file: this.state.currentFile, fileName: this.state.currentFile.name }
       this.removeElementInTypes();
       const newFiles = [...this.state.filesAdded, newAttachement];
@@ -144,13 +155,13 @@ class FileContainer extends React.Component<IProps, IState> {
 
   removeElementInTypes() {
     const listTypes = this.state.typesList
-    const currentFile = this.state.curentTypeFile;
+    const curentTypeFile = this.state.curentTypeFile;
     const newList = listTypes.filter(function (type) {
-      return type.attach_type !== currentFile;
+      return type.attach_type !== curentTypeFile;
     });
     this.setState({
       typesList: newList
-    })
+    });
   }
 
   resetListOfTypes(typeFile: string) {
@@ -160,11 +171,15 @@ class FileContainer extends React.Component<IProps, IState> {
     }));
   }
 
-  removeElemFromListAdded(event: React.MouseEvent<HTMLSpanElement, MouseEvent>, file: IAttachement) {
+  removeElemFromListAdded(event: React.MouseEvent<HTMLButtonElement, MouseEvent>, file: IAttachement) {
     event.preventDefault();
+
     if (this.props.candId > 0) {
       deleteAttachmentInApplication(this.props.candId, file.id!);
     }
+    //Delete evry time on AWS
+    deleteFileInS3(file.key);
+
     const listAdded = this.state.filesAdded;
     const newList = listAdded.filter(function (elem) {
       return elem.attach_type !== file.attach_type;
@@ -221,28 +236,13 @@ class FileContainer extends React.Component<IProps, IState> {
           <h4>Mes fichiers téléchargés</h4>
           {this.displayNumberOfMissingFiles()}
           {this.state.filesAdded.map(file => (
-
-        <div className='mb-2' key={file.key}><span className="badge badge-success">OK</span> <span className='text-info'>{getTypeConverted(file.attach_type)}</span> :
+            <div className='mb-2' key={file.key}><span className="badge badge-success">OK</span> <span className='text-info'>{getTypeConverted(file.attach_type)}</span> :
                    {file.key !== '' ? <span className='text-secondary'> <span className="text-info mx-1 btn-see" onClick={(e) => this.openDocTab(file.key)}>Voir</span> | </span> : <span className='text-secondary'> {file.fileName} | </span>}
-               <span className='text-danger ml-1 btn-delete' onClick={() => this.openPopUp()}>Supprimer</span>
-   
-              <Modal show={this.state.showPopup} onHide={() => this.closePopUp()}>
-                <Modal.Header closeButton>
-                  <Modal.Title>Suppression d'un fichier</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Etes-vous sûr de vouloir supprimer ce fichier?</Modal.Body>
-                <Modal.Footer>
-                  <Button variant="secondary" onClick={() => this.closePopUp()}>
-                    Annuler
-                  </Button>
-                  <Button variant="danger" onClick={(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => this.removeElemFromListAdded(e, file)}>
-                    Supprimer
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+              <span className='text-danger ml-1 btn-delete' onClick={() => this.confirmPopUp(file)}>Supprimer</span>
             </div>
           ))}
         </div>
+        {this.state.showPopup ? <PopUpGuard showPopup={this.state.showPopup} closePopUp={this.closePopUp} onClickDelete={this.responsePopUp} /> : null}
       </div>
     );
   }

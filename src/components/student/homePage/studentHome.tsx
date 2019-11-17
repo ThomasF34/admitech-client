@@ -13,7 +13,6 @@ import SoftApplication from '../../../models/application/softApplication';
 import {myApplications } from '../../../services/application.service';
 
 interface IProps {
-  //applications : SoftApplication[] | null
 }
 
 interface IState {

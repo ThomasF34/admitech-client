@@ -1,6 +1,6 @@
 import React from 'react';
 import Application from '../../../models/application/application';
-import { draftApplication } from '../../../services/application.service';
+import { createApplication, getSingleApplication } from '../../../services/application.service';
 import PopUp from '../../helpers/popUp';
 import CivilForm from './civilForm';
 import ALevelForm from './aLevelForm';
@@ -18,19 +18,36 @@ interface IState {
   values: IFields,
   errors: IFields,
   AreDisplayedBlock: IFields,
-  draftSuccess: boolean
+  draftSuccess: boolean,
+
 }
 
 interface IProps {
-  existingApplication: Application | null
+  existingApplicationId: string | undefined
 }
 
 class CreateApplicationForm extends React.Component<IProps, IState> implements IForm {
 
+  componentDidMount() {
+    if (this.props.existingApplicationId !== undefined) {
+
+      getSingleApplication(this.props.existingApplicationId)
+        .then(res => {
+          this.setState({
+            values: res.data
+          });
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    }
+
+  }
+
   constructor(props: IProps) {
     super(props);
     this.state = {
-      values: this.props.existingApplication ? this.props.existingApplication : {},
+      values: {},
       errors: {},
       AreDisplayedBlock: {
         civil: false,
@@ -65,8 +82,8 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
     }
 
-    //call to the api
-    draftApplication(application)
+    //call to the api !!!!!!!!!!! should check if should be post or update
+    createApplication(application)
       .then(rep => success())
       .catch(e => error(e));
 
@@ -116,7 +133,8 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
         {/* SPECIALITE */}
         <div className="container" style={{ width: '40%', padding: '5%' }}>
-          <h4 className="text-danger">Candidature pour : </h4>
+
+          <h4 className="text-danger">Candidature pour : {this.state.values.branch}</h4>
           <select name="branch" className="form-control" placeholder="Sélectionner une valeur" value={this.state.values.branch} onChange={this.setSelect}>
             <option value="" >Selectionner ...</option>
             <option value="single" >DO</option>

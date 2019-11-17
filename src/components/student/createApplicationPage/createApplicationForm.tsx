@@ -20,6 +20,8 @@ interface IState {
   AreDisplayedBlock: IFields,
   draftSuccess: boolean,
   draftFailure: boolean,
+  applicationSuccess: boolean,
+  applicationFailure: boolean,
   error: boolean,
   errorMessage: string
 
@@ -56,8 +58,10 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       },
       draftSuccess: false,
       draftFailure: false,
+      applicationSuccess: false,
+      applicationFailure: false,
       error: false,
-      errorMessage:""
+      errorMessage: ""
     };
   }
 
@@ -65,6 +69,20 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     if (this.state.draftSuccess === true)
       this.setState({
         draftSuccess: false
+      });
+  }
+
+  closeApplicationSuccessPopUP = () => {
+    if (this.state.applicationSuccess === true)
+      this.setState({
+        applicationSuccess: false
+      });
+  }
+  closeFailurePopUP = () => {
+    if (this.state.applicationFailure === true || this.state.draftFailure === true)
+      this.setState({
+        applicationFailure: false,
+        draftFailure: false
       });
   }
 
@@ -94,9 +112,16 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       })
     }
 
-    const successCreate = (reponse:any) => {
+    const missingFields = (reponse: any) => {
       this.setState({
-        draftSuccess: true, 
+        draftFailure: true,
+        errors: reponse.data
+      })
+    }
+
+    const successCreate = (reponse: any) => {
+      this.setState({
+        draftSuccess: true,
         values: reponse.data
       })
     }
@@ -111,7 +136,56 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     else
       createApplication(application)
         .then(rep => successCreate(rep))
+        .catch(e => {
+          if (e.status === 400)
+            missingFields(e)
+          else
+            this.error(e)
+        });
+
+  }
+
+  submitApplication = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+
+    event.preventDefault();
+    const formValues = this.state.values
+
+    const successUpdate = () => {
+      this.setState({
+        applicationSuccess: true
+      })
+    }
+
+    const successCreate = (reponse: any) => {
+      this.setState({
+        applicationSuccess: true,
+        values: reponse.data
+      })
+    }
+
+    const missingFields = (reponse: any) => {
+      this.setState({
+        applicationFailure: true,
+        errors: reponse.data
+      })
+    }
+
+    let existingAppId = this.state.values.id
+    const application = new Application(formValues, false)
+
+    if (existingAppId)
+      updateApplication(existingAppId, application)
+        .then(rep => successUpdate())
         .catch(e => this.error(e));
+    else
+      createApplication(application)
+        .then(rep => successCreate(rep))
+        .catch(e => {
+          if (e.status === 400)
+            missingFields(e)
+          else
+            this.error(e)
+        });
 
   }
 
@@ -148,13 +222,13 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
         {/* SPECIALITE */}
         <div className="container" style={{ width: '30%', padding: '5%' }}>
-        <div className="row">
-          <h4 className="text-info">Candidature pour : </h4>
-          <select name="branch" className="form-control" onChange={this.handleChange}>
-            <option value="" >Selectionner ...</option>
-            <option value="do" selected={this.state.values.branch && this.state.values.branch.toUpperCase() === "DO"}>DO</option>
-            <option value="se" selected={this.state.values.branch && this.state.values.branch.toUpperCase() === "SE"}>SE</option>
-          </select>
+          <div className="row">
+            <h4 className="text-info">Candidature pour : </h4>
+            <select name="branch" className="form-control" onChange={this.handleChange}>
+              <option value="" >Selectionner ...</option>
+              <option value="do" selected={this.state.values.branch && this.state.values.branch.toUpperCase() === "DO"}>DO</option>
+              <option value="se" selected={this.state.values.branch && this.state.values.branch.toUpperCase() === "SE"}>SE</option>
+            </select>
           </div>
         </div>
 
@@ -186,15 +260,19 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
             <small className="text-secondary">Enregistrer en tant que brouillon</small>
           </div>
           <div className="col-md-2">
-            <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit">Envoyer</button>
+            <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Envoyer</button>
             <small className="text-success">Soumettre à Polytech</small>
           </div>
         </div>
 
         <InfoPopUp isError={false} title="Brouillon Candidature" content="Votre brouillon de candidature a bien été sauvegardé. Vous pourrez le retrouver dans le menu 'Mes candidatures'."
           show={this.state.draftSuccess} onClose={this.closeDraftSuccessPopUP} />
-        <InfoPopUp isError={true} title="ERREUR" content={this.state.errorMessage===""?"Une erreur innatendue s'est produite.":this.state.errorMessage}
+        <InfoPopUp isError={false} title="Envoie de votre Candidature" content="Votre candidature a bien été envoyée. Nous pouvez dès maintenant suivre son avancement."
+          show={this.state.applicationSuccess} onClose={this.closeApplicationSuccessPopUP} />
+        <InfoPopUp isError={true} title="ERREUR" content={this.state.errorMessage === "" ? "Une erreur innatendue s'est produite." : this.state.errorMessage}
           show={this.state.error} onClose={this.closeErrorPopUP} />
+        <InfoPopUp isError={true} title="ERREUR" content="Veuillez remplire tous les champs nécessaires s'il vous plait."
+          show={this.state.applicationFailure || this.state.draftFailure} onClose={this.closeFailurePopUP} />
 
       </form >
     );

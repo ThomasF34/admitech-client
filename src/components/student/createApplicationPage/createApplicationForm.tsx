@@ -80,6 +80,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       error: true,
       errorMessage: e.response.data
     })
+    console.log(e)
   }
 
   submitDraft = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -87,9 +88,16 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     event.preventDefault();
     const formValues = this.state.values
 
-    const success = () => {
+    const successUpdate = () => {
       this.setState({
         draftSuccess: true
+      })
+    }
+
+    const successCreate = (reponse:any) => {
+      this.setState({
+        draftSuccess: true, 
+        values: reponse.data
       })
     }
 
@@ -98,11 +106,11 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
     if (existingAppId)
       updateApplication(existingAppId, application)
-        .then(rep => success())
+        .then(rep => successUpdate())
         .catch(e => this.error(e));
     else
       createApplication(application)
-        .then(rep => success())
+        .then(rep => successCreate(rep))
         .catch(e => this.error(e));
 
   }
@@ -139,14 +147,15 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       <form style={{ width: '100%', height: '100%' }}>
 
         {/* SPECIALITE */}
-        <div className="container" style={{ width: '40%', padding: '5%' }}>
-
-          <h4 className="text-danger">Candidature pour : </h4>
+        <div className="container" style={{ width: '30%', padding: '5%' }}>
+        <div className="row">
+          <h4 className="text-info">Candidature pour : </h4>
           <select name="branch" className="form-control" onChange={this.handleChange}>
             <option value="" >Selectionner ...</option>
-            <option value="DO" selected={this.state.values.branch && this.state.values.branch.toUpperCase() === "DO"}>DO</option>
-            <option value="SE" selected={this.state.values.branch && this.state.values.branch.toUpperCase() === "SE"}>SE</option>
+            <option value="do" selected={this.state.values.branch && this.state.values.branch.toUpperCase() === "DO"}>DO</option>
+            <option value="se" selected={this.state.values.branch && this.state.values.branch.toUpperCase() === "SE"}>SE</option>
           </select>
+          </div>
         </div>
 
         {/* ETAT CIVIL */}

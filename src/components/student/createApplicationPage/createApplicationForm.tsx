@@ -97,20 +97,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     })
   }
 
-  setSelect = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-
-    if (event.target != null) {
-      const newValues = this.state.values
-      const field: string = event.target.name
-      newValues[field] = event.target.value
-      console.log(newValues)
-      this.setState({
-        values: newValues
-      });
-    }
-  }
-
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
 
     if (event.target != null) {
       const newValues = this.state.values
@@ -121,6 +108,8 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       this.setState({
         values: newValues
       });
+
+      console.log(this.state.values)
 
     }
   }
@@ -134,11 +123,11 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
         {/* SPECIALITE */}
         <div className="container" style={{ width: '40%', padding: '5%' }}>
 
-          <h4 className="text-danger">Candidature pour : {this.state.values.branch}</h4>
-          <select name="branch" className="form-control" placeholder="Sélectionner une valeur" value={this.state.values.branch} onChange={this.setSelect}>
+          <h4 className="text-danger">Candidature pour : </h4>
+          <select name="branch" className="form-control"  onChange={this.handleChange}>
             <option value="" >Selectionner ...</option>
-            <option value="single" >DO</option>
-            <option value="married">SE</option>
+            <option value="DO" selected={this.state.values.branch && this.state.values.branch.toUpperCase()==="DO"}>DO</option>
+            <option value="SE" selected={this.state.values.branch && this.state.values.branch.toUpperCase()==="SE"}>SE</option>
           </select>
         </div>
 
@@ -150,7 +139,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
             <h4 className="text-white">Etat Civil</h4>
           </button>
 
-          <CivilForm isDisplayedBlock={this.state.AreDisplayedBlock["civil"]} setSelect={this.setSelect} handleChange={this.handleChange} values={this.state.values} />
+          <CivilForm isDisplayedBlock={this.state.AreDisplayedBlock["civil"]} handleChange={this.handleChange} values={this.state.values} />
 
         </div>
 

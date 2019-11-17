@@ -3,8 +3,7 @@ import { getEmail } from '../../../helpers/authorizationHelper';
 import { IFields } from './createApplicationForm';
 
 interface IProps {
-  handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  setSelect: (event: React.ChangeEvent<HTMLSelectElement>) => void,
+  handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
   isDisplayedBlock: boolean,
   values:IFields
 }
@@ -49,11 +48,11 @@ class CivilForm extends React.Component<IProps>{
                   </div>
                   <div className="col">
                     <h6>Situation familiale : </h6>
-                    <select name="family_status" className="form-control" placeholder={this.props.values.family_status ||"Sélectionner une valeur"} value={this.props.values.family_status} onChange={this.props.setSelect}>
-                      <option value="" selected >Selectionner ...</option>
-                      <option value="single" >Célibataire</option>
-                      <option value="married">Marié(e)</option>
-                      <option value="other">Autre</option>
+                    <select name="family_status" className="form-control" placeholder={this.props.values.family_status ||"Sélectionner une valeur"} value={this.props.values.family_status} onChange={this.props.handleChange}>
+                      <option value="" >Selectionner ...</option>
+                      <option value="single" selected={this.props.values.family_status && this.props.values.family_status.toLowerCase()==="single"} >Célibataire</option>
+                      <option value="married" selected={this.props.values.family_status && this.props.values.family_status.toLowerCase()==="married"}>Marié(e)</option>
+                      <option value="other" selected={this.props.values.family_status && this.props.values.family_status.toLowerCase()==="other"}>Autre</option>
                     </select>
                   </div>
                 </div>

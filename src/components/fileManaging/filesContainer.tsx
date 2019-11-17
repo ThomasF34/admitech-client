@@ -3,6 +3,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import '../../style/fileManaging.css';
 import { deleteAttachmentInApplication } from '../../services/application.service';
 import { getListOfTypesOfFiles, getTypeConverted, getBasicsAttachements } from '../../helpers/filesManaging.helper';
+import { handleUpload } from '../../services/filesManaging.service';
+import { Modal, Button } from 'react-bootstrap';
 
 //State and Props
 interface IProps {
@@ -10,7 +12,7 @@ interface IProps {
   candId: number,
   handleChangeAttachement: (elems: IAttachement[]) => void
 }
-
+ 
 interface IState {
   typesList: Array<IOption>,
   currentFile: any,
@@ -21,7 +23,8 @@ interface IState {
   deleted: boolean,
   formatNotSupproted: boolean,
   disabled: boolean,
-  sizeNotSupproted: boolean
+  sizeNotSupproted: boolean,
+  showPopup: boolean
 }
 //Utils Interfaces
 
@@ -51,10 +54,23 @@ class FileContainer extends React.Component<IProps, IState> {
       deleted: false,
       formatNotSupproted: false,
       disabled: true,
-      sizeNotSupproted: false
+      sizeNotSupproted: false,
+      showPopup: false
     };
     this.removeElementInTypes = this.removeElementInTypes.bind(this);
     this.displayNumberOfMissingFiles = this.displayNumberOfMissingFiles.bind(this);
+  }
+  openPopUp = () => {
+    this.setState({
+      showPopup: true
+    })
+  }
+
+  closePopUp = () => {
+    if (this.state.showPopup === true)
+      this.setState({
+        showPopup: false
+      });
   }
 
   handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -90,9 +106,8 @@ class FileContainer extends React.Component<IProps, IState> {
   }
 
   displayNumberOfMissingFiles(): JSX.Element {
-    const numberTotal = getBasicsAttachements().length-1;
+    const numberTotal = getBasicsAttachements().length - 1;
     const numberAdded = this.state.filesAdded.length;
-
     return (<p>{numberAdded} sur {numberTotal} fichiers fournis</p>)
   }
 
@@ -111,7 +126,7 @@ class FileContainer extends React.Component<IProps, IState> {
     } else {
       let urlFile: string = '';
       if (this.props.candId > 0) {
-        // urlFile = await handleUpload(this.state.currentFile);
+        urlFile = await handleUpload(this.state.currentFile);
       }
       const newAttachement: IAttachement = { url: urlFile, attach_type: this.state.curentTypeFile, file: this.state.currentFile, fileName: this.state.currentFile.name }
       this.removeElementInTypes();
@@ -124,8 +139,6 @@ class FileContainer extends React.Component<IProps, IState> {
         added: true
       });
       this.props.handleChangeAttachement(newFiles);
-
-
     }
   }
 
@@ -166,6 +179,7 @@ class FileContainer extends React.Component<IProps, IState> {
   }
 
   render() {
+
     return (
       <div className='container bg-light mt-5 p-3'>
         <form className="row">
@@ -200,7 +214,23 @@ class FileContainer extends React.Component<IProps, IState> {
           {this.state.filesAdded.map(file => (
             <div className='mb-2' key={file.url}><span className="badge badge-success">OK</span> <span className='text-info'>{getTypeConverted(file.attach_type)}</span> :
                    {file.url !== '' ? <span className='text-secondary'> <a href={file.url} target='_blank' rel="noopener noreferrer">Voir</a> | </span> : <span className='text-secondary'> {file.fileName} | </span>}
-              <span className='text-danger ml-1 btn-delete' onClick={(e) => this.removeElemFromListAdded(e, file)}>Supprimer</span> </div>
+              <span className='text-danger ml-1 btn-delete' onClick={() => this.openPopUp()}>Supprimer</span>
+
+              <Modal show={this.state.showPopup} onHide={() => this.closePopUp()}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Suppression d'un fichier</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Etes-vous sûr de vouloir supprimer ce fichier?</Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={() => this.closePopUp()}>
+                    Annuler
+                  </Button>
+                  <Button variant="danger" onClick={(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => this.removeElemFromListAdded(e, file)}>
+                    Supprimer
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </div>
           ))}
         </div>
       </div>

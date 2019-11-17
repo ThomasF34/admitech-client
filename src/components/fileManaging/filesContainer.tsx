@@ -4,6 +4,7 @@ import '../../style/fileManaging.css';
 import { deleteAttachmentInApplication } from '../../services/application.service';
 import { getListOfTypesOfFiles, getTypeConverted, getBasicsAttachements } from '../../helpers/filesManaging.helper';
 import { handleUpload, getRessource } from '../../services/filesManaging.service';
+import { Modal, Button } from 'react-bootstrap';
 
 //State and Props
 interface IProps {
@@ -11,7 +12,7 @@ interface IProps {
   candId: number,
   handleChangeAttachement: (elems: IAttachement[]) => void
 }
-
+ 
 interface IState {
   typesList: Array<IOption>,
   currentFile: any,
@@ -22,7 +23,8 @@ interface IState {
   deleted: boolean,
   formatNotSupproted: boolean,
   disabled: boolean,
-  sizeNotSupproted: boolean
+  sizeNotSupproted: boolean,
+  showPopup: boolean
 }
 //Utils Interfaces
 
@@ -52,10 +54,23 @@ class FileContainer extends React.Component<IProps, IState> {
       deleted: false,
       formatNotSupproted: false,
       disabled: true,
-      sizeNotSupproted: false
+      sizeNotSupproted: false,
+      showPopup: false
     };
     this.removeElementInTypes = this.removeElementInTypes.bind(this);
     this.displayNumberOfMissingFiles = this.displayNumberOfMissingFiles.bind(this);
+  }
+  openPopUp = () => {
+    this.setState({
+      showPopup: true
+    })
+  }
+
+  closePopUp = () => {
+    if (this.state.showPopup === true)
+      this.setState({
+        showPopup: false
+      });
   }
 
   handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -93,7 +108,6 @@ class FileContainer extends React.Component<IProps, IState> {
   displayNumberOfMissingFiles(): JSX.Element {
     const numberTotal = getBasicsAttachements().length - 1;
     const numberAdded = this.state.filesAdded.length;
-
     return (<p>{numberAdded} sur {numberTotal} fichiers fournis</p>)
   }
 
@@ -125,8 +139,6 @@ class FileContainer extends React.Component<IProps, IState> {
         added: true
       });
       this.props.handleChangeAttachement(newFiles);
-
-
     }
   }
 
@@ -176,6 +188,7 @@ class FileContainer extends React.Component<IProps, IState> {
   }
 
   render() {
+
     return (
       <div className='container bg-light mt-5 p-3'>
         <form className="row">
@@ -208,9 +221,26 @@ class FileContainer extends React.Component<IProps, IState> {
           <h4>Mes fichiers téléchargés</h4>
           {this.displayNumberOfMissingFiles()}
           {this.state.filesAdded.map(file => (
-            <div className='mb-2' key={file.key}><span className="badge badge-success">OK</span> <span className='text-info'>{getTypeConverted(file.attach_type)}</span> :
+
+        <div className='mb-2' key={file.key}><span className="badge badge-success">OK</span> <span className='text-info'>{getTypeConverted(file.attach_type)}</span> :
                    {file.key !== '' ? <span className='text-secondary'> <span className="text-info mx-1 btn-see" onClick={(e) => this.openDocTab(file.key)}>Voir</span> | </span> : <span className='text-secondary'> {file.fileName} | </span>}
-              <span className='text-danger ml-1 btn-delete' onClick={(e) => this.removeElemFromListAdded(e, file)}>Supprimer</span> </div>
+               <span className='text-danger ml-1 btn-delete' onClick={() => this.openPopUp()}>Supprimer</span>
+   
+              <Modal show={this.state.showPopup} onHide={() => this.closePopUp()}>
+                <Modal.Header closeButton>
+                  <Modal.Title>Suppression d'un fichier</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Etes-vous sûr de vouloir supprimer ce fichier?</Modal.Body>
+                <Modal.Footer>
+                  <Button variant="secondary" onClick={() => this.closePopUp()}>
+                    Annuler
+                  </Button>
+                  <Button variant="danger" onClick={(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => this.removeElemFromListAdded(e, file)}>
+                    Supprimer
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </div>
           ))}
         </div>
       </div>

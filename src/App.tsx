@@ -51,8 +51,8 @@ function App() {
           {PrivateAdminRoute(<StudentApplicationPage />)}
         </Route>
         <Route path="/etudiant/candidature/creation">
-            {PrivateStudentRoute(<CreateApplicationContainer />)}
-          </Route>
+          {PrivateStudentRoute(<CreateApplicationContainer />)}
+        </Route>
         <Route exact path="/">
           <CardContainer />
         </Route>

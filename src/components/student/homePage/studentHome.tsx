@@ -10,10 +10,42 @@ import MyMessages from './myMessages';
 import MyInterviews from './myInterviews';
 import BottomBar from '../../helpers/bottomBar';
 import SoftApplication from '../../../models/application/softApplication';
+import {myApplications } from '../../../services/application.service';
 
-class StudentHome extends React.Component {
+interface IProps {
+  //applications : SoftApplication[] | null
+}
+
+interface IState {
+  applications: SoftApplication[] | null
+}
+
+class StudentHome extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      applications: null
+    };
+  }
+
+  componentDidMount() {
+    myApplications()
+      .then(res => {
+        this.setState({
+          applications: res.data.candidatures
+        });
+      })
+      .catch((e) => {
+        this.setState({
+          applications: null
+        });
+        console.log(e)
+      })
+  }
 
   render() {
+    console.log("load")
+    console.log(this.state.applications)
     return (
 
       <div className="root fill ">
@@ -34,17 +66,9 @@ class StudentHome extends React.Component {
 
                     <div className="row no-gutters" style={{ width: '100%', height: '50%' }}>
                       <div className="col-sm-12 col-lg-6 fill-container" style={{ padding: '0.7%' }}>
-                        <div className="fill-container shadow-lg white" style={{ height: '100%'}}>
+                        <div className="fill-container shadow-lg white" style={{ height: '100%' }}>
 
-                          <MyAppliance applications={
-                            [new SoftApplication("1", "IG", "Dossier complet"),
-                            new SoftApplication("1", "IG", "Dossier complet"),
-                            new SoftApplication("1", "IG", "Dossier complet"),
-                            new SoftApplication("1", "IG", "Dossier complet"),
-                            new SoftApplication("1", "IG", "Dossier complet"),
-                            new SoftApplication("1", "IG", "Dossier complet")
-                            ]
-                          } />
+                          <MyAppliance applications={this.state.applications} />
 
 
                         </div >
@@ -89,7 +113,6 @@ class StudentHome extends React.Component {
 
     );
   }
-  //}
 }
 
 export default StudentHome;

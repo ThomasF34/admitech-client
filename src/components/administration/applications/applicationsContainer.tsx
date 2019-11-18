@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react';
+import React, { Component } from 'react';
 import ApplicationsDropdownComponent from './applicationsDropdownComponent';
 import ApplicationsNavbar from './applicationsNavbar';
 import ApplicationsList from './applicationsList';
@@ -16,7 +16,7 @@ interface IState {
 interface IProps {
 }
 
-class ApplicationsContainer extends PureComponent<IProps, IState> {
+class ApplicationsContainer extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {

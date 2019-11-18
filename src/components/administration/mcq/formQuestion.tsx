@@ -5,6 +5,7 @@ import Question from '../../../models/mcq/question.model'
 import '../../../style/mcq.css'
 
 interface IState {
+  questionName: string,
   responses: Response[],
   currentResponse: string,
   checked: boolean;
@@ -21,7 +22,8 @@ class FormQuestion extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
     this.state = {
-      responses: [{ idResponse: 0, value: "bonjour", isCorrect: true }],
+      questionName: '',
+      responses: [],
       currentResponse: '',
       checked: false,
       currentId: 0
@@ -31,14 +33,11 @@ class FormQuestion extends React.Component<IProps, IState> {
     this.saveResponse = this.saveResponse.bind(this)
     this.displayExistingAnswers = this.displayExistingAnswers.bind(this)
     this.deleteItem = this.deleteItem.bind(this)
+    this.handleQuestionNameChange = this.handleQuestionNameChange.bind(this)
   }
 
-  onChangeNewAnswer() {
-
-  }
-
-  changeAnswer() {
-    //This method will be curryed.
+  handleQuestionNameChange(event: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ questionName: event.target.value })
   }
 
   saveResponse() {
@@ -56,15 +55,15 @@ class FormQuestion extends React.Component<IProps, IState> {
       checked: false,
       currentId: currentId,
     })
-  } 
+  }
 
-  handleChange(event : React.ChangeEvent<HTMLInputElement>) {
-    this.setState({currentResponse : event.target.value})
+  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ currentResponse: event.target.value })
   }
 
   handleCheckChange() {
     if (this.state.checked) {
-      this.setState({checked : false})
+      this.setState({ checked: false })
     } else {
       this.setState({ checked: true })
     }
@@ -73,50 +72,70 @@ class FormQuestion extends React.Component<IProps, IState> {
   deleteItem(id: number) {
     const responses = this.state.responses;
     const res = responses.filter(elem => elem.idResponse !== id)
-    this.setState({responses : res})
+    this.setState({ responses: res })
   }
+
 
   sendQuestion() {
     // Check si il existe au moins une réponse juste.
-    // Créer une nouvelle question.
-    // Envoyer la question au composant parent.
+    const responses = this.state.responses
+    if (responses.map(elem => elem.isCorrect).filter(elem => elem).length === 0) {
+      window.alert("Il n'y a pas de réponse juste... Vous devriez en ajouter une !")
+    } else if (responses.map(elem => elem.isCorrect).filter(elem => !elem).length === 0) {
+      window.alert("Il n'y a pas de mauvaise réponse... Vous devriez en rajouter quelques unes...")
+    } else if (this.state.questionName === '') {
+      window.alert("Vous n'avez pas donné d'intitulé à votre question... Rajoutez en un avant de valider.")
+    } else {
+      // Créer une nouvelle question.
+      const newQuestion = new Question()
+      newQuestion.idQuestion = 0
+      newQuestion.title = this.state.questionName
+      newQuestion.responses = this.state.responses
+      // Envoyer la question au composant parent.
+      this.props.action(newQuestion)
+    }
+
+
   }
 
   displayExistingAnswers() {
-    return (
-      <div>
-      {
-      this.state.responses.map((elem) => (
-        <div className="input-group mb-3 col-12">
-          <div className="input-group-prepend">
-            <div className="input-group-text">
-              {elem.isCorrect ? <input type="checkbox" defaultChecked disabled/> :
-                < input type="checkbox" disabled/>
-              }
-              
-            </div>
-          </div>  
-          <input type="text" className="form-control" disabled value={elem.value} />
-          <button className="btn btn-outline-danger" type="button" id="button-addon2" onClick={ () => this.deleteItem(elem.idResponse)}>Supprimer</button>
-        </div>
-      ))
-        }
-      </div>);
-          
-      }
-    
-    
+    if (this.state.responses.length !== 0) {
+      return (
+        <div>
+          {
+            this.state.responses.map((elem) => (
+              <div className="input-group mb-3 col-12">
+                <div className="input-group-prepend">
+                  <div className="input-group-text">
+                    {elem.isCorrect ? <input type="checkbox" defaultChecked disabled /> :
+                      < input type="checkbox" disabled />
+                    }
+
+                  </div>
+                </div>
+                <input type="text" className="form-control" disabled value={elem.value} />
+                <button className="btn btn-outline-danger" type="button" id="button-addon2" onClick={() => this.deleteItem(elem.idResponse)}>Supprimer</button>
+              </div>
+            ))
+          }
+        </div>);
+    } else {
+      return (<div className="alert alert-light col-8 sm mx-auto" role="alert">Aucune réponse n'est disponible.. Créez en de nouvelles !</div>)
+    }
+  }
+
+
   render() {
     return (
 
-      <div className="card p-2 mt-3">
-        <h5 className="card-title">Création d'une question</h5>
+      <div className="p-3 mt-3 card">
+        <h5 className="card-title">3. Création d'une question</h5>
         <div className="card-body">
           <div className="input-group mb-3 ml-0 mr-0 col-12">
             <div className="input-group-prepend">
               <span className="input-group-text" id="basic-addon1">Intitulé </span>
             </div>
-            <input type="text" className="form-control" placeholder="Quelle est la distance Terre - Lune ?" aria-label="Username" aria-describedby="basic-addon1" />
+            <input type="text" className="form-control" placeholder="Quelle est la distance Terre - Lune ?" onChange={(event) => this.handleQuestionNameChange(event)} />
           </div>
           <hr></hr>
           <h6>Réponses enregistrées: </h6>
@@ -130,7 +149,7 @@ class FormQuestion extends React.Component<IProps, IState> {
                 <input type="checkbox" onChange={this.handleCheckChange} />
               </div>
             </div>
-            <input type="text" className="form-control" onChange={(event) => this.handleChange(event)} value={this.state.currentResponse}/>
+            <input type="text" className="form-control" onChange={(event) => this.handleChange(event)} value={this.state.currentResponse} />
             <button className="btn btn-outline-primary" type="button" id="button-addon2" onClick={this.saveResponse}>Ajouter</button>
           </div>
         </div>
@@ -141,4 +160,4 @@ class FormQuestion extends React.Component<IProps, IState> {
   }
 }
 
-export  default FormQuestion
+export default FormQuestion

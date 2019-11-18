@@ -22,8 +22,32 @@ class QuizzCreator extends React.Component<IProps, IState> {
     }
     this.showResponse = this.showResponse.bind(this)
     this.handleNewQuestion = this.handleNewQuestion.bind(this)
+    this.displayQuestionSaved = this.displayQuestionSaved.bind(this)
   }
 
+
+  displayQuestionSaved() {
+    if (this.state.questions.length !== 0) {
+      return (
+        <div>
+          {
+            this.state.questions.map(question => (
+              <div className="card pl-2 pt-2">
+                <h5 className="card-title">{question.title}</h5>
+                  {
+                    question.responses.map(reponse => (
+                      <p className={reponse.isCorrect ? "text-success" : "text-danger"}> - {reponse.value}</p>
+                    ))
+                  }
+              </div>
+            ))
+          }
+        </div>
+      );
+    } else {
+      return (<div className="alert alert-info col-6 mx-auto" role="alert">Aucune question n'est enregistrée pour ce QCM... Créez en une nouvelle pour qu'elle apparaisse ici.</div>)
+    }
+  }
 
 
   showResponse() {
@@ -41,19 +65,22 @@ class QuizzCreator extends React.Component<IProps, IState> {
     )
   }
 
-  handleNewQuestion() {
-    
+  handleNewQuestion(question: Question) {
+    const questions = this.state.questions
+    questions.push(question)
+    this.setState({
+        questions: questions
+    })  
   }
 
   render() {
     return (
       <div className='container'>
         <h3>Formulaire de création d'un quizz</h3>
-        <div className="card p-5">
-          <h5 className="card-title">Informations générales</h5>
+        <div className="card p-3 mb-2">
+          <h5 className="card-title">1. Informations générales</h5>
           <div className="card-body">
             <form className="form-inline col-12">
-
               <div className="input-group mb-3 col-6">
                 <div className="input-group-prepend">
                   <label className="input-group-text">Formation</label>
@@ -84,10 +111,19 @@ class QuizzCreator extends React.Component<IProps, IState> {
                 <input type="text" className="form-control" placeholder="Donnez un nom à votre QCM" aria-label="Username" aria-describedby="basic-addon1" />
               </div>
             </form>
-            <FormQuestion action={this.handleNewQuestion} />
           </div>
         </div>
-      </div>
+        
+        <div className="card p-3 mb-2">
+          <h5 className="card-title">2. Questions sauvegardées</h5>
+          <div className="card-body"></div>
+          {this.displayQuestionSaved()}
+        </div>
+
+        <FormQuestion action={this.handleNewQuestion} />
+
+
+        </div>
 
 
     )

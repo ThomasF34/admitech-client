@@ -14,7 +14,7 @@ class AddButton extends React.Component {
   render() {
     return (
       <div className="text-center">
-        <Link to="/etudiant/candidature/creation" style={{ textDecoration: 'none' }}>
+        <Link to="/etudiant/candidature" style={{ textDecoration: 'none' }}>
           <img src={plusButtonSmall} className="img-icon " alt="button" />
         </Link>
       </div>

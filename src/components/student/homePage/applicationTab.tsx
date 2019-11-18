@@ -38,7 +38,7 @@ class TabApplication extends React.Component<ITab> {
 
               <td>
                  <Link style={{ textDecoration: 'none' }} to={{
-                  pathname: '/etudiant/candidature/edition/'+application.id
+                  pathname: '/etudiant/candidature/'+application.id
                   
                 }}>
                 <img src={arrow} className="img-icon " alt="edit" />

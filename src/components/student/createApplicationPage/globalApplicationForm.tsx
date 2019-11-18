@@ -1,5 +1,5 @@
 import React from 'react';
-import { isAdmin } from '../../../helpers/authorizationHelper';
+import { isAdmin, isStudent } from '../../../helpers/authorizationHelper';
 import { IFields } from './createApplicationForm';
 import SpecialityForm from './specialityForm';
 import AdminForm from './adminForm';
@@ -8,7 +8,8 @@ import ALevelForm from './aLevelForm';
 
 interface IProps {
   handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void,
-  values: IFields
+  values: IFields,
+  editMode: boolean
 }
 
 interface IState {
@@ -40,7 +41,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
     return (
       <div>
         {/* SPECIALITE */}
-        <SpecialityForm handleChange={this.props.handleChange} values={this.props.values} />
+        <SpecialityForm handleChange={this.props.handleChange} values={this.props.values} editMode={ isStudent() ? this.props.editMode : false}/>
 
         {/* ADMIN*/}
         {isAdmin() ? (
@@ -51,7 +52,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
               <h4 className="text-white">Administration</h4>
             </button>
 
-            <AdminForm isDisplayedBlock={this.state.AreDisplayedBlock["admin"]} handleChange={this.props.handleChange} values={this.props.values} />
+            <AdminForm isDisplayedBlock={this.state.AreDisplayedBlock["admin"]} handleChange={this.props.handleChange} values={this.props.values} editMode={ isAdmin() ? this.props.editMode : false}/>
 
           </div>
         ) : null}
@@ -64,7 +65,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
             <h4 className="text-white">Etat Civil</h4>
           </button>
 
-          <CivilForm isDisplayedBlock={this.state.AreDisplayedBlock["civil"]} handleChange={this.props.handleChange} values={this.props.values} />
+          <CivilForm isDisplayedBlock={this.state.AreDisplayedBlock["civil"]} handleChange={this.props.handleChange} values={this.props.values} editMode={ isStudent() ? this.props.editMode : false} />
 
         </div>
 
@@ -74,7 +75,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
             <h4 className="text-white">Baccalauréat</h4>
           </button>
 
-          <ALevelForm isDisplayedBlock={this.state.AreDisplayedBlock["bac"]} handleChange={this.props.handleChange} values={this.props.values} />
+          <ALevelForm isDisplayedBlock={this.state.AreDisplayedBlock["bac"]} handleChange={this.props.handleChange} values={this.props.values} editMode={ isStudent() ? this.props.editMode : false}/>
         </div>
 
       </div>

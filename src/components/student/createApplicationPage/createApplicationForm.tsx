@@ -218,6 +218,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       <form style={{ width: '100%', height: '100%' }}>
 
         {/*Edit Buttons*/}
+        {this.props.existingApplicationId !== undefined ? (
         <div className="row justify-content-md-end" style={{ marginTop: '3%', marginRight: '5%' }}>
           <div className="col-4 col-md-1 col-sm-3">
             <button className="btn btn-light btn-lg btn-block shadow" onClick={this.changeEditMode}>
@@ -225,8 +226,9 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
             </button>
           </div>
         </div>
+           ) : null}
 
-        <GlobalApplicationForm handleChange={this.handleChange} values={this.state.values} />
+        <GlobalApplicationForm handleChange={this.handleChange} values={this.state.values} editMode={this.state.editMode}/>
 
         {/*Saving Buttons*/}
         {isStudent() ? (

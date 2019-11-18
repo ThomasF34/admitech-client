@@ -50,10 +50,7 @@ function App() {
         <Route exact path="/administration/candidature/:id">
           {PrivateAdminRoute(<StudentApplicationPage />)}
         </Route>
-        <Route exact path="/etudiant/candidature/edition/:id">
-         {PrivateStudentRoute(<CreateApplicationContainer />)}
-         </Route>
-         <Route exact path="/etudiant/candidature/creation">
+         <Route exact path="/etudiant/candidature">
          {PrivateStudentRoute(<CreateApplicationContainer />)}
          </Route>
         <Route path="/">

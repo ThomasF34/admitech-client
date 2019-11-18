@@ -12,7 +12,7 @@ class SpecialityForm extends React.Component<IProps>{
 
     return (
 
-      <div className="container" style={{ width: '30%', padding: '5%' }}>
+      <div className="container col-sm-6 col-md-5 col-md-3" style={{padding: '5%' }}>
         <h4 className="text-info">Candidature pour : </h4>
         <select name="branch" className="form-control" onChange={this.props.handleChange}>
           <option value="" >Selectionner ...</option>

@@ -216,10 +216,10 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     return (
 
       <form style={{ width: '100%', height: '100%' }}>
-        
+
         {/*Edit Buttons*/}
         <div className="row justify-content-md-end" style={{ marginTop: '3%', marginRight: '5%' }}>
-          <div className="col-md-1">
+          <div className="col-4 col-md-1 col-sm-3">
             <button className="btn btn-light btn-lg btn-block shadow" onClick={this.changeEditMode}>
               <img src={edit} className="img-icon " alt="editButton" />
             </button>
@@ -230,12 +230,12 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
         {/*Saving Buttons*/}
         {isStudent() ? (
-          <div className="row justify-content-md-center" style={{ marginTop: '3%' }}>
-            <div className="col-md-2">
+          <div className="row justify-content-center" style={{ marginTop: '3%' }}>
+            <div className="col-6 col-sm-5 col-lg-2">
               <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={this.submitDraft}>Enregistrer</button>
               <small className="text-secondary">Enregistrer en tant que brouillon</small>
             </div>
-            <div className="col-md-2">
+            <div className="col-5 col-sm-5 col-lg-2">
               <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Envoyer</button>
               <small className="text-success">Soumettre à Polytech</small>
             </div>
@@ -243,7 +243,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
         ) : null}
         {isAdmin() ? (
           <div className="row justify-content-md-center" style={{ marginTop: '3%' }}>
-            <div className="col-md-2">
+            <div className="col-6 col-sm-5 col-md-2">
               <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Enregistrer</button>
             </div>
           </div>

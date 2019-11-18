@@ -19,7 +19,7 @@ class CalendarContainer extends React.Component {
     }
 
     //TODO
-    getAppointmentApplicant(idApplicant: number) : AppointmentModel {
+    getAppointmentApplicant = (idApplicant: number) : AppointmentModel => {
         if (1 === user_id) { //TODO TEST IF APPLICANT HAS AN EXISTING APPOINTMENT
           return { startDate: '26 novembre 2019 de 10h à 11h', endDate: '2019-11-26 11:00', title: 'MON ENTRETIEN' } //TODO RETURN APPOINTMENT
         }

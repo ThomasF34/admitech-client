@@ -6,7 +6,7 @@ import company from '../../../img/fond-student.jpeg';
 import user from '../../../img/user.png';
 import StudentNav from '../studentNav';
 import BottomBar from '../../helpers/bottomBar';
-import CalendarApplicant from './calendarApplicant';
+import CalendarContainer from './calendarContainer';
 
 class CalendarPage extends React.Component {
     render() {
@@ -34,7 +34,7 @@ class CalendarPage extends React.Component {
 
                                 <div className="row no-gutters " style={{ padding: '0.7%' }}>
                                     <div className="fill-container shadow-lg white">
-                                        <CalendarApplicant />
+                                        <CalendarContainer />
                                     </div>
                                 </div>
 

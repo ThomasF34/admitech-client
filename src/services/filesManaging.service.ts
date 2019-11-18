@@ -57,7 +57,6 @@ const handleUpload = async (file: File) => {
   }
 };
 
-
 const getRessource = (ressourceKey: string) => {
   return axios.get(`${configApi.API_URL}/document/access`, {
     params: {
@@ -66,4 +65,5 @@ const getRessource = (ressourceKey: string) => {
     headers: { Authorization: `Bearer ${getToken()}` }
   }).then(res => res.data);
 }
+
 export { handleUpload, getRessource, deleteFileInS3 };

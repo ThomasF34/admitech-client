@@ -88,7 +88,7 @@ class FileContainer extends React.Component<IProps, IState> {
       });
   }
 
-  handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+  handleDocumentChange(e: React.ChangeEvent<HTMLInputElement>) {
     let file = e.target.files![0];
     const extension = file.name.split('.')
 
@@ -138,7 +138,7 @@ class FileContainer extends React.Component<IProps, IState> {
       this.setState({ error: true });
     } else {
       let fileKey: string = '';
-      fileKey = await handleUpload(this.state.currentFile);
+      //fileKey = await handleUpload(this.state.currentFile);
       const newAttachement: IAttachement = { key: fileKey, attach_type: this.state.curentTypeFile, file: this.state.currentFile, fileName: this.state.currentFile.name }
       this.removeElementInTypes();
       const newFiles = [...this.state.filesAdded, newAttachement];
@@ -174,11 +174,11 @@ class FileContainer extends React.Component<IProps, IState> {
   removeElemFromListAdded(event: React.MouseEvent<HTMLButtonElement, MouseEvent>, file: IAttachement) {
     event.preventDefault();
 
-    if (this.props.candId > 0) {
+    if (this.props.candId > 0 && file.key !== '') {
       deleteAttachmentInApplication(this.props.candId, file.id!);
     }
     //Delete evry time on AWS
-    deleteFileInS3(file.key);
+    //deleteFileInS3(file.key);
 
     const listAdded = this.state.filesAdded;
     const newList = listAdded.filter(function (elem) {
@@ -216,7 +216,7 @@ class FileContainer extends React.Component<IProps, IState> {
           </div>
           <div className="form-group mx-sm-3 mb-2">
             <label htmlFor="file" className="label-file btn btn-info">Télécharger</label>
-            <input id="file" type="file" className="form-control-file input-file" onChange={(e) => this.handleImageChange(e)} />
+            <input id="file" type="file" className="form-control-file input-file" onChange={(e) => this.handleDocumentChange(e)} />
           </div>
           <div className="form-group mb-2">
             {this.state.currentFile !== null ? (
@@ -247,5 +247,4 @@ class FileContainer extends React.Component<IProps, IState> {
     );
   }
 }
-
 export default FileContainer;

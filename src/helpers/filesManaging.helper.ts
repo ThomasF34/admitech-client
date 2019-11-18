@@ -60,5 +60,4 @@ const getTypeConverted = (attach_type: string): string => {
   return typesConverted[index];
 }
 
-
 export { getListOfTypesOfFiles, getTypeConverted, getBasicsAttachements };

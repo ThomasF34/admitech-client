@@ -1,4 +1,3 @@
-
 .label-file {
     cursor: pointer;
 }
@@ -10,8 +9,6 @@
 .input-file {
     display: none;
 }
-
-
 
 .btn-see:hover, .btn-delete:hover{
 text-decoration: underline;

@@ -115,6 +115,8 @@ class SignUpForm extends React.Component<IProps, IState> implements ISignUpForm 
 
     if (this.validForm()) {
       const user = new UserSignUpDto(this.state.email, this.state.first_name, this.state.last_name, this.state.password, this.props.role);
+      console.log(this.state.first_name)
+      console.log(user)
       //call to the api
       signUp(user)
         .then(validConnexion)

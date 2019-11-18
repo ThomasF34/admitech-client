@@ -14,5 +14,15 @@ const draftApplication = async (application: Application) => {
   return res;
 };
 
-export { draftApplication };
+const getAllApplications = async () => {
+  const res = await axios
+    .get(`${config.API_URL}/candidature`,
+      {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      }
+    );
+  return res;
+};
+
+export { draftApplication, getAllApplications };
 

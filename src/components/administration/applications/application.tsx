@@ -29,7 +29,7 @@ class Application extends React.Component<IProps> {
           }
                 
           {
-            (this.props.application.ETAT !== null && this.props.application.ETAT !== this.props.category)
+            (this.props.application.ETAT !== undefined && this.props.application.ETAT !== this.props.category)
               ? (
                 <h6 className="card-subtitle mb-2 text-muted" id="card-subtitle-application"> 
                   ETAT : <span className="card-subtitle-span" id="card-subtitle-span-application"> {categories.get(this.props.application.ETAT)} </span>
@@ -38,7 +38,7 @@ class Application extends React.Component<IProps> {
           }
 
           {
-            this.props.application.QCM !== null
+            this.props.application.QCM !== undefined
               ? (
                 <h6 className="card-subtitle mb-2 text-muted" id="card-subtitle-application"> 
                   QCM : <span className="card-subtitle-span" id="card-subtitle-span-application"> {this.props.application.QCM} </span>
@@ -47,7 +47,7 @@ class Application extends React.Component<IProps> {
           }
       
           {
-            this.props.application.JURY !== null
+            this.props.application.JURY !== undefined
               ? (
                 <h6 className="card-subtitle mb-2 text-muted" id="card-subtitle-application"> 
                   JURY : <span className="card-subtitle-span" id="card-subtitle-span-application"> TODO ID </span>
@@ -64,7 +64,7 @@ class Application extends React.Component<IProps> {
           }
 
           {
-            this.props.application.NOTE !== null
+            this.props.application.NOTE !== undefined
               ? (
                 <h6 className="card-subtitle mb-2 text-muted" id="card-subtitle-application"> 
                   Note : <span className="card-subtitle-span" id="card-subtitle-span-application"> {this.props.application.NOTE} </span>

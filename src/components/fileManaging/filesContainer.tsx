@@ -138,7 +138,7 @@ class FileContainer extends React.Component<IProps, IState> {
       this.setState({ error: true });
     } else {
       let fileKey: string = '';
-      //fileKey = await handleUpload(this.state.currentFile);
+      fileKey = await handleUpload(this.state.currentFile);
       const newAttachement: IAttachement = { key: fileKey, attach_type: this.state.curentTypeFile, file: this.state.currentFile, fileName: this.state.currentFile.name }
       this.removeElementInTypes();
       const newFiles = [...this.state.filesAdded, newAttachement];
@@ -174,11 +174,11 @@ class FileContainer extends React.Component<IProps, IState> {
   removeElemFromListAdded(event: React.MouseEvent<HTMLButtonElement, MouseEvent>, file: IAttachement) {
     event.preventDefault();
 
-    if (this.props.candId > 0 && file.key !== '') {
+    if (file.id !== undefined && file.id > 0 && this.props.candId !== undefined && this.props.candId > 0) {
       deleteAttachmentInApplication(this.props.candId, file.id!);
     }
     //Delete evry time on AWS
-    //deleteFileInS3(file.key);
+    deleteFileInS3(file.key);
 
     const listAdded = this.state.filesAdded;
     const newList = listAdded.filter(function (elem) {

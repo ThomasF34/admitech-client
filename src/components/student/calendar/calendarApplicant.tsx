@@ -8,12 +8,17 @@ const user_id = 1; //TODO
 const Appointment: React.ComponentType<Appointments.AppointmentProps> = (props) => {
   //TODO : + console.log
   if (props.data.title === "MON ENTRETIEN") {
-    return <Appointments.Appointment {...props} onClick={()=>console.log(props.data)} style={{ backgroundColor: '#0F00FF' }} />;
+    return <Appointments.Appointment {...props} onClick={ () =>
+      console.log(props.data)    
+    }
+    />;
   }
   return <Appointments.Appointment {...props} onClick={()=>console.log(props.data)} />;
 };
 
-interface IProps {}
+interface IProps {
+  listAppointments: Array<AppointmentModel>
+}
 
 interface IState {
     data: Array<AppointmentModel>,
@@ -23,23 +28,13 @@ class CalendarApplicant extends React.PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      data: this.getAvailableAppointments().concat(this.getAppointmentApplicant(user_id))
+      data: this.props.listAppointments.concat(this.getAppointmentApplicant(user_id))
     }
-
-    this.getAvailableAppointments = this.getAvailableAppointments.bind(this);
     this.getAppointmentApplicant = this.getAppointmentApplicant.bind(this);
     this.getMinAppointmentAvailable = this.getMinAppointmentAvailable.bind(this);
   }
 
-  //TODO
-  getAvailableAppointments(): Array<AppointmentModel> {
-    return [
-      { startDate: '2019-12-3 18:00', endDate: '2019-12-3 19:30', title: 'RDV1' },
-      { startDate: '2019-12-3 11:00', endDate: '2019-12-3 12:30', title: 'RDV2' },
-      { startDate: '2019-12-1 11:00', endDate: '2019-12-1 12:30', title: 'RDV3' }
-    ]
-  }
-
+  
   getAppointmentApplicant(idApplicant: number) : AppointmentModel {
     if (1 === user_id) { //TODO TEST IF APPLICANT HAS AN EXISTING APPOINTMENT
       return { startDate: '2019-11-26 10:00', endDate: '2019-11-26 11:00', title: 'MON ENTRETIEN' } //TODO RETURN APPOINTMENT
@@ -74,7 +69,7 @@ class CalendarApplicant extends React.PureComponent<IProps, IState> {
           locale='fr-FR'
         >
           <ViewState
-            defaultCurrentDate={this.getDefaultCurrentDate(user_id, this.getAvailableAppointments()).startDate}
+            defaultCurrentDate={this.getDefaultCurrentDate(user_id, this.props.listAppointments).startDate}
           />
 
           <WeekView

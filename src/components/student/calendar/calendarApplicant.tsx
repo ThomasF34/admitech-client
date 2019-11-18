@@ -41,7 +41,7 @@ class CalendarApplicant extends React.PureComponent<IProps, IState> {
   }
 
   getAppointmentApplicant(idApplicant: number) : AppointmentModel {
-    if (1 == user_id) { //TODO TEST IF APPLICANT HAS AN EXISTING APPOINTMENT
+    if (1 === user_id) { //TODO TEST IF APPLICANT HAS AN EXISTING APPOINTMENT
       return { startDate: '2019-11-26 10:00', endDate: '2019-11-26 11:00', title: 'MON ENTRETIEN' } //TODO RETURN APPOINTMENT
     }
     return { startDate:'', endDate:'' }

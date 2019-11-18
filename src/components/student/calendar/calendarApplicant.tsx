@@ -1,9 +1,9 @@
 import * as React from 'react';
 import Paper from '@material-ui/core/Paper';
 import { ViewState, AppointmentModel } from '@devexpress/dx-react-scheduler';
-import { Scheduler, WeekView, Appointments, Toolbar, DateNavigator, TodayButton} from '@devexpress/dx-react-scheduler-material-ui';
+import { Scheduler, WeekView, Appointments, Toolbar, DateNavigator } from '@devexpress/dx-react-scheduler-material-ui';
 
-const user_id = 1;
+const user_id = 1; //TODO
 
 const Appointment: React.ComponentType<Appointments.AppointmentProps> = (props) => {
   //TODO : + console.log
@@ -41,7 +41,7 @@ class CalendarApplicant extends React.PureComponent<IProps, IState> {
   }
 
   getAppointmentApplicant(idApplicant: number) : AppointmentModel {
-    if (1 == 1) { //TODO TEST IF APPLICANT HAS AN EXISTING APPOINTMENT
+    if (1 == user_id) { //TODO TEST IF APPLICANT HAS AN EXISTING APPOINTMENT
       return { startDate: '2019-11-26 10:00', endDate: '2019-11-26 11:00', title: 'MON ENTRETIEN' } //TODO RETURN APPOINTMENT
     }
     return { startDate:'', endDate:'' }

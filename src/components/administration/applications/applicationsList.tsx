@@ -7,7 +7,7 @@ import SingleApplication from '../../../models/singleApplication';
 interface IProps {
   formation: string,
   category: number,
-  candidaturesListe: any
+  candidaturesListe: Array<SingleApplication>
 }
 
 class ApplicationsList extends React.Component<IProps> {

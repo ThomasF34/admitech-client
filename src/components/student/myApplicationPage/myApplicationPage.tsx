@@ -1,14 +1,14 @@
 import React from 'react';
 import '../../../style/container.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import student from '../../../img/fond-student.jpeg';
 import user from '../../../img/user.png';
 import StudentNav from '../studentNav';
 import StudentApplicationContainer from '../../helpers/actor/studentApplicationContainer';
+import { useParams } from 'react-router-dom';
 
-class MyApplicationPage extends React.Component {
-
-  render() {
+function MyApplicationPage() {
+  let { id } = useParams();
+  
     return (
 
       <div className="root fill ">
@@ -20,10 +20,7 @@ class MyApplicationPage extends React.Component {
           </div>
 
           <div className="col-sm-12 col-md-10 fill">
-            <div className="image-container">
-              <img src={student} className="img-background" alt="polytech" />
-              <StudentApplicationContainer title="Ma Candidature en ??" />
-            </div>
+              <StudentApplicationContainer title="" id={id}/>
           </div>
 
         </div>
@@ -31,6 +28,5 @@ class MyApplicationPage extends React.Component {
 
     );
   }
-}
 
 export default MyApplicationPage;

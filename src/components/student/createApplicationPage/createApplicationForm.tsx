@@ -3,6 +3,7 @@ import Application from '../../../models/application/application';
 import { createApplication, getSingleApplication, updateApplication } from '../../../services/application.service';
 import InfoPopUp from '../../helpers/InfoPopUp';
 import GlobalApplicationForm from './globalApplicationForm';
+import { isStudent, isAdmin } from '../../../helpers/authorizationHelper';
 
 export interface IFields {
   [key: string]: any;
@@ -16,7 +17,6 @@ interface IForm {
 interface IState {
   values: IFields,
   errors: IFields,
-  AreDisplayedBlock: IFields,
   draftSuccess: boolean,
   draftFailure: boolean,
   applicationSuccess: boolean,
@@ -51,11 +51,6 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     this.state = {
       values: {},
       errors: {},
-      AreDisplayedBlock: {
-        civil: false,
-        bac: false,
-        admin: false
-      },
       draftSuccess: false,
       draftFailure: false,
       applicationSuccess: false,
@@ -212,19 +207,29 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
       <form style={{ width: '100%', height: '100%' }}>
 
-        <GlobalApplicationForm handleChange={this.handleChange} values={this.state.values}/>
+        <GlobalApplicationForm handleChange={this.handleChange} values={this.state.values} />
 
-        <div className="row justify-content-md-center" style={{ marginTop: '3%' }}>
-          <div className="col-md-2">
-            <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={this.submitDraft}>Enregistrer</button>
-            <small className="text-secondary">Enregistrer en tant que brouillon</small>
+        {/*Buttons*/}
+        {isStudent() ? (
+          <div className="row justify-content-md-center" style={{ marginTop: '3%' }}>
+            <div className="col-md-2">
+              <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={this.submitDraft}>Enregistrer</button>
+              <small className="text-secondary">Enregistrer en tant que brouillon</small>
+            </div>
+            <div className="col-md-2">
+              <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Envoyer</button>
+              <small className="text-success">Soumettre à Polytech</small>
+            </div>
           </div>
-          <div className="col-md-2">
-            <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Envoyer</button>
-            <small className="text-success">Soumettre à Polytech</small>
+        ) : null}
+        {isAdmin() ? (
+          <div className="row justify-content-md-center" style={{ marginTop: '3%' }}>
+            <div className="col-md-2">
+              <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Enregistrer</button>
+            </div>
           </div>
-        </div>
-
+        ) : null}
+        {/*Pop up*/}
         <InfoPopUp isError={false} title="Brouillon Candidature" content="Votre brouillon de candidature a bien été sauvegardé. Vous pourrez le retrouver dans le menu 'Mes candidatures'."
           show={this.state.draftSuccess} onClose={this.closeDraftSuccessPopUP} />
         <InfoPopUp isError={false} title="Envoie de votre Candidature" content="Votre candidature a bien été envoyée. Nous pouvez dès maintenant suivre son avancement."

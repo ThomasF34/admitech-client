@@ -31,7 +31,10 @@ class ExperiencesForm extends React.Component<IProps, IState> {
         facility_place: '',
         name: '',
         mean: '',
-        ranking: ''
+        ranking: '',
+        year: '',
+        degree: '',
+        rating: ''
 
       },
       experiences: this.props.experiences
@@ -77,23 +80,26 @@ class ExperiencesForm extends React.Component<IProps, IState> {
   }
 
   handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-event.preventDefault();
+    event.preventDefault();
 
-const newExperience = new Experiences(this.state.valuesExperience.degree,this.state.valuesExperience.facility_name
-  ,this.state.valuesExperience.facility_place,this.state.valuesExperience.mean,this.state.valuesExperience.name,this.state.valuesExperience.ranking
-  ,this.state.valuesExperience.rating,this.state.valuesExperience.year);
+    const newExperience = new Experiences(this.state.valuesExperience.degree, this.state.valuesExperience.facility_name
+      , this.state.valuesExperience.facility_place, this.state.valuesExperience.mean, this.state.valuesExperience.name, this.state.valuesExperience.ranking
+      , this.state.valuesExperience.rating, this.state.valuesExperience.year);
 
 
-  this.setState(previousState => ({
-    experiences: [...previousState.experiences, newExperience],
-    valuesExperience: {
-      facility_name: '',
-      facility_place: '',
-      name: '',
-      mean: '',
-      ranking: ''
-    }
-  }));
+    this.setState(previousState => ({
+      experiences: [...previousState.experiences, newExperience],
+      valuesExperience: {
+        facility_name: '',
+        facility_place: '',
+        name: '',
+        mean: '',
+        ranking: '',
+        year: '',
+        degree: '',
+        rating: ''
+      }
+    }));
 
 
   }
@@ -108,7 +114,7 @@ const newExperience = new Experiences(this.state.valuesExperience.degree,this.st
           <div className='form-row'>
             <div className="col-md-4 mb-3">
               <label className='col-sm-2 col-form-label'>Année</label>
-              <select name='year' id="year-select" className='form-control' onChange={(e) => this.handleChange(e)}>
+              <select name='year' id="year-select" className='form-control' value={this.state.valuesExperience.year}  onChange={(e) => this.handleChange(e)}>
                 <option value='' >Choisir..</option>
                 {years.map(y => (
                   <option key={y} value={y} >{y}</option>
@@ -118,7 +124,7 @@ const newExperience = new Experiences(this.state.valuesExperience.degree,this.st
 
             <div className="col-md-4 mb-3">
               <label className='col-sm-2 col-form-label'>Mention</label>
-              <select name='rating' id="mention-select" className='form-control' onChange={(e) => this.handleChange(e)}>
+              <select name='rating' id="mention-select" className='form-control' value={this.state.valuesExperience.rating} onChange={(e) => this.handleChange(e)}>
                 <option value='' >Choisir..</option>
                 <option value='0' >Aucune</option>
                 <option value='1' >Passable</option>
@@ -130,7 +136,7 @@ const newExperience = new Experiences(this.state.valuesExperience.degree,this.st
 
             <div className="col-md-4 mb-3">
               <label className='col-sm-2 col-form-label'>Diplômé(e)</label>
-              <select name='degree' id="degree-select" className='form-control' onChange={(e) => this.handleChange(e)}>
+              <select name='degree' id="degree-select" className='form-control' value={this.state.valuesExperience.degree} onChange={(e) => this.handleChange(e)}>
                 <option value='' >Choisir..</option>
                 <option value='true' >Oui</option>
                 <option value='false' >Non</option>
@@ -138,10 +144,9 @@ const newExperience = new Experiences(this.state.valuesExperience.degree,this.st
             </div>
           </div>
 
-
           <div className="form-group row">
             <div className="col-lg-12">
-            <label className='col-sm-2 col-form-label'>Parcours suivis</label>
+              <label className='col-sm-2 col-form-label'>Parcours suivis</label>
               <input placeholder='Classe/Etudes/Option suivies' className='form-control' value={this.state.valuesExperience.name} name='name' onChange={(e) => this.handleChange(e)} />
             </div>
           </div>
@@ -161,22 +166,22 @@ const newExperience = new Experiences(this.state.valuesExperience.degree,this.st
           <div className='form-row'>
             <div className="col-md-6 mb-3">
               <label className='col-sm-2 col-form-label'>Etablissemnt</label>
-              <input placeholder='Nom Etablissement' className='form-control'  value={this.state.valuesExperience.facility_name} name='facility_name' onChange={(e) => this.handleChange(e)} />
+              <input placeholder='Nom Etablissement' className='form-control' value={this.state.valuesExperience.facility_name} name='facility_name' onChange={(e) => this.handleChange(e)} />
             </div>
 
             <div className="col-md-6 mb-3">
               <label className='col-sm-2 col-form-label'>Ville</label>
-              <input placeholder='Ville' className='form-control'  value={this.state.valuesExperience.facility_place} name='facility_place' onChange={(e) => this.handleChange(e)} />
+              <input placeholder='Ville' className='form-control' value={this.state.valuesExperience.facility_place} name='facility_place' onChange={(e) => this.handleChange(e)} />
             </div>
           </div>
-          <button className='btn btn-info' onClick={(e)=>this.handleSubmit(e)}>Ajouter</button>
+          <button className='btn btn-info' onClick={(e) => this.handleSubmit(e)}>Ajouter</button>
         </form>
 
         <div>
-          <hr/>
+          <hr />
           <h4>Mes Expériences</h4>
           {this.state.experiences.map(e => (
-  <p>{e.year}:  Moyenne: {e.mean}</p>
+            <p>{e.year}:  Moyenne: {e.mean}</p>
           ))}
         </div>
       </div>

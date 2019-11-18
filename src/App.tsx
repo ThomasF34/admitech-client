@@ -13,6 +13,7 @@ import StudentApplicationPage from './components/administration/studentApplicati
 import CreateApplicationContainer from './components/student/createApplicationPage/createApplicationContainer';
 import ApplicationsPage from './components/administration/applications/applicationsPage';
 import { PrivateStudentRoute, PrivateAdminRoute, PrivateCompanyRoute, LoginRoute } from './helpers/routesHelper';
+import ExperiencesForm from './components/student/createApplicationPage/experiencesForm';
 
 function App() {
 
@@ -51,8 +52,13 @@ function App() {
           {PrivateAdminRoute(<StudentApplicationPage />)}
         </Route>
         <Route path="/etudiant/nouvelleCandidature">
-            {PrivateStudentRoute(<CreateApplicationContainer />)}
-          </Route>
+          {PrivateStudentRoute(<CreateApplicationContainer />)}
+        </Route>
+
+        <Route exact path='/experiences'>
+          <ExperiencesForm experiences={[]}/>
+        </Route>
+
         <Route exact path="/">
           <CardContainer />
         </Route>

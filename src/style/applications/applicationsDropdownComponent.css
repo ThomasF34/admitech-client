@@ -1,0 +1,24 @@
+#buttonDropdownMenu {
+    width:180px !important;
+    font-size: 90%;
+}
+
+#dropdown-content-application {
+  background-color:white;
+  width:180px;
+  position:absolute;
+  z-index:99999;
+  border-style:solid;
+  border-color:grey;
+  border-width:1px;
+}
+
+#dropdown-content-application div {
+  color: black;
+  padding: 5%;
+  text-decoration: none;
+  display: block;
+  font-size: 90%;
+}
+
+#dropdown-content-application div:hover {background-color: #f1f1f1}

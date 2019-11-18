@@ -11,7 +11,6 @@ interface IToken {
 const getTokenJson = (): IToken | null => {
   const token = getToken();
   if (token != null) {
-    console.log(decoder(token));
     const decoded = decoder<IToken>(token);
     return decoded;
   }
@@ -23,6 +22,13 @@ const getRole = (): string | null => {
     return decoded.role;
   else
     return null;
+};
+const getEmail = (): string  => {
+  const decoded = getTokenJson();
+  if (typeof decoded == 'object' && decoded != null)
+    return decoded.email;
+  else
+    return '';
 };
 const getUsername = (): string | null => {
 
@@ -38,4 +44,4 @@ const isStudent = (): boolean => getRole() === 'eleve';
 const isAdmin = (): boolean => getRole() === 'administration';
 const isCompany = (): boolean => getRole() === 'entreprise';
 
-export { isLoggedIn, getUsername, getRole, isStudent,isAdmin, isCompany };
+export { isLoggedIn, getUsername, getRole, isStudent,isAdmin, isCompany, getEmail };

@@ -34,18 +34,6 @@ class Experiences {
 }
 class Application implements IFields {
 
-  /*public first_name?: string;
-  public last_name?: string;
-  public phone?: string;
-  public nationnality?: string;
-  // public birth_date?: Date;
-  public birth_place?: string;
-  /*public family_status?: string;
-  public address?: string;
-  public postal_code?: string;
-  public city?: string;
-  public state?: string*/
-
   public address: string | null;
   public admin_comment: string | null;
   public attachments: [Attachments];
@@ -94,6 +82,7 @@ class Application implements IFields {
 
 
   constructor(application: IFields, isDraft: boolean) {
+    
     this.draft = isDraft
     this.address = application.address === undefined ? null : application.address;
     this.admin_comment = application.admin_comment === undefined ? null : application.admin_comment;

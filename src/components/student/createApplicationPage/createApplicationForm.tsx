@@ -1,5 +1,6 @@
 import React from 'react';
 import Application from '../../../models/application/application';
+import edit from '../../../img/icons/edit.png';
 import { createApplication, getSingleApplication, updateApplication } from '../../../services/application.service';
 import InfoPopUp from '../../helpers/InfoPopUp';
 import GlobalApplicationForm from './globalApplicationForm';
@@ -22,7 +23,8 @@ interface IState {
   applicationSuccess: boolean,
   applicationFailure: boolean,
   error: boolean,
-  errorMessage: string
+  errorMessage: string,
+  editMode: boolean
 
 }
 
@@ -56,7 +58,8 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       applicationSuccess: false,
       applicationFailure: false,
       error: false,
-      errorMessage: ""
+      errorMessage: "",
+      editMode: this.props.existingApplicationId === undefined
     };
   }
 
@@ -94,6 +97,13 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       errorMessage: e.response.data
     })
     console.log(e)
+  }
+
+  changeEditMode = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
+    this.setState({
+      editMode: !this.state.editMode
+    })
   }
 
   submitDraft = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -206,10 +216,19 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     return (
 
       <form style={{ width: '100%', height: '100%' }}>
+        
+        {/*Edit Buttons*/}
+        <div className="row justify-content-md-end" style={{ marginTop: '3%', marginRight: '5%' }}>
+          <div className="col-md-1">
+            <button className="btn btn-light btn-lg btn-block shadow" onClick={this.changeEditMode}>
+              <img src={edit} className="img-icon " alt="editButton" />
+            </button>
+          </div>
+        </div>
 
         <GlobalApplicationForm handleChange={this.handleChange} values={this.state.values} />
 
-        {/*Buttons*/}
+        {/*Saving Buttons*/}
         {isStudent() ? (
           <div className="row justify-content-md-center" style={{ marginTop: '3%' }}>
             <div className="col-md-2">

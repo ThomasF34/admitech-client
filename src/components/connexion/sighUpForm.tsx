@@ -87,11 +87,10 @@ class SignUpForm extends React.Component<IProps, IState> implements ISignUpForm 
         failure: false
       });
   }
-  error = (e: any) => {
+  error = () => {
     this.setState({
       nonPlanError: true
     })
-    console.log(e)
   }
 
   validForm = (): boolean => {
@@ -115,16 +114,14 @@ class SignUpForm extends React.Component<IProps, IState> implements ISignUpForm 
 
     if (this.validForm()) {
       const user = new UserSignUpDto(this.state.email, this.state.first_name, this.state.last_name, this.state.password, this.props.role);
-      console.log(this.state.first_name)
-      console.log(user)
       //call to the api
       signUp(user)
         .then(validConnexion)
         .catch((e) => {
-          if (e.status === 400)
-            missingFields(e)
+          if (e.response.status === 400)
+            missingFields(e.response)
           else
-            this.error(e)
+            this.error()
         });
     } else {
       this.setState({

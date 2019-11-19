@@ -76,20 +76,27 @@ class SignInForm extends React.Component<SignInFormProps, IState> implements ISi
 
     event.preventDefault();
 
-    const error = (e: any) => {
+    const error = () => {
       this.setState({
         nonPlanError: true,
         password: '',
         email: ''
       });
-      console.log(e)
     }
 
-    const missingFieldsOrIncorrect = (reponse: any) => {
-      console.log(reponse)
-      console.log(reponse.data)
+    const missingFields = (response: any) => {
       this.setState({
-        errors: reponse.data,
+        errors: response.data,
+        failure: true
+      })
+    }
+    const incorrect = () => {
+      this.setState({
+        errors: {
+          email: 'L\'adresse mail et/ou le mot de passe sont incorrects.'
+        },
+        password: '',
+        email: '',
         failure: true
       })
     }
@@ -105,15 +112,16 @@ class SignInForm extends React.Component<SignInFormProps, IState> implements ISi
             }
           }
         })
-        .catch((e:any) => {
-          console.log('error : '+e)
-          if (e.status === 400 || 404)
-            missingFieldsOrIncorrect(e)
-          else
-            error(e)
-        }
-
-        );
+        .catch((e: any) => {
+          if (e.response.status === 400)
+            missingFields(e.response)
+          else {
+            if (e.response.status === 404)
+              incorrect()
+            else
+              error()
+          }
+        });
     }
   }
 
@@ -174,7 +182,7 @@ class SignInForm extends React.Component<SignInFormProps, IState> implements ISi
           </form>
           <InfoPopUp isError={true} title="ERREUR" content="Une erreur innatendue s'est produite."
             show={this.state.nonPlanError} onClose={this.closeErrorPopUP} />
-          <InfoPopUp isError={true} title="ERREUR" content="Veuillez compléter tous les champs."
+          <InfoPopUp isError={true} title="ERREUR" content="Des champs sont incorrectes ou manquants."
             show={this.state.failure} onClose={this.closeFailurePopUP} />
         </div>
       );

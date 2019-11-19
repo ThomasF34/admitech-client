@@ -56,7 +56,7 @@ function App() {
         </Route>
 
         <Route exact path='/experiences'>
-          <ExperiencesForm experiences={[]}/>
+          <ExperiencesForm experiences={[]} handleChangeExperiences={()=> {console.log('change')}}/>
         </Route>
 
         <Route exact path="/">

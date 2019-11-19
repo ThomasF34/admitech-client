@@ -1,9 +1,11 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Experiences } from '../../../models/application/application';
+import './experiences.css';
 
 interface IProps {
-  experiences: Array<Experiences>
+  experiences: Array<Experiences>,
+  handleChangeExperiences: (elems: Experiences[]) => void
 
 }
 interface IState {
@@ -53,18 +55,14 @@ class ExperiencesForm extends React.Component<IProps, IState> {
   }
 
   updateYears = (valueYear: string, action: string) => {
-    console.log('ici')
     if (action === 'add') { //delete experience and re-add the year in the tab
       this.setState(previousState => ({
         yearsExperiences: [...previousState.yearsExperiences, valueYear]
       }));
     } else {// action === 'delete' //add experience and delete the year in the tab
-      console.log('delete')
-      console.log(this.state.yearsExperiences)
       const newList = this.state.yearsExperiences.filter(function (year) {
         return year !== valueYear;
       });
-      console.log(newList)
       this.setState({
         yearsExperiences: newList
       });
@@ -127,6 +125,27 @@ class ExperiencesForm extends React.Component<IProps, IState> {
       return 'Oui'
     } else { return 'Non' }
   }
+
+  resetListOfYears = (year: string) => {
+    this.setState(previousState => ({
+      yearsExperiences: [...previousState.yearsExperiences, year]
+    }));
+  }
+
+  removeElemFromExperiences = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>, experience: Experiences) => {
+    event.preventDefault();
+
+    const listAdded = this.state.experiences;
+    const newList = listAdded.filter(function (elem) {
+      return elem.year !== experience.year;
+    });
+    this.setState({
+      experiences: newList
+    });
+    this.props.handleChangeExperiences(newList);
+    this.resetListOfYears(experience.year!);
+  }
+
 
   render() {
     const years = this.state.yearsExperiences;
@@ -204,8 +223,13 @@ class ExperiencesForm extends React.Component<IProps, IState> {
           <hr />
           <h4>Mes Expériences</h4>
           {this.state.experiences.map(e => (
-            <p><span className='font-weight-bold'>{e.year}</span> : <span className='font-weight-bold'>Mention</span> : {this.convertRating(e.rating!)} <span className='font-weight-bold'>Diplôme</span> : {this.convertDegree(e.degree!)} <span className='font-weight-bold'>Parcours</span> : {e.name}  <span className='font-weight-bold'>Moyenne</span> : {e.mean} <span className='font-weight-bold'>Rang</span> : {e.ranking} <span className='font-weight-bold'>Etablissement</span> : {e.facility_name} <span className='font-weight-bold'>Ville</span> : {e.facility_place}      </p>
-          ))}
+            <div>
+              <span className='font-weight-bold'>{e.year}</span> : <span className='font-weight-bold'>Mention</span> : {this.convertRating(e.rating!)} <span className='font-weight-bold'>Diplôme</span> : {this.convertDegree(e.degree!)} <span className='font-weight-bold'>Parcours</span> : {e.name}  <span className='font-weight-bold'>Moyenne</span> : {e.mean} <span className='font-weight-bold'>Rang</span> : {e.ranking} <span className='font-weight-bold'>Etablissement</span> : {e.facility_name} <span className='font-weight-bold'>Ville</span> : {e.facility_place} 
+              <span className='text-danger ml-1 btn-delete float-right' onClick={(event)=>this.removeElemFromExperiences(event,e)}>Supprimer</span>
+              <hr/>
+              </div>
+         
+         ))}
         </div>
       </div>
     );

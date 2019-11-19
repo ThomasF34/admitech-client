@@ -42,9 +42,9 @@ class FormQuestion extends React.Component<IProps, IState> {
 
   saveResponse() {
     const response = new Response()
-    response.idResponse = this.state.currentId;
-    response.isCorrect = this.state.checked;
-    response.value = this.state.currentResponse;
+    response.label = this.state.currentResponse;
+    response.correct = this.state.checked;
+    
 
     const res = this.state.responses
     const currentId = this.state.currentId + 1
@@ -79,16 +79,15 @@ class FormQuestion extends React.Component<IProps, IState> {
   sendQuestion() {
     // Check si il existe au moins une réponse juste.
     const responses = this.state.responses
-    if (responses.map(elem => elem.isCorrect).filter(elem => elem).length === 0) {
+    if (responses.map(elem => elem.correct).filter(elem => elem).length === 0) {
       window.alert("Il n'y a pas de réponse juste... Vous devriez en ajouter une !")
-    } else if (responses.map(elem => elem.isCorrect).filter(elem => !elem).length === 0) {
+    } else if (responses.map(elem => elem.correct).filter(elem => !elem).length === 0) {
       window.alert("Il n'y a pas de mauvaise réponse... Vous devriez en rajouter quelques unes...")
     } else if (this.state.questionName === '') {
       window.alert("Vous n'avez pas donné d'intitulé à votre question... Rajoutez en un avant de valider.")
     } else {
       // Créer une nouvelle question.
       const newQuestion = new Question()
-      newQuestion.idQuestion = 0
       newQuestion.title = this.state.questionName
       newQuestion.responses = this.state.responses
       // Envoyer la question au composant parent.
@@ -107,13 +106,13 @@ class FormQuestion extends React.Component<IProps, IState> {
               <div className="input-group mb-3 col-12">
                 <div className="input-group-prepend">
                   <div className="input-group-text">
-                    {elem.isCorrect ? <input type="checkbox" defaultChecked disabled /> :
+                    {elem.correct ? <input type="checkbox" defaultChecked disabled /> :
                       < input type="checkbox" disabled />
                     }
 
                   </div>
                 </div>
-                <input type="text" className="form-control" disabled value={elem.value} />
+                <input type="text" className="form-control" disabled value={elem.label} />
                 <button className="btn btn-outline-danger" type="button" id="button-addon2" onClick={() => this.deleteItem(elem.idResponse)}>Supprimer</button>
               </div>
             ))

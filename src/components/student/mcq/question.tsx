@@ -64,8 +64,8 @@ class Question extends React.Component<IProps, IState> {
               {this.props.question.responses.map((elem: Response) =>
                 <div className='response'>
                   <label>
-                    <input type="checkbox" key={elem.value} disabled={this.state.pressed} onClick={() => this.changeResponses(elem.idResponse)} />
-                    {elem.value}
+                    <input type="checkbox" key={elem.label} disabled={this.state.pressed} onClick={() => this.changeResponses(elem.idResponse)} />
+                    {elem.label}
                   </label>
                 </div>
             )}

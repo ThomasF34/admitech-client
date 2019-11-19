@@ -1,12 +1,16 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Response from '../../../models/mcq/response.model'
 import Question from '../../../models/mcq/question.model'
 import '../../../style/mcq.css'
 import FormQuestion from './formQuestion';
+import Mcq from '../../../models/mcq/mcq.model';
+import {sendQCM} from '../../../services/qcm.service'
 
 interface IState {
-  questions: Question[]
+  questions: Question[],
+  origin: string,
+  formation: string, 
+  title : string
 }
 
 interface IProps {
@@ -18,11 +22,18 @@ class QuizzCreator extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
     this.state = {
+      origin: '',
+      formation: '',
+      title: '',
       questions: []
     }
     this.showResponse = this.showResponse.bind(this)
     this.handleNewQuestion = this.handleNewQuestion.bind(this)
     this.displayQuestionSaved = this.displayQuestionSaved.bind(this)
+    this.sendQCM = this.sendQCM.bind(this)
+    this.changeFormation = this.changeFormation.bind(this)
+    this.changeOrigin = this.changeOrigin.bind(this)
+    this.changetitle = this.changetitle.bind(this)
   }
 
 
@@ -36,7 +47,7 @@ class QuizzCreator extends React.Component<IProps, IState> {
                 <h5 className="card-title">{question.title}</h5>
                   {
                     question.responses.map(reponse => (
-                      <p className={reponse.isCorrect ? "text-success" : "text-danger"}> - {reponse.value}</p>
+                      <p className={reponse.correct ? "text-success" : "text-danger"}> - {reponse.label}</p>
                     ))
                   }
               </div>
@@ -73,11 +84,38 @@ class QuizzCreator extends React.Component<IProps, IState> {
     })  
   }
 
+  changeOrigin(event: React.ChangeEvent<HTMLSelectElement>) {
+    this.setState({ origin : event.target.value})
+  }
+
+  changeFormation(event: React.ChangeEvent<HTMLSelectElement>) {
+    this.setState({ formation: event.target.value })
+  }
+
+  changetitle(event: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ title: event.target.value })
+  }
+
+
+
+
+  sendQCM() {
+    const mcq = new Mcq()
+    mcq.title = this.state.title
+    mcq.formation = this.state.formation
+    mcq.origin = this.state.origin
+    mcq.questions = this.state.questions
+    
+    console.log(mcq)
+    const res = sendQCM(mcq)
+    console.log(res)
+  }
+
   render() {
     return (
       <div className='container'>
         <h3>Formulaire de création d'un quizz</h3>
-        <button className="btn btn-outline-primary float-right col-12 mb-3" type="button">Sauvegarger et envoyer le QCM</button>
+        <button className="btn btn-outline-primary float-right col-12 mb-3" type="button" onClick={() => this.sendQCM()}>Sauvegarger et envoyer le QCM</button>
         <div className="card p-3 mb-2">
           <h5 className="card-title">1. Informations générales</h5>
           <div className="card-body">
@@ -86,10 +124,10 @@ class QuizzCreator extends React.Component<IProps, IState> {
                 <div className="input-group-prepend">
                   <label className="input-group-text">Formation</label>
                 </div>
-                <select className="custom-select" id="inputGroupSelect01">
+                <select className="custom-select" id="inputGroupSelect01" onChange={(event) => this.changeFormation(event)}>
                   <option selected>Choisir...</option>
-                  <option value="1">DO</option>
-                  <option value="2">SE</option>
+                  <option value="DO">DO</option>
+                  <option value="SE">SE</option>
                 </select>
               </div>
 
@@ -97,11 +135,11 @@ class QuizzCreator extends React.Component<IProps, IState> {
                 <div className="input-group-prepend">
                   <label className="input-group-text">Provenance</label>
                 </div>
-                <select className="custom-select" id="inputGroupSelect01">
+                <select className="custom-select" id="inputGroupSelect01" onChange={ (event) => this.changeOrigin(event)}>
                   <option selected>Choisir</option>
-                  <option value="1">PeiP</option>
-                  <option value="2">DUT</option>
-                  <option value="3">BTS</option>
+                  <option value="Peip">PeiP</option>
+                  <option value="DUT">DUT</option>
+                  <option value="BTS">BTS</option>
                 </select>
               </div>
 
@@ -109,7 +147,7 @@ class QuizzCreator extends React.Component<IProps, IState> {
                 <div className="input-group-prepend">
                   <span className="input-group-text" id="basic-addon1">Nom</span>
                 </div>
-                <input type="text" className="form-control" placeholder="Donnez un nom à votre QCM" aria-label="Username" aria-describedby="basic-addon1" />
+                <input type="text" className="form-control" placeholder="Donnez un nom à votre QCM" onChange={ (event) => this.changetitle(event)} />
               </div>
             </form>
           </div>

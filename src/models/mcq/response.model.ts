@@ -1,7 +1,8 @@
 class Response {
 
   public idResponse!: number;
-  public value!: string;
+  public label!: string;
+  public correct?: boolean;
 
 };
 

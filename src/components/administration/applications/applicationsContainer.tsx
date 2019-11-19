@@ -10,7 +10,7 @@ import {getAllApplications} from "../../../services/application.service";
 interface IState {
   currentFormation: string,
   currentCategory: number,
-  applicationsToDisplay: Array<SingleApplication>
+  applications: Array<SingleApplication>
 }
 
 interface IProps {
@@ -22,10 +22,11 @@ class ApplicationsContainer extends Component<IProps, IState> {
     this.state = {
       currentFormation: 'Toutes',
       currentCategory: 0,
-      applicationsToDisplay: new Array<SingleApplication>()
+      applications: new Array<SingleApplication>()
     };
     this.changeCategory = this.changeCategory.bind(this);
     this.changeFormation = this.changeFormation.bind(this);
+    this.getApplications = this.getApplications.bind(this);
     this.getApplicationsToDisplay = this.getApplicationsToDisplay.bind(this);
   }
 
@@ -37,32 +38,37 @@ class ApplicationsContainer extends Component<IProps, IState> {
     this.setState({ currentCategory: elem });
   }
 
-  async getApplicationsToDisplay() {
+  async getApplications() {
     let allApplications = await getAllApplications();
 
-    let filteredApplications = allApplications.data.filter( (elem: any) => 
-      (elem.status === this.state.currentCategory || this.state.currentCategory === 0) 
-      && (elem.branch === this.state.currentFormation || this.state.currentFormation === 'Toutes')  
-    )
-
-    let applications = filteredApplications.map ( (elem: any) =>
+    let allApplicationsFormated = allApplications.data.map ( (elem: any) =>
       new SingleApplication(elem.first_name + ' ' + elem.last_name, elem.branch, elem.status, elem.jury, elem.mark, elem.mcq)
     )
 
-    this.setState({applicationsToDisplay: applications})
+    this.setState({applications: allApplicationsFormated})
+  }
+
+  getApplicationsToDisplay(applications: Array<SingleApplication>): Array<SingleApplication> {
+    return applications.filter( (elem: any) => 
+      (elem.ETAT === this.state.currentCategory || this.state.currentCategory === 0) 
+      && (elem.FORMATION === this.state.currentFormation || this.state.currentFormation === 'Toutes')  
+    )
+  }
+
+  UNSAFE_componentWillMount() {
+    this.getApplications()
   }
 
   render() {
-    this.getApplicationsToDisplay()
     return (
       <div>
         <ApplicationsNavbar handleClickFormation={this.changeFormation} />
-        <h6 id="total" className="card-subtitle mb-2 text-muted"> Total : {this.state.applicationsToDisplay.length} </h6>
+        <h6 id="total" className="card-subtitle mb-2 text-muted"> Total : {this.getApplicationsToDisplay(this.state.applications).length} </h6>
         <p className="dpdn">
           <ApplicationsDropdownComponent  handleClickCategory={this.changeCategory} />
         </p>
         <p className="list">
-          <ApplicationsList formation={this.state.currentFormation} category={this.state.currentCategory} candidaturesListe={this.state.applicationsToDisplay} />
+          <ApplicationsList formation={this.state.currentFormation} category={this.state.currentCategory} candidaturesListe={this.getApplicationsToDisplay(this.state.applications)} />
         </p>
       </div>
     )

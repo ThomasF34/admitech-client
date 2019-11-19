@@ -4,14 +4,11 @@ import student from '../../img/fond-student.jpeg';
 import polytech from '../../img/fond-polytech.jpeg';
 import company from '../../img/fond-company.jpeg';
 import Card from './card';
-import { authURL } from '../../services/oauth2.service';
+import { authURL} from '../../services/oauth2.service';
 
 
 
 class CardContainer extends React.Component {
-
- 
-  
   render() {
     return (
 

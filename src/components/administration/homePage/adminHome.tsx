@@ -4,25 +4,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import company from '../../../img/fond-polytech.jpeg';
 import user from '../../../img/user.png';
 import AdminNav from '../adminNav';
-import axios from 'axios';
-import { token } from '../../../services/oauth2.service';
 
 
 class AdminHome extends React.Component {
-
-  async componentDidMount() {
-    const state=localStorage.getItem("state")
-    const url=window.location.search
-   const decodedUrl=decodeURIComponent("soufiane")
-    let search = new URLSearchParams(decodedUrl);
-    if(state!==undefined && search.get("state")===state){
-      const data ={client_id:'o1-g1',code:search.get("code")};
-     const tokenData= await token(data);
-      //send the token to server
-    }
-
-    }
-
   
 
   render() {

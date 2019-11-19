@@ -1,14 +1,34 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import McqPreview from '../../../models/mcq/mcqPreview.model';
+import {getPreviewQCM} from '../../../services/qcm.service'
 
 interface IState {
-
+ listOfQCM : McqPreview[]
 }
 
 interface IProps {
 }
 
 class QuizzManagement extends React.Component<IProps, IState> { 
+  constructor(props: IProps) {
+    super(props)
+    this.state = {
+      listOfQCM: []
+    }
+    
+
+  }
+
+  componentDidMount() {
+    const res = getPreviewQCM()
+    res.then((responses) => {
+      if (responses !== undefined) {
+        this.setState({ listOfQCM: responses })
+      }
+    })
+  }
+
   render() {
     return (
       <div className='container'>
@@ -22,18 +42,20 @@ class QuizzManagement extends React.Component<IProps, IState> {
             </tr>
           </thead>
           <tbody>
-
-            <tr>
-              <th scope="row">QCM-DO-1</th>
-              <td>DO</td>
-              <td>DUT</td>
-              <td>
-                <button type="button" className="btn btn-outline-primary btn-sm mr-3 mb-sm-1">Modifier</button>
-                <button type="button" className="btn btn-outline-danger btn-sm ">Supprimer</button>
-              </td>
-            </tr>
-
-            
+            {
+              
+              this.state.listOfQCM.map(qcm => (
+                <tr>
+                  <th scope="row">{qcm.title}</th>
+                  <td>{qcm.formation}</td>
+                  <td>{qcm.origin}</td>
+                  <td>
+                    <button type="button" className="btn btn-outline-primary btn-sm mr-3 mb-sm-1">Aperçu</button>
+                    <button type="button" className="btn btn-outline-danger btn-sm ">Supprimer</button>
+                  </td>
+                </tr>
+              ))
+            }
           </tbody>
           </table>
       </div>

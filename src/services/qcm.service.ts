@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { API_URL } from './configApi.service';
 import Mcq from '../models/mcq/mcq.model'
-
-const request = require('request');
+import McqPreview from '../models/mcq/mcqPreview.model';
 
 const sendQCM = async (qcm: Mcq ) => {
   const res = await axios
@@ -17,4 +16,15 @@ const getQCM = async (idQcm: number) => {
   return res.data
 };
 
-export { sendQCM, getQCM }
+const getPreviewQCM = async () => {
+  try {
+    const res = await axios
+      .get(`${API_URL}/mcqs`);
+    const data: McqPreview[] = res.data
+    return data
+  } catch (error) {
+  throw error.response;
+  }
+};
+
+export { sendQCM, getQCM, getPreviewQCM }

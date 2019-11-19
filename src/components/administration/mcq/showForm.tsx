@@ -3,6 +3,7 @@ import Response from '../../../models/mcq/response.model';
 import QuestionModel from '../../../models/mcq/question.model';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Mcq from '../../../models/mcq/mcq.model';
+import '../../../style/mcq.css';
 
 interface IState {
   qcm: Mcq;
@@ -36,9 +37,11 @@ class ShowQuizz extends React.Component<IProps, IState> {
   render() {
     return (
       <div className="p-5">
-        <h3>{this.state.qcm.title}</h3>
-        <p>Formation : {this.state.qcm.formation}</p>
-        <p>Origine : {this.state.qcm.origin}</p>
+        <button className="btn btn-outline-primary">
+          <img src="https://img.icons8.com/color/48/000000/back.png" className="back-icon"/>
+          Retour à la liste de QCM
+          </button>
+        <h3 className="mt-5">{this.state.qcm.title} - {this.state.qcm.formation} - {this.state.qcm.origin} </h3>
         {
           this.state.qcm.questions.map(question => (
             <div className="card p-2 mb-3">

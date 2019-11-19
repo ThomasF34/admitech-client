@@ -10,7 +10,9 @@ import PopUpGuard from './popUpGuard';
 interface IProps {
   attachments: Array<IAttachement>,
   candId: number,
-  handleChangeAttachement: (elems: IAttachement[]) => void
+  handleChangeAttachement: (elems: IAttachement[]) => void,
+  isDisplayedBlock: boolean,
+  editMode: boolean
 }
 
 interface IState {
@@ -30,7 +32,7 @@ interface IState {
 }
 //Utils Interfaces
 
-interface IAttachement {
+export interface IAttachement {
   id?: number,
   attach_type: string,
   key: string,
@@ -205,44 +207,53 @@ class FileContainer extends React.Component<IProps, IState> {
   render() {
 
     return (
-      <div className='container bg-light mt-5 p-3'>
-        <form className="row">
-          <div className="form-group ml-2 mb-2">
-            <select id="file-select" className='form-control'>
-              {this.state.typesList.map(file => (
-                <option key={file.attach_type} value={file.attach_type} onClick={() => this.handleTypeChange(file.attach_type)} >{file.typeConverted}</option>
-              ))}
-            </select>
-          </div>
-          <div className="form-group mx-sm-3 mb-2">
-            <label htmlFor="file" className="label-file btn btn-info">Télécharger</label>
-            <input id="file" type="file" className="form-control-file input-file" onChange={(e) => this.handleDocumentChange(e)} />
-          </div>
-          <div className="form-group mb-2">
-            {this.state.currentFile !== null ? (
-              <button className='btn btn-success' disabled={this.state.disabled} onClick={(e) => this.addNewFile(e)}>Ajouter</button>) : null}
-          </div>
-        </form>
-        <div>
-          {this.state.currentFile !== null ? <small className='display'>Fichier téléchargé : {this.state.currentFile.name} -- {this.state.currentFile.size / 1000000} MB</small> : null}
-          {this.state.error ? <div className="alert alert-danger mt-2 text-center" role="alert"> Choisissez un fichier et un type de fichier S.V.P</div> : null}
-          {this.state.added ? <div className="alert alert-success mt-2 text-center" role="alert"> Ajout réussi !</div> : null}
-          {this.state.deleted ? <div className="alert alert-success mt-2 text-center" role="alert"> Suppression réussie !</div> : null}
-          {this.state.formatNotSupproted ? <div className="alert alert-danger mt-2 text-center" role="alert"> Format de fichier non supporté (Seulement: png, jpeg ou pdf)</div> : null}
-          {this.state.sizeNotSupproted ? <div className="alert alert-danger mt-2 text-center" role="alert">Taille du fichier maximale : 1MB</div> : null}
-        </div>
-        <div>
-          <hr />
-          <h4>Mes fichiers téléchargés</h4>
-          {this.displayNumberOfMissingFiles()}
-          {this.state.filesAdded.map(file => (
-            <div className='mb-2' key={file.key}><span className="badge badge-success">OK</span> <span className='text-info'>{getTypeConverted(file.attach_type)}</span> :
+      <div>
+        {this.props.isDisplayedBlock ? (
+          <div className='container bg-light mt-5 p-3'>
+            {this.props.editMode ? (
+              <div>
+                <form className="row">
+                  <div className="form-group ml-2 mb-2">
+                    <select id="file-select" className='form-control'>
+                      {this.state.typesList.map(file => (
+                        <option key={file.attach_type} value={file.attach_type} onClick={() => this.handleTypeChange(file.attach_type)} >{file.typeConverted}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-group mx-sm-3 mb-2">
+                    <label htmlFor="file" className="label-file btn btn-info">Télécharger</label>
+                    <input id="file" type="file" className="form-control-file input-file" onChange={(e) => this.handleDocumentChange(e)} />
+                  </div>
+                  <div className="form-group mb-2">
+                    {this.state.currentFile !== null ? (
+                      <button className='btn btn-success' disabled={this.state.disabled} onClick={(e) => this.addNewFile(e)}>Ajouter</button>) : null}
+                  </div>
+                </form>
+                <div>
+                  {this.state.currentFile !== null ? <small className='display'>Fichier téléchargé : {this.state.currentFile.name} -- {this.state.currentFile.size / 1000000} MB</small> : null}
+                  {this.state.error ? <div className="alert alert-danger mt-2 text-center" role="alert"> Choisissez un fichier et un type de fichier S.V.P</div> : null}
+                  {this.state.added ? <div className="alert alert-success mt-2 text-center" role="alert"> Ajout réussi !</div> : null}
+                  {this.state.deleted ? <div className="alert alert-success mt-2 text-center" role="alert"> Suppression réussie !</div> : null}
+                  {this.state.formatNotSupproted ? <div className="alert alert-danger mt-2 text-center" role="alert"> Format de fichier non supporté (Seulement: png, jpeg ou pdf)</div> : null}
+                  {this.state.sizeNotSupproted ? <div className="alert alert-danger mt-2 text-center" role="alert">Taille du fichier maximale : 1MB</div> : null}
+                </div>
+              </div>
+            ) : null}
+            <div>
+
+              <h4>Fichiers téléchargés</h4>
+              {this.displayNumberOfMissingFiles()}
+              {this.state.filesAdded.map(file => (
+                <div className='mb-2' key={file.key}><span className="badge badge-success">OK</span> <span className='text-info'>{getTypeConverted(file.attach_type)}</span> :
                    {file.key !== '' ? <span className='text-secondary'> <span className="text-info mx-1 btn-see" onClick={(e) => this.openDocTab(file.key)}>Voir</span> | </span> : <span className='text-secondary'> {file.fileName} | </span>}
-              <span className='text-danger ml-1 btn-delete' onClick={() => this.confirmPopUp(file)}>Supprimer</span>
+                  {this.props.editMode ? (<span className='text-danger ml-1 btn-delete' onClick={() => this.confirmPopUp(file)}>Supprimer</span>) : null}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        {this.state.showPopup ? <PopUpGuard showPopup={this.state.showPopup} closePopUp={this.closePopUp} onClickDelete={this.responsePopUp} /> : null}
+            {this.state.showPopup ? <PopUpGuard showPopup={this.state.showPopup} closePopUp={this.closePopUp} onClickDelete={this.responsePopUp} /> : null}
+          </div>
+        ) : null
+        }
       </div>
     );
   }

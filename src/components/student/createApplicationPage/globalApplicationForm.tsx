@@ -1,14 +1,21 @@
 import React from 'react';
-import { isAdmin, isStudent } from '../../../helpers/authorizationHelper';
+import { isAdmin, isStudent, getId } from '../../../helpers/authorizationHelper';
 import { IFields } from './createApplicationForm';
 import SpecialityForm from './specialityForm';
 import AdminForm from './adminForm';
 import CivilForm from './civilForm';
 import ALevelForm from './aLevelForm';
+import FileContainer, { IAttachement } from './filesContainer';
+import ExperiencesForm from './experiencesForm';
+import { Experiences } from '../../../models/application/application';
 
 interface IProps {
   handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void,
+  handleExperiencesChange: (elems: Experiences[]) => void,
+  handleAttachmentsChange: (elems: IAttachement[]) => void,
   values: IFields,
+  experiences: Array<Experiences>,
+  attachments: Array<IAttachement>,
   editMode: boolean
 }
 
@@ -23,7 +30,9 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
       AreDisplayedBlock: {
         civil: false,
         bac: false,
-        admin: false
+        admin: false,
+        fichiers: false,
+        experiences: false
       },
     };
   }
@@ -41,7 +50,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
     return (
       <div>
         {/* SPECIALITE */}
-        <SpecialityForm handleChange={this.props.handleChange} values={this.props.values} editMode={ isStudent() ? this.props.editMode : false}/>
+        <SpecialityForm handleChange={this.props.handleChange} values={this.props.values} editMode={isStudent() ? this.props.editMode : false} />
 
         {/* ADMIN*/}
         {isAdmin() ? (
@@ -52,7 +61,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
               <h4 className="text-white">Administration</h4>
             </button>
 
-            <AdminForm isDisplayedBlock={this.state.AreDisplayedBlock["admin"]} handleChange={this.props.handleChange} values={this.props.values} editMode={ isAdmin() ? this.props.editMode : false}/>
+            <AdminForm isDisplayedBlock={this.state.AreDisplayedBlock["admin"]} handleChange={this.props.handleChange} values={this.props.values} editMode={isAdmin() ? this.props.editMode : false} />
 
           </div>
         ) : null}
@@ -65,7 +74,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
             <h4 className="text-white">Etat Civil</h4>
           </button>
 
-          <CivilForm isDisplayedBlock={this.state.AreDisplayedBlock["civil"]} handleChange={this.props.handleChange} values={this.props.values} editMode={ isStudent() ? this.props.editMode : false} />
+          <CivilForm isDisplayedBlock={this.state.AreDisplayedBlock["civil"]} handleChange={this.props.handleChange} values={this.props.values} editMode={isStudent() ? this.props.editMode : false} />
 
         </div>
 
@@ -75,7 +84,25 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
             <h4 className="text-white">Baccalauréat</h4>
           </button>
 
-          <ALevelForm isDisplayedBlock={this.state.AreDisplayedBlock["bac"]} handleChange={this.props.handleChange} values={this.props.values} editMode={ isStudent() ? this.props.editMode : false}/>
+          <ALevelForm isDisplayedBlock={this.state.AreDisplayedBlock["bac"]} handleChange={this.props.handleChange} values={this.props.values} editMode={isStudent() ? this.props.editMode : false} />
+        </div>
+
+        {/* FICHIERS */}
+        <div className="col-md-12">
+          <button className="btn btn-lg btn-block shadow" onClick={(e) => { e.preventDefault(); this.changeDisplayMode("fichiers") }} style={{ backgroundColor: 'rgba(0, 204, 255, 0.863)', marginBottom: '1%' }}>
+            <h4 className="text-white">Pièces Jointes</h4>
+          </button>
+
+          <FileContainer candId={getId()} isDisplayedBlock={this.state.AreDisplayedBlock["fichiers"]} attachments={this.props.attachments} handleChangeAttachement={this.props.handleAttachmentsChange} editMode={isStudent() ? this.props.editMode : false} />
+        </div>
+
+        {/* EXPERIENCES */}
+        <div className="col-md-12">
+          <button className="btn btn-lg btn-block shadow" onClick={(e) => { e.preventDefault(); this.changeDisplayMode("experiences") }} style={{ backgroundColor: 'rgba(0, 204, 255, 0.863)', marginBottom: '1%' }}>
+            <h4 className="text-white">Experiences</h4>
+          </button>
+
+          <ExperiencesForm isDisplayedBlock={this.state.AreDisplayedBlock["experiences"]} values={this.props.experiences} handleChangeExperiences={this.props.handleExperiencesChange} editMode={isStudent() ? this.props.editMode : false} />
         </div>
 
       </div>

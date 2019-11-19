@@ -4,8 +4,10 @@ import { Experiences } from '../../../models/application/application';
 import '../../../style/fileManaging.css';
 
 interface IProps {
-  experiences: Array<Experiences>,
-  handleChangeExperiences: (elems: Experiences[]) => void
+  values: IFields,
+  handleChangeExperiences: (elems: Experiences[]) => void,
+  isDisplayedBlock: boolean,
+  editMode: boolean
 }
 interface IState {
   yearsExperiences: Array<string>,
@@ -37,7 +39,7 @@ class ExperiencesForm extends React.Component<IProps, IState> {
       },
       errors: {},
       experienceCanBeSummited: false,
-      experiences: this.props.experiences
+      experiences: []
     }
   }
 
@@ -144,86 +146,94 @@ class ExperiencesForm extends React.Component<IProps, IState> {
   render() {
     const years = this.state.yearsExperiences;
     return (
-      <div className='container bg-light mt-5 p-3'>
-        <form className="" onChange={() => this.checkSubmitAvailability()}>
+      <div>
+        {this.props.isDisplayedBlock ? (
+          <div className='container bg-light mt-5 p-3'>
+            {this.props.editMode ? (
+              <div>
+                <form className="" onChange={() => this.checkSubmitAvailability()}>
 
-          <div className='form-row'>
-            <div className="col-md-4 mb-3">
-              <label className='col-sm-2 col-form-label font-weight-bold'>Année</label>
-              <select name='year' id="year-select" className='form-control' value={this.state.valuesExperience.year} onChange={(e) => this.handleChange(e)}>
-                <option value='' >Choisir..</option>
-                {years.map(y => (
-                  <option key={y} value={y} >{y}</option>
-                ))}
-              </select>
-            </div>
+                  <div className='form-row'>
+                    <div className="col-md-4 mb-3">
+                      <label className='col-sm-2 col-form-label font-weight-bold'>Année</label>
+                      <select name='year' id="year-select" className='form-control' value={this.state.valuesExperience.year} onChange={(e) => this.handleChange(e)}>
+                        <option value='' >Choisir..</option>
+                        {years.map(y => (
+                          <option key={y} value={y} >{y}</option>
+                        ))}
+                      </select>
+                    </div>
 
-            <div className="col-md-4 mb-3">
-              <label className='col-sm-2 col-form-label font-weight-bold'>Mention</label>
-              <select name='rating' id="mention-select" className='form-control' value={this.state.valuesExperience.rating} onChange={(e) => this.handleChange(e)}>
-                <option value='' >Choisir..</option>
-                <option value='0' >Aucune</option>
-                <option value='1' >Passable</option>
-                <option value='2' >Bien</option>
-                <option value='3' >Très bien</option>
-                <option value='4' >Féliciations du Jury</option>
-              </select>
-            </div>
+                    <div className="col-md-4 mb-3">
+                      <label className='col-sm-2 col-form-label font-weight-bold'>Mention</label>
+                      <select name='rating' id="mention-select" className='form-control' value={this.state.valuesExperience.rating} onChange={(e) => this.handleChange(e)}>
+                        <option value='' >Choisir..</option>
+                        <option value='0' >Aucune</option>
+                        <option value='1' >Passable</option>
+                        <option value='2' >Bien</option>
+                        <option value='3' >Très bien</option>
+                        <option value='4' >Féliciations du Jury</option>
+                      </select>
+                    </div>
 
-            <div className="col-md-4 mb-3">
-              <label className='col-sm-2 col-form-label font-weight-bold'>Diplômé(e)</label>
-              <select name='degree' id="degree-select" className='form-control' value={this.state.valuesExperience.degree} onChange={(e) => this.handleChange(e)}>
-                <option value='' >Choisir..</option>
-                <option value='true' >Oui</option>
-                <option value='false' >Non</option>
-              </select>
-            </div>
-          </div>
+                    <div className="col-md-4 mb-3">
+                      <label className='col-sm-2 col-form-label font-weight-bold'>Diplômé(e)</label>
+                      <select name='degree' id="degree-select" className='form-control' value={this.state.valuesExperience.degree} onChange={(e) => this.handleChange(e)}>
+                        <option value='' >Choisir..</option>
+                        <option value='true' >Oui</option>
+                        <option value='false' >Non</option>
+                      </select>
+                    </div>
+                  </div>
 
-          <div className="form-group row">
-            <div className="col-lg-12">
-              <label className='col-sm-2 col-form-label font-weight-bold'>Parcours suivis</label>
-              <input placeholder='Classe/Etudes/Option suivies' className='form-control' value={this.state.valuesExperience.name} name='name' onChange={(e) => this.handleChange(e)} />
-            </div>
-          </div>
+                  <div className="form-group row">
+                    <div className="col-lg-12">
+                      <label className='col-sm-2 col-form-label font-weight-bold'>Parcours suivis</label>
+                      <input placeholder='Classe/Etudes/Option suivies' className='form-control' value={this.state.valuesExperience.name} name='name' onChange={(e) => this.handleChange(e)} />
+                    </div>
+                  </div>
 
-          <div className='form-row'>
-            <div className="col-md-6 mb-3">
-              <label className='col-sm-2 col-form-label font-weight-bold'>Moyenne</label>
-              <input placeholder='Moyenne' className='form-control' value={this.state.valuesExperience.mean} name='mean' type="number" step="0.01" min="0" max="20" onChange={(e) => this.handleChange(e)} />
-            </div>
+                  <div className='form-row'>
+                    <div className="col-md-6 mb-3">
+                      <label className='col-sm-2 col-form-label font-weight-bold'>Moyenne</label>
+                      <input placeholder='Moyenne' className='form-control' value={this.state.valuesExperience.mean} name='mean' type="number" step="0.01" min="0" max="20" onChange={(e) => this.handleChange(e)} />
+                    </div>
 
-            <div className="col-md-6 mb-3">
-              <label className='col-sm-2 col-form-label font-weight-bold'>Rang</label>
-              <input placeholder='1/200' className='form-control' value={this.state.valuesExperience.ranking} name='ranking' onChange={(e) => this.handleChange(e)} />
-            </div>
-          </div>
+                    <div className="col-md-6 mb-3">
+                      <label className='col-sm-2 col-form-label font-weight-bold'>Rang</label>
+                      <input placeholder='1/200' className='form-control' value={this.state.valuesExperience.ranking} name='ranking' onChange={(e) => this.handleChange(e)} />
+                    </div>
+                  </div>
 
-          <div className='form-row'>
-            <div className="col-md-6 mb-3">
-              <label className='col-sm-2 col-form-label font-weight-bold'>Etablissement</label>
-              <input placeholder='Nom Etablissement' className='form-control' value={this.state.valuesExperience.facility_name} name='facility_name' onChange={(e) => this.handleChange(e)} />
-            </div>
+                  <div className='form-row'>
+                    <div className="col-md-6 mb-3">
+                      <label className='col-sm-2 col-form-label font-weight-bold'>Etablissement</label>
+                      <input placeholder='Nom Etablissement' className='form-control' value={this.state.valuesExperience.facility_name} name='facility_name' onChange={(e) => this.handleChange(e)} />
+                    </div>
 
-            <div className="col-md-6 mb-3">
-              <label className='col-sm-2 col-form-label font-weight-bold'>Ville</label>
-              <input placeholder='Ville' className='form-control' value={this.state.valuesExperience.facility_place} name='facility_place' onChange={(e) => this.handleChange(e)} />
-            </div>
-          </div>
-          <button className='btn btn-info' onClick={(e) => this.handleSubmit(e)} disabled={!this.state.experienceCanBeSummited}>Ajouter</button>
-        </form>
-
-        <div>
-          <hr />
-          <h4>Mes Expériences</h4>
-          {this.state.experiences.map(e => (
+                    <div className="col-md-6 mb-3">
+                      <label className='col-sm-2 col-form-label font-weight-bold'>Ville</label>
+                      <input placeholder='Ville' className='form-control' value={this.state.valuesExperience.facility_place} name='facility_place' onChange={(e) => this.handleChange(e)} />
+                    </div>
+                  </div>
+                  <button className='btn btn-info' onClick={(e) => this.handleSubmit(e)} disabled={!this.state.experienceCanBeSummited}>Ajouter</button>
+                </form>
+              </div>
+            ) : null}
             <div>
-              <span className='font-weight-bold'>{e.year}</span> : <span className='font-weight-bold'>Mention</span> : {this.convertRating(e.rating!)} <span className='font-weight-bold'>Diplôme</span> : {this.convertDegree(e.degree!)} <span className='font-weight-bold'>Parcours</span> : {e.name}  <span className='font-weight-bold'>Moyenne</span> : {e.mean} <span className='font-weight-bold'>Rang</span> : {e.ranking} <span className='font-weight-bold'>Etablissement</span> : {e.facility_name} <span className='font-weight-bold'>Ville</span> : {e.facility_place}
-              <span className='text-danger ml-1 btn-delete float-right' onClick={(event) => this.removeElemFromExperiences(event, e)}>Supprimer</span>
               <hr />
+              <h4>Expériences</h4>
+              {this.state.experiences.map(e => (
+                <div>
+                  <span className='font-weight-bold'>{e.year}</span> : <span className='font-weight-bold'>Mention</span> : {this.convertRating(e.rating!)} <span className='font-weight-bold'>Diplôme</span> : {this.convertDegree(e.degree!)} <span className='font-weight-bold'>Parcours</span> : {e.name}  <span className='font-weight-bold'>Moyenne</span> : {e.mean} <span className='font-weight-bold'>Rang</span> : {e.ranking} <span className='font-weight-bold'>Etablissement</span> : {e.facility_name} <span className='font-weight-bold'>Ville</span> : {e.facility_place}
+                  {this.props.editMode ? (<span className='text-danger ml-1 btn-delete float-right' onClick={(event) => this.removeElemFromExperiences(event, e)}>Supprimer</span>) : null}
+                  <hr />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
+        ) : null
+        }
       </div>
     );
   }

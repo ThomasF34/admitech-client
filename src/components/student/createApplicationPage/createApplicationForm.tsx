@@ -1,10 +1,11 @@
 import React from 'react';
-import Application from '../../../models/application/application';
+import Application, { Experiences, Attachments } from '../../../models/application/application';
 import edit from '../../../img/icons/edit.png';
 import { createApplication, getSingleApplication, updateApplication } from '../../../services/application.service';
 import InfoPopUp from '../../helpers/InfoPopUp';
 import GlobalApplicationForm from './globalApplicationForm';
 import { isStudent, isAdmin } from '../../../helpers/authorizationHelper';
+import { IAttachement } from './filesContainer';
 
 export interface IFields {
   [key: string]: any;
@@ -17,6 +18,8 @@ interface IForm {
 
 interface IState {
   values: IFields,
+  experiences: Array<Experiences>,
+  attachments: Array<IAttachement>,
   errors: IFields,
   draftSuccess: boolean,
   draftFailure: boolean,
@@ -52,6 +55,8 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     super(props);
     this.state = {
       values: {},
+      experiences: [],
+      attachments: [],
       errors: {},
       draftSuccess: false,
       draftFailure: false,
@@ -191,7 +196,25 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
           else
             this.error(e)
         });
+  }
 
+  handleChangeAttachements(attachementsUpdated: IAttachement[]) {
+    let newAttachments = attachementsUpdated.map(x => new Attachments(x.id,x.attach_type,x.key))
+    let newValues = this.state.values
+    newValues.attachments = newAttachments
+    this.setState({
+      values: newValues
+    })
+    console.log(this.state.values)
+  }
+
+  handleChangeExperiences(experiencesUpdated: Experiences[]) {
+    let newValues = this.state.values
+    newValues.experiences = experiencesUpdated
+    this.setState({
+      values: newValues
+    })
+    console.log(this.state.values)
   }
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
@@ -219,16 +242,16 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
         {/*Edit Buttons*/}
         {this.props.existingApplicationId !== undefined ? (
-        <div className="row justify-content-md-end" style={{ marginTop: '3%', marginRight: '5%' }}>
-          <div className="col-4 col-md-1 col-sm-3">
-            <button className="btn btn-light btn-lg btn-block shadow" onClick={this.changeEditMode}>
-              <img src={edit} className="img-icon " alt="editButton" />
-            </button>
+          <div className="row justify-content-md-end" style={{ marginTop: '3%', marginRight: '5%' }}>
+            <div className="col-4 col-md-1 col-sm-3">
+              <button className="btn btn-light btn-lg btn-block shadow" onClick={this.changeEditMode}>
+                <img src={edit} className="img-icon " alt="editButton" />
+              </button>
+            </div>
           </div>
-        </div>
-           ) : null}
+        ) : null}
 
-        <GlobalApplicationForm handleChange={this.handleChange} values={this.state.values} editMode={this.state.editMode}/>
+        <GlobalApplicationForm handleExperiencesChange={this.handleChangeExperiences} handleAttachmentsChange={this.handleChangeAttachements} handleChange={this.handleChange} attachments= {this.state.attachments} experiences={this.state.experiences} values={this.state.values} editMode={this.state.editMode} />
 
         {/*Saving Buttons*/}
         {isStudent() ? (

@@ -228,7 +228,6 @@ class ExperiencesForm extends React.Component<IProps, IState> {
               <span className='text-danger ml-1 btn-delete float-right' onClick={(event)=>this.removeElemFromExperiences(event,e)}>Supprimer</span>
               <hr/>
               </div>
-         
          ))}
         </div>
       </div>

@@ -14,5 +14,17 @@ const draftApplication = async (application: Application) => {
   return res;
 };
 
-export { draftApplication };
+const deleteAttachmentInApplication = async (canId: number, attachId: number) => {
+  const token = getToken();
+  try {
+    await axios.delete(`${config.API_URL}/candidature/${canId}/document/${attachId}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  }
+  catch (error) {
+    throw error.response;
+  }
+};
+
+export { draftApplication, deleteAttachmentInApplication };
 

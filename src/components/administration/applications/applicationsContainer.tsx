@@ -5,7 +5,7 @@ import ApplicationsList from './applicationsList';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../../../style/applications/applicationsContainer.css';
 import SingleApplication from "../../../models/singleApplication";
-import {getAllApplications} from "../../../services/application.service";
+import {getAllApplications, updateStatusApplication} from "../../../services/application.service";
 import ConfirmationPopUp from '../../helpers/ConfirmationPopUp';
 
 interface IState {
@@ -68,10 +68,9 @@ class ApplicationsContainer extends Component<IProps, IState> {
     this.setState({currentId: elem})
   }
 
-  getUserActionPopUp(elem: any) {
+  async getUserActionPopUp(elem: any) {
     if (elem === 'valid' && this.state.currentId !== null) {
-      console.log("VALIDATION") // setState : 11
-      this.setState({ currentId: null })
+      await updateStatusApplication(this.state.currentId, 11) //TODO : Vérifier que ça fonctionne bien
     }
     else if (elem === 'cancel' && this.state.currentId !== null) {
       this.setState({ currentId: null })

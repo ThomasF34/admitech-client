@@ -53,4 +53,14 @@ const myApplications = async () => {
   return res;
 };
 
-export { createApplication, myApplications, getSingleApplication, updateApplication, getAllApplications};
+const updateStatusApplication = async (id: string, status: number) => {
+  const res = await axios
+    .put(`${config.API_URL}/candidature/${id}/${status}`,
+      {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      }
+    );
+  return res;
+};
+
+export { createApplication, myApplications, getSingleApplication, updateApplication, getAllApplications, updateStatusApplication};

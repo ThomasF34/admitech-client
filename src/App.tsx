@@ -13,7 +13,9 @@ import StudentApplicationPage from './components/administration/studentApplicati
 import CreateApplicationContainer from './components/student/createApplicationPage/createApplicationContainer';
 import ApplicationsPage from './components/administration/applications/applicationsPage';
 import { PrivateStudentRoute, PrivateAdminRoute, PrivateCompanyRoute, LoginRoute } from './helpers/routesHelper';
+import ExperiencesForm from './components/student/createApplicationPage/experiencesForm';
 import FakeContainerFiles from './components/fileManaging/containerTestFilesManaging';
+
 
 function App() {
 
@@ -54,6 +56,11 @@ function App() {
         <Route path="/etudiant/nouvelleCandidature">
           {PrivateStudentRoute(<CreateApplicationContainer />)}
         </Route>
+
+        <Route exact path='/experiences'>
+          <ExperiencesForm experiences={[]} handleChangeExperiences={()=> {console.log('change')}}/>
+        </Route>
+
         <Route exact path="/files">
           <FakeContainerFiles />
         </Route>

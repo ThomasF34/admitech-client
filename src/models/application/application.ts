@@ -10,7 +10,7 @@ class Attachments {
   }
 }
 
-class Experiences {
+export class Experiences {
 
   public degree: boolean | null;
   public facility_name: string | null;

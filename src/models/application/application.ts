@@ -3,14 +3,14 @@ import { IFields } from "../../components/student/createApplicationPage/createAp
 class Attachments {
 
   public attach_type: string | null;
-  public url: string | null;
-  constructor(attach_type?: string, url?: string) {
+  public key: string | null;
+  constructor(attach_type?: string, key?: string) {
     this.attach_type = attach_type === undefined ? null : attach_type
-    this.url = url === undefined ? null : url
+    this.key = key === undefined ? null : key
   }
 }
 
-class Experiences {
+export class Experiences {
 
   public degree: boolean | null;
   public facility_name: string | null;

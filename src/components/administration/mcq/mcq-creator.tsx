@@ -77,6 +77,7 @@ class QuizzCreator extends React.Component<IProps, IState> {
     return (
       <div className='container'>
         <h3>Formulaire de création d'un quizz</h3>
+        <button className="btn btn-outline-primary float-right col-12 mb-3" type="button">Sauvegarger et envoyer le QCM</button>
         <div className="card p-3 mb-2">
           <h5 className="card-title">1. Informations générales</h5>
           <div className="card-body">

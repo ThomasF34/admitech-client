@@ -128,7 +128,7 @@ class FormQuestion extends React.Component<IProps, IState> {
   render() {
     return (
 
-      <div className="p-3 mt-3 card">
+      <div className="p-3 mt-3 mb-3 card">
         <h5 className="card-title">3. Création d'une question</h5>
         <div className="card-body">
           <div className="input-group mb-3 ml-0 mr-0 col-12">

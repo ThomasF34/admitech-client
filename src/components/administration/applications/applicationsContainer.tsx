@@ -37,23 +37,19 @@ class ApplicationsContainer extends Component<IProps, IState> {
     this.setState({ currentCategory: elem });
   }
 
-  async getApplicationsToDisplay() {/*
-    getAllApplications().then(jsonObj => {
-      jsonObj.data.map((elem: any) => 
-        (elem.status === this.state.currentCategory || this.state.currentCategory === 0) 
-          && (elem.branch === this.state.currentFormation || this.state.currentFormation === 'Toutes')
-        ? 
-        (
-          this.setState({applicationsToDisplay: this.state.applicationsToDisplay.concat(new SingleApplication(elem.first_name + ' ' + elem.last_name, elem.branch, elem.status, elem.jury, elem.mark, elem.mcq)) })
-        )
-        : 
-        (
-          null
-        )
-      );
-    });*/
-    const applications = await getAllApplications();
-    console.log("test " + applications.data);
+  async getApplicationsToDisplay() {
+    let allApplications = await getAllApplications();
+
+    let filteredApplications = allApplications.data.filter( (elem: any) => 
+      (elem.status === this.state.currentCategory || this.state.currentCategory === 0) 
+      && (elem.branch === this.state.currentFormation || this.state.currentFormation === 'Toutes')  
+    )
+
+    let applications = filteredApplications.map ( (elem: any) =>
+      new SingleApplication(elem.first_name + ' ' + elem.last_name, elem.branch, elem.status, elem.jury, elem.mark, elem.mcq)
+    )
+
+    this.setState({applicationsToDisplay: applications})
   }
 
   render() {

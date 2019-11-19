@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import './confirmationPopUp.css';
+import '../../style/confirmationPopUp.css';
 
 interface IProps {
   title: string,
@@ -25,19 +25,15 @@ class ConfirmationPopUp extends React.Component<IProps, IState> {
             <Modal.Body> <p className="text-danger"> {this.props.content} </p> </Modal.Body>
 
             <Modal.Footer>
-                <div id='ButtonsConfirmationPopUpCancel'>
-                    <span id="ButtonConfirmatinPopUp">
-                        <Button variant="danger" onClick={() => this.props.onClose()}>
-                            Annuler 
-                        </Button>
-                    </span>
+                <Button variant="danger" onClick={() => this.props.onClose()}>
+                    Annuler 
+                </Button>
 
-                    <span id="ButtonConfirmatinPopUpOk"> 
-                        <Button variant="success" onClick={() => this.props.onClose()}>
-                            Confirmer
-                        </Button>
-                    </span>
-                </div>
+                <span id="ButtonConfirmatinPopUpOk"> 
+                    <Button variant="success" onClick={() => this.props.onClose()}>
+                        Confirmer
+                    </Button>
+                </span>
             </Modal.Footer>
         </Modal>
     );

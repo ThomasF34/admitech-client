@@ -10,7 +10,8 @@ import SingleApplication from "../../../models/singleApplication";
 interface IProps {
   application : SingleApplication,
   formation: string,
-  category: number
+  category: number,
+  handleClickRefuseApplication: any
 }
 
 class Application extends React.Component<IProps> {
@@ -77,7 +78,9 @@ class Application extends React.Component<IProps> {
           {
               (this.props.application.ETAT !== 11) 
               ? (
-                  <button id="buttonRefuse" type="button" className="btn btn-secondary btn-sm"> Refuser </button>
+                  <a href="#">
+                    <button id="buttonRefuse" type="button" className="btn btn-secondary btn-sm" onClick={() => this.props.handleClickRefuseApplication(this.props.application.ID)}> Refuser </button>
+                  </a>
               ) : (null)
               
           } 

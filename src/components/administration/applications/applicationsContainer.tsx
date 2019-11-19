@@ -11,7 +11,8 @@ import ConfirmationPopUp from '../../helpers/ConfirmationPopUp';
 interface IState {
   currentFormation: string,
   currentCategory: number,
-  applications: Array<SingleApplication>
+  applications: Array<SingleApplication>,
+  currentId: any
 }
 
 interface IProps {
@@ -23,12 +24,14 @@ class ApplicationsContainer extends Component<IProps, IState> {
     this.state = {
       currentFormation: 'Toutes',
       currentCategory: 0,
-      applications: new Array<SingleApplication>()
+      applications: new Array<SingleApplication>(),
+      currentId: null
     };
     this.changeCategory = this.changeCategory.bind(this);
     this.changeFormation = this.changeFormation.bind(this);
     this.getApplications = this.getApplications.bind(this);
     this.getApplicationsToDisplay = this.getApplicationsToDisplay.bind(this);
+    this.setCurrentId = this.setCurrentId.bind(this);
   }
 
   changeFormation(elem: string) {
@@ -60,7 +63,12 @@ class ApplicationsContainer extends Component<IProps, IState> {
     this.getApplications()
   }
 
+  setCurrentId(elem: any) {
+    this.setState({currentId: elem})
+  }
+
   render() {
+    console.log("currentId " + this.state.currentId);
     return (
       <div>
         <ApplicationsNavbar handleClickFormation={this.changeFormation} />
@@ -69,9 +77,9 @@ class ApplicationsContainer extends Component<IProps, IState> {
           <ApplicationsDropdownComponent  handleClickCategory={this.changeCategory} />
         </p>
         <p className="list">
-          <ApplicationsList formation={this.state.currentFormation} category={this.state.currentCategory} candidaturesListe={this.getApplicationsToDisplay(this.state.applications)} />
+          <ApplicationsList formation={this.state.currentFormation} category={this.state.currentCategory} candidaturesListe={this.getApplicationsToDisplay(this.state.applications)} handleClickRefuseApplicationsList={this.setCurrentId}/>
         </p>
-        <ConfirmationPopUp title='Confirmez-vous cette action ?' content='Cette action est irréversible et la candidature sera refusé.' show={false} onClose={()=>console.log('test')} />
+        <ConfirmationPopUp title='Confirmez-vous cette action ?' content='Cette action est irréversible et la candidature sera refusé.' show={true} onClose={()=>console.log(this.state.currentId)} />
       </div>
     )
   } 

@@ -9,8 +9,9 @@ interface IProps {
 interface IState {
   yearsExperiences: Array<string>,
   valuesExperience: IFields,
-  experiences: Array<Experiences>
-
+  errors: IFields,
+  experiences: Array<Experiences>,
+  experienceCanBeSummited: boolean
 }
 
 
@@ -35,8 +36,9 @@ class ExperiencesForm extends React.Component<IProps, IState> {
         year: '',
         degree: '',
         rating: ''
-
       },
+      errors: {},
+      experienceCanBeSummited: false,
       experiences: this.props.experiences
     }
   }
@@ -51,14 +53,18 @@ class ExperiencesForm extends React.Component<IProps, IState> {
   }
 
   updateYears = (valueYear: string, action: string) => {
+    console.log('ici')
     if (action === 'add') { //delete experience and re-add the year in the tab
       this.setState(previousState => ({
         yearsExperiences: [...previousState.yearsExperiences, valueYear]
       }));
     } else {// action === 'delete' //add experience and delete the year in the tab
+      console.log('delete')
+      console.log(this.state.yearsExperiences)
       const newList = this.state.yearsExperiences.filter(function (year) {
         return year !== valueYear;
       });
+      console.log(newList)
       this.setState({
         yearsExperiences: newList
       });
@@ -67,17 +73,26 @@ class ExperiencesForm extends React.Component<IProps, IState> {
 
   handleChange = (event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>): void => {
     if (event.target != null) {
-      const newValues = this.state.valuesExperience
-      const field: string = event.target.name
-      const value: string = event.target.value
-      newValues[field] = value
-      console.log(newValues)
-
+      const newValues = this.state.valuesExperience;
+      const field: string = event.target.name;
+      const value: string = event.target.value;
+      newValues[field] = value;
       this.setState({
         valuesExperience: newValues
       });
     }
   }
+
+  checkSubmitAvailability = () => {
+    let submitAvailable = true;
+    Object.values(this.state.valuesExperience).forEach((value: string) => {
+      if (value === '') {
+        submitAvailable = false;
+      }
+    });
+    this.setState({ experienceCanBeSummited: submitAvailable });
+  }
+
 
   handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
@@ -85,7 +100,6 @@ class ExperiencesForm extends React.Component<IProps, IState> {
     const newExperience = new Experiences(this.state.valuesExperience.degree, this.state.valuesExperience.facility_name
       , this.state.valuesExperience.facility_place, this.state.valuesExperience.mean, this.state.valuesExperience.name, this.state.valuesExperience.ranking
       , this.state.valuesExperience.rating, this.state.valuesExperience.year);
-
 
     this.setState(previousState => ({
       experiences: [...previousState.experiences, newExperience],
@@ -98,23 +112,32 @@ class ExperiencesForm extends React.Component<IProps, IState> {
         year: '',
         degree: '',
         rating: ''
-      }
+      },
+      experienceCanBeSummited: false
     }));
+    this.updateYears(this.state.valuesExperience.year, 'delete');
+  }
 
-
+  convertRating = (rating: string): string => {
+    const ratings = ['Aucune', 'Passable', 'Bien', 'Très bien', 'Féliciations du Jury'];
+    return ratings[parseInt(rating)];
+  }
+  convertDegree = (degree: boolean): string => {
+    if (degree) {
+      return 'Oui'
+    } else { return 'Non' }
   }
 
   render() {
-    const years = this.generateYears();
-    console.log(this.state)
+    const years = this.state.yearsExperiences;
     return (
       <div className='container bg-light mt-5 p-3'>
-        <form className="">
+        <form className="" onChange={() => this.checkSubmitAvailability()}>
 
           <div className='form-row'>
             <div className="col-md-4 mb-3">
-              <label className='col-sm-2 col-form-label'>Année</label>
-              <select name='year' id="year-select" className='form-control' value={this.state.valuesExperience.year}  onChange={(e) => this.handleChange(e)}>
+              <label className='col-sm-2 col-form-label font-weight-bold'>Année</label>
+              <select name='year' id="year-select" className='form-control' value={this.state.valuesExperience.year} onChange={(e) => this.handleChange(e)}>
                 <option value='' >Choisir..</option>
                 {years.map(y => (
                   <option key={y} value={y} >{y}</option>
@@ -123,7 +146,7 @@ class ExperiencesForm extends React.Component<IProps, IState> {
             </div>
 
             <div className="col-md-4 mb-3">
-              <label className='col-sm-2 col-form-label'>Mention</label>
+              <label className='col-sm-2 col-form-label font-weight-bold'>Mention</label>
               <select name='rating' id="mention-select" className='form-control' value={this.state.valuesExperience.rating} onChange={(e) => this.handleChange(e)}>
                 <option value='' >Choisir..</option>
                 <option value='0' >Aucune</option>
@@ -135,7 +158,7 @@ class ExperiencesForm extends React.Component<IProps, IState> {
             </div>
 
             <div className="col-md-4 mb-3">
-              <label className='col-sm-2 col-form-label'>Diplômé(e)</label>
+              <label className='col-sm-2 col-form-label font-weight-bold'>Diplômé(e)</label>
               <select name='degree' id="degree-select" className='form-control' value={this.state.valuesExperience.degree} onChange={(e) => this.handleChange(e)}>
                 <option value='' >Choisir..</option>
                 <option value='true' >Oui</option>
@@ -146,42 +169,42 @@ class ExperiencesForm extends React.Component<IProps, IState> {
 
           <div className="form-group row">
             <div className="col-lg-12">
-              <label className='col-sm-2 col-form-label'>Parcours suivis</label>
+              <label className='col-sm-2 col-form-label font-weight-bold'>Parcours suivis</label>
               <input placeholder='Classe/Etudes/Option suivies' className='form-control' value={this.state.valuesExperience.name} name='name' onChange={(e) => this.handleChange(e)} />
             </div>
           </div>
 
           <div className='form-row'>
             <div className="col-md-6 mb-3">
-              <label className='col-sm-2 col-form-label'>Moyenne</label>
-              <input placeholder='Moyenne' className='form-control' value={this.state.valuesExperience.mean} name='mean' onChange={(e) => this.handleChange(e)} />
+              <label className='col-sm-2 col-form-label font-weight-bold'>Moyenne</label>
+              <input placeholder='Moyenne' className='form-control' value={this.state.valuesExperience.mean} name='mean' type="number" step="0.01" min="0" max="20" onChange={(e) => this.handleChange(e)} />
             </div>
 
             <div className="col-md-6 mb-3">
-              <label className='col-sm-2 col-form-label'>Rang</label>
+              <label className='col-sm-2 col-form-label font-weight-bold'>Rang</label>
               <input placeholder='1/200' className='form-control' value={this.state.valuesExperience.ranking} name='ranking' onChange={(e) => this.handleChange(e)} />
             </div>
           </div>
 
           <div className='form-row'>
             <div className="col-md-6 mb-3">
-              <label className='col-sm-2 col-form-label'>Etablissemnt</label>
+              <label className='col-sm-2 col-form-label font-weight-bold'>Etablissement</label>
               <input placeholder='Nom Etablissement' className='form-control' value={this.state.valuesExperience.facility_name} name='facility_name' onChange={(e) => this.handleChange(e)} />
             </div>
 
             <div className="col-md-6 mb-3">
-              <label className='col-sm-2 col-form-label'>Ville</label>
+              <label className='col-sm-2 col-form-label font-weight-bold'>Ville</label>
               <input placeholder='Ville' className='form-control' value={this.state.valuesExperience.facility_place} name='facility_place' onChange={(e) => this.handleChange(e)} />
             </div>
           </div>
-          <button className='btn btn-info' onClick={(e) => this.handleSubmit(e)}>Ajouter</button>
+          <button className='btn btn-info' onClick={(e) => this.handleSubmit(e)} disabled={!this.state.experienceCanBeSummited}>Ajouter</button>
         </form>
 
         <div>
           <hr />
           <h4>Mes Expériences</h4>
           {this.state.experiences.map(e => (
-            <p>{e.year}:  Moyenne: {e.mean}</p>
+            <p><span className='font-weight-bold'>{e.year}</span> : <span className='font-weight-bold'>Mention</span> : {this.convertRating(e.rating!)} <span className='font-weight-bold'>Diplôme</span> : {this.convertDegree(e.degree!)} <span className='font-weight-bold'>Parcours</span> : {e.name}  <span className='font-weight-bold'>Moyenne</span> : {e.mean} <span className='font-weight-bold'>Rang</span> : {e.ranking} <span className='font-weight-bold'>Etablissement</span> : {e.facility_name} <span className='font-weight-bold'>Ville</span> : {e.facility_place}      </p>
           ))}
         </div>
       </div>

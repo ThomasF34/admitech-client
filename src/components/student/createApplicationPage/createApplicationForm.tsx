@@ -1,6 +1,10 @@
 import React from 'react';
 import Application from '../../../models/application/application';
-import { draftApplication } from '../../../services/application.service';
+import edit from '../../../img/icons/edit.png';
+import { createApplication, getSingleApplication, updateApplication } from '../../../services/application.service';
+import InfoPopUp from '../../helpers/InfoPopUp';
+import GlobalApplicationForm from './globalApplicationForm';
+import { isStudent, isAdmin } from '../../../helpers/authorizationHelper';
 
 export interface IFields {
   [key: string]: any;
@@ -13,63 +17,196 @@ interface IForm {
 
 interface IState {
   values: IFields,
-  errors: IFields
+  errors: IFields,
+  draftSuccess: boolean,
+  draftFailure: boolean,
+  applicationSuccess: boolean,
+  applicationFailure: boolean,
+  error: boolean,
+  errorMessage: string,
+  editMode: boolean
+
 }
 
 interface IProps {
-
+  existingApplicationId: string | undefined
 }
 
 class CreateApplicationForm extends React.Component<IProps, IState> implements IForm {
+
+  componentDidMount() {
+    if (this.props.existingApplicationId !== undefined) {
+
+      getSingleApplication(this.props.existingApplicationId)
+        .then(res => {
+          this.setState({
+            values: res.data
+          });
+        })
+        .catch((e) => this.error(e))
+    }
+
+  }
 
   constructor(props: IProps) {
     super(props);
     this.state = {
       values: {},
-      errors: {}
+      errors: {},
+      draftSuccess: false,
+      draftFailure: false,
+      applicationSuccess: false,
+      applicationFailure: false,
+      error: false,
+      errorMessage: "",
+      editMode: this.props.existingApplicationId === undefined
     };
+  }
+
+  closeDraftSuccessPopUP = () => {
+    if (this.state.draftSuccess === true)
+      this.setState({
+        draftSuccess: false
+      });
+  }
+
+  closeApplicationSuccessPopUP = () => {
+    if (this.state.applicationSuccess === true)
+      this.setState({
+        applicationSuccess: false
+      });
+  }
+  closeFailurePopUP = () => {
+    if (this.state.applicationFailure === true || this.state.draftFailure === true)
+      this.setState({
+        applicationFailure: false,
+        draftFailure: false
+      });
+  }
+
+  closeErrorPopUP = () => {
+    if (this.state.error === true)
+      this.setState({
+        error: false
+      });
+  }
+
+  error = (e: any) => {
+    this.setState({
+      error: true,
+      errorMessage: e.response.data
+    })
+    console.log(e)
+  }
+
+  changeEditMode = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
+    this.setState({
+      editMode: !this.state.editMode
+    })
   }
 
   submitDraft = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 
     event.preventDefault();
     const formValues = this.state.values
-    const application = new Application(formValues, true)
-    console.log("mon app : ")
-    console.log(application)
 
-    //call to the api
-    draftApplication(application)
-      .then(e => console.log("ok"))
-      .catch(e => console.log(e));
-
-  }
-
-  setSelect = (event: React.ChangeEvent<HTMLSelectElement>): void => {
-
-    if (event.target != null) {
-      const newValues = this.state.values
-      newValues.family_status = event.target.value
-      console.log(newValues)
+    const successUpdate = () => {
       this.setState({
-        values: newValues
-      });
+        draftSuccess: true
+      })
     }
+
+    const missingFields = (reponse: any) => {
+      this.setState({
+        draftFailure: true,
+        errors: reponse.data
+      })
+    }
+
+    const successCreate = (reponse: any) => {
+      this.setState({
+        draftSuccess: true,
+        values: reponse.data
+      })
+    }
+
+    let existingAppId = this.state.values.id
+    const application = new Application(formValues, true)
+
+    if (existingAppId)
+      updateApplication(existingAppId, application)
+        .then(rep => successUpdate())
+        .catch(e => this.error(e));
+    else
+      createApplication(application)
+        .then(rep => successCreate(rep))
+        .catch(e => {
+          if (e.status === 400)
+            missingFields(e)
+          else
+            this.error(e)
+        });
+
   }
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  submitApplication = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+
+    event.preventDefault();
+    const formValues = this.state.values
+
+    const successUpdate = () => {
+      this.setState({
+        applicationSuccess: true
+      })
+    }
+
+    const successCreate = (reponse: any) => {
+      this.setState({
+        applicationSuccess: true,
+        values: reponse.data
+      })
+    }
+
+    const missingFields = (reponse: any) => {
+      this.setState({
+        applicationFailure: true,
+        errors: reponse.data
+      })
+    }
+
+    let existingAppId = this.state.values.id
+    const application = new Application(formValues, false)
+
+    if (existingAppId)
+      updateApplication(existingAppId, application)
+        .then(rep => successUpdate())
+        .catch(e => this.error(e));
+    else
+      createApplication(application)
+        .then(rep => successCreate(rep))
+        .catch(e => {
+          if (e.status === 400)
+            missingFields(e)
+          else
+            this.error(e)
+        });
+
+  }
+
+  handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
+
     if (event.target != null) {
       const newValues = this.state.values
       const field: string = event.target.name
       const value: string = event.target.value
       newValues[field] = value
       console.log(newValues)
-
       this.setState({
         values: newValues
       });
 
-
+      console.log(this.state.values)
 
     }
   }
@@ -80,94 +217,48 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
       <form style={{ width: '100%', height: '100%' }}>
 
-        <h4 className="text-info">Etat Civil</h4>
-        <div className="form-group col-md-6 border border-info rounded">
-
-          <div style={{ padding: '2%' }}>
-
-            <div className="row" style={{ padding: '5px' }}>
-              <div className="col">
-                <h6>Nom : </h6>
-                <input name="last_name" type="text" className="form-control" placeholder="Nom" value={this.state.values.last_name} onChange={this.handleChange} />
-              </div>
-              <div className="col">
-                <h6>Prénom : </h6>
-                <input name="first_name" type="text" className="form-control" placeholder="Prénom" value={this.state.values.first_name} onChange={this.handleChange} />
-              </div>
-            </div>
-
-            <div className="row" style={{ padding: '5px' }}>
-              <div className="col">
-                <h6>Date de naissance : </h6>
-                <input name="birth_date" type="date" className="form-control" placeholder="Date de naissance" value={this.state.values.birth_date} onChange={this.handleChange}/>
-              </div>
-              <div className="col">
-                <h6>Lieu de naissance : </h6>
-                <input name="birth_place" type="text" className="form-control" placeholder="Lieu de naissance" value={this.state.values.birth_place} onChange={this.handleChange} />
-              </div>
-            </div>
-
-            <div className="row" style={{ padding: '5px' }}>
-              <div className="col">
-                <h6>Nationalité : </h6>
-                <input name="nationnality" type="text" className="form-control" placeholder="Nationalité" value={this.state.values.nationnality} onChange={this.handleChange} />
-              </div>
-              <div className="col">
-                <h6>Situation familiale : </h6>
-                <select name="family_status" className="form-control" placeholder="Sélectionner une valeur" value={this.state.values.family_status} onChange={this.setSelect}>
-                  <option value="single" >Célibataire</option>
-                  <option value="married">Marié(e)</option>
-                  <option value="other">Autre</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="row" style={{ padding: '5px' }}>
-              <div className="col">
-                <h6>Adresse : </h6>
-                <input name="address" type="text" className="form-control" placeholder="Adresse" value={this.state.values.address} onChange={this.handleChange} />
-              </div>
-            </div>
-
-            <div className="row" style={{ padding: '5px' }}>
-              <div className="col">
-                <h6>Code Postal : </h6>
-                <input name="postal_code" type="text" className="form-control" placeholder="Code Postal"  value={this.state.values.postal_code} onChange={this.handleChange}/>
-              </div>
-              <div className="col">
-                <h6>Ville : </h6>
-                <input name="city" type="text" className="form-control" placeholder="Ville"  value={this.state.values.city} onChange={this.handleChange}/>
-              </div>
-              <div className="col">
-                <h6>Pays : </h6>
-                <input name="state" type="text" className="form-control" placeholder="Pays"  value={this.state.values.state} onChange={this.handleChange}/>
-              </div>
-            </div>
-
-            <div className="row" style={{ padding: '5px' }}>
-              <div className="col">
-                <h6>Téléphone : </h6>
-                <input name="phone" type="text" className="form-control" placeholder="Téléphone"  value={this.state.values.phone} onChange={this.handleChange}/>
-              </div>
-              <div className="col">
-                <h6>Email : </h6>
-                <input name="postal_code" type="text" className="form-control" placeholder="Adresse token" disabled />
-                <small className="text-danger">/!\ Cette adresse sera utilisée pour les échanges</small>
-              </div>
-            </div>
-
+        {/*Edit Buttons*/}
+        {this.props.existingApplicationId !== undefined ? (
+        <div className="row justify-content-md-end" style={{ marginTop: '3%', marginRight: '5%' }}>
+          <div className="col-4 col-md-1 col-sm-3">
+            <button className="btn btn-light btn-lg btn-block shadow" onClick={this.changeEditMode}>
+              <img src={edit} className="img-icon " alt="editButton" />
+            </button>
           </div>
         </div>
-        <div className="row justify-content-md-center" style={{ marginTop: '3%' }}>
-          <div className="col-md-2">
-            <button className="btn btn btn btn-info btn-lg btn-block shadow" type="submit" onClick={this.submitDraft}>Enregistrer</button>
-            <small className="text-info">Enregistrer en tant que brouillon</small>
+           ) : null}
+
+        <GlobalApplicationForm handleChange={this.handleChange} values={this.state.values} editMode={this.state.editMode}/>
+
+        {/*Saving Buttons*/}
+        {isStudent() ? (
+          <div className="row justify-content-center" style={{ marginTop: '3%' }}>
+            <div className="col-6 col-sm-5 col-lg-2">
+              <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={this.submitDraft}>Enregistrer</button>
+              <small className="text-secondary">Enregistrer en tant que brouillon</small>
+            </div>
+            <div className="col-5 col-sm-5 col-lg-2">
+              <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Envoyer</button>
+              <small className="text-success">Soumettre à Polytech</small>
+            </div>
           </div>
-          <div className="col-md-2">
-            <button className="btn btn btn-success btn-lg btn-block shadow" type="submit">Envoyer</button>
-            <small className="text-success">Soumettre à Polytech</small>
+        ) : null}
+        {isAdmin() ? (
+          <div className="row justify-content-md-center" style={{ marginTop: '3%' }}>
+            <div className="col-6 col-sm-5 col-md-2">
+              <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Enregistrer</button>
+            </div>
           </div>
-        </div>
+        ) : null}
+        {/*Pop up*/}
+        <InfoPopUp isError={false} title="Brouillon Candidature" content="Votre brouillon de candidature a bien été sauvegardé. Vous pourrez le retrouver dans le menu 'Mes candidatures'."
+          show={this.state.draftSuccess} onClose={this.closeDraftSuccessPopUP} />
+        <InfoPopUp isError={false} title="Envoie de votre Candidature" content="Votre candidature a bien été envoyée. Nous pouvez dès maintenant suivre son avancement."
+          show={this.state.applicationSuccess} onClose={this.closeApplicationSuccessPopUP} />
+        <InfoPopUp isError={true} title="ERREUR" content={this.state.errorMessage === "" ? "Une erreur innatendue s'est produite." : this.state.errorMessage}
+          show={this.state.error} onClose={this.closeErrorPopUP} />
+        <InfoPopUp isError={true} title="ERREUR" content="Veuillez remplire tous les champs nécessaires s'il vous plait."
+          show={this.state.applicationFailure || this.state.draftFailure} onClose={this.closeFailurePopUP} />
 
       </form >
     );

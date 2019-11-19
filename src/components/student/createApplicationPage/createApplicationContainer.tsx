@@ -5,10 +5,11 @@ import 'bootstrap/dist/css/bootstrap.css';
 import user from '../../../img/user.png';
 import StudentNav from '../studentNav';
 import CreateApplicationForm from './createApplicationForm';
+import { useParams } from 'react-router-dom';
 
-class CreateApplicationContainer extends React.Component {
+function CreateApplicationContainer() {
+  let { id } = useParams();
 
-  render() {
     return (
 
       <div className="root fill ">
@@ -23,11 +24,11 @@ class CreateApplicationContainer extends React.Component {
             <div className="main-container" >
               <div className="row justify-content-md-center" >
                 <div className="name-mainTitle" >
-                  Nouvelle Candidature
+                 {id? "Ma candidature" : "Nouvelle candidature"}
             </div>
               </div>
               <div className="row" >
-                <CreateApplicationForm />
+                <CreateApplicationForm existingApplicationId={id} />
               </div>
             </div>
           </div>
@@ -38,6 +39,5 @@ class CreateApplicationContainer extends React.Component {
 
     );
   }
-}
 
 export default CreateApplicationContainer;

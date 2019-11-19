@@ -3,44 +3,35 @@ import '../../../style/container.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import user from '../../../img/user.png';
 import StudentApplicationContainer from '../../helpers/actor/studentApplicationContainer';
-import polytech from '../../../img/fond-polytech.jpeg';
 import AdminNav from '../adminNav';
+import { useParams } from 'react-router-dom';
 
-class StudentApplicationPage extends React.Component {
+function StudentApplicationPage() {
+  let { id } = useParams();
 
-  render() {
-    return (
+  return (
 
-      <div className="root fill ">
-        <div className="row fill no-gutters">
+    <div className="root fill ">
+      <div className="row fill no-gutters">
 
-          <div className="d-none d-md-block col-md-2 shadow-lg fill" >
-            <AdminNav userImage={user} userName="Membre Polytech" />
-          </div>
-
-          <div className="col-sm-12 col-md-8 fill">
-            <div className="image-container">
-              <img src={polytech} className="img-background" alt="polytech" />
-              <StudentApplicationContainer title="Candidature de ?? en ??" />
-            </div>
-          </div>
-
-
-          <div className="col-sm-12 col-md-2 fill">
-            <div className="fill-container shadow-lg" style={{ backgroundColor: 'rgb(163, 162, 162)' }}>
-              <h4 color="white" className="text-center">Détail des étapes</h4>
-            </div>
-          </div>
-
-
+        <div className="d-none d-md-block col-md-2 shadow-lg fill" >
+          <AdminNav userImage={user} userName="Membre Polytech" />
         </div>
 
+        <div className="col-sm-12 col-md-8 fill">
+          <StudentApplicationContainer title="Candidature de ??" id={id} />
+        </div>
 
-      </div >
+        <div className="col-sm-12 col-md-2 fill">
+          <div className="fill-container shadow-lg" style={{ backgroundColor: 'rgb(163, 162, 162)' }}>
+            <h4 color="white" className="text-center">Détail des étapes</h4>
+          </div>
+        </div>
 
-
-    );
-  }
+      </div>
+    </div>
+  );
 }
+  
 
 export default StudentApplicationPage;

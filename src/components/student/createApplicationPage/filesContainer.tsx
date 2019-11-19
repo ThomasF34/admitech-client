@@ -1,9 +1,9 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import '../../style/fileManaging.css';
-import { deleteAttachmentInApplication } from '../../services/application.service';
-import { getListOfTypesOfFiles, getTypeConverted, getBasicsAttachements } from '../../helpers/filesManaging.helper';
-import { handleUpload, getRessource, deleteFileInS3 } from '../../services/filesManaging.service';
+import '../../../style/fileManaging.css';
+import { deleteAttachmentInApplication } from '../../../services/application.service';
+import { getListOfTypesOfFiles, getTypeConverted, getBasicsAttachements } from '../../../helpers/filesManaging.helper';
+import { handleUpload, getRessource, deleteFileInS3 } from '../../../services/filesManaging.service';
 import PopUpGuard from './popUpGuard';
 
 //State and Props

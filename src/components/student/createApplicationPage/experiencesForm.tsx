@@ -1,12 +1,11 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Experiences } from '../../../models/application/application';
-import './experiences.css';
+import '../../../style/fileManaging.css';
 
 interface IProps {
   experiences: Array<Experiences>,
   handleChangeExperiences: (elems: Experiences[]) => void
-
 }
 interface IState {
   yearsExperiences: Array<string>,
@@ -16,12 +15,9 @@ interface IState {
   experienceCanBeSummited: boolean
 }
 
-
 interface IFields {
   [key: string]: any;
 }
-
-
 
 class ExperiencesForm extends React.Component<IProps, IState> {
 
@@ -144,7 +140,6 @@ class ExperiencesForm extends React.Component<IProps, IState> {
     this.props.handleChangeExperiences(newList);
     this.resetListOfYears(experience.year!);
   }
-
 
   render() {
     const years = this.state.yearsExperiences;

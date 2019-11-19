@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import '../../../style/applications/applicationsContainer.css';
 import SingleApplication from "../../../models/singleApplication";
 import {getAllApplications} from "../../../services/application.service";
+import ConfirmationPopUp from '../../helpers/ConfirmationPopUp';
 
 interface IState {
   currentFormation: string,
@@ -42,7 +43,7 @@ class ApplicationsContainer extends Component<IProps, IState> {
     let allApplications = await getAllApplications();
 
     let allApplicationsFormated = allApplications.data.map ( (elem: any) =>
-      new SingleApplication(elem.first_name + ' ' + elem.last_name, elem.branch, elem.status, elem.jury, elem.mark, elem.mcq)
+      new SingleApplication(elem.id, elem.first_name + ' ' + elem.last_name, elem.branch, elem.status, elem.jury, elem.mark, elem.mcq)
     )
 
     this.setState({applications: allApplicationsFormated})
@@ -70,6 +71,7 @@ class ApplicationsContainer extends Component<IProps, IState> {
         <p className="list">
           <ApplicationsList formation={this.state.currentFormation} category={this.state.currentCategory} candidaturesListe={this.getApplicationsToDisplay(this.state.applications)} />
         </p>
+        <ConfirmationPopUp title='Confirmez-vous cette action ?' content='Cette action est irréversible et la candidature sera refusé.' show={false} onClose={()=>console.log('test')} />
       </div>
     )
   } 

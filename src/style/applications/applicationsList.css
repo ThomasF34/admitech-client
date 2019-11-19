@@ -1,3 +1,8 @@
 .applications-list-p {
     margin-bottom:3%;
 }
+
+#applicationsList-a {
+    color:black;
+    text-decoration:none;
+}

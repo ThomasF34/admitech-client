@@ -1,0 +1,11 @@
+#ButtonsConfirmationPopUp {
+    margin:center;
+    display:inline-block;
+}
+
+#ButtonConfirmatinPopUpCancel {
+}
+
+#ButtonConfirmatinPopUpOk {
+    margin-left:10px;
+}

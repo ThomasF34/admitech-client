@@ -91,7 +91,6 @@ class ExperiencesForm extends React.Component<IProps, IState> {
     this.setState({ experienceCanBeSummited: submitAvailable });
   }
 
-
   handleSubmit = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault();
 
@@ -117,7 +116,7 @@ class ExperiencesForm extends React.Component<IProps, IState> {
   }
 
   convertRating = (rating: string): string => {
-    const ratings = ['Aucune', 'Passable', 'Bien', 'Très bien', 'Féliciations du Jury'];
+    const ratings = ['Aucune', 'Assez Bien', 'Bien', 'Très bien', 'Féliciations du Jury'];
     return ratings[parseInt(rating)];
   }
   convertDegree = (degree: boolean): string => {
@@ -224,11 +223,11 @@ class ExperiencesForm extends React.Component<IProps, IState> {
           <h4>Mes Expériences</h4>
           {this.state.experiences.map(e => (
             <div>
-              <span className='font-weight-bold'>{e.year}</span> : <span className='font-weight-bold'>Mention</span> : {this.convertRating(e.rating!)} <span className='font-weight-bold'>Diplôme</span> : {this.convertDegree(e.degree!)} <span className='font-weight-bold'>Parcours</span> : {e.name}  <span className='font-weight-bold'>Moyenne</span> : {e.mean} <span className='font-weight-bold'>Rang</span> : {e.ranking} <span className='font-weight-bold'>Etablissement</span> : {e.facility_name} <span className='font-weight-bold'>Ville</span> : {e.facility_place} 
-              <span className='text-danger ml-1 btn-delete float-right' onClick={(event)=>this.removeElemFromExperiences(event,e)}>Supprimer</span>
-              <hr/>
-              </div>
-         ))}
+              <span className='font-weight-bold'>{e.year}</span> : <span className='font-weight-bold'>Mention</span> : {this.convertRating(e.rating!)} <span className='font-weight-bold'>Diplôme</span> : {this.convertDegree(e.degree!)} <span className='font-weight-bold'>Parcours</span> : {e.name}  <span className='font-weight-bold'>Moyenne</span> : {e.mean} <span className='font-weight-bold'>Rang</span> : {e.ranking} <span className='font-weight-bold'>Etablissement</span> : {e.facility_name} <span className='font-weight-bold'>Ville</span> : {e.facility_place}
+              <span className='text-danger ml-1 btn-delete float-right' onClick={(event) => this.removeElemFromExperiences(event, e)}>Supprimer</span>
+              <hr />
+            </div>
+          ))}
         </div>
       </div>
     );

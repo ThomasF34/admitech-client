@@ -32,6 +32,7 @@ class ApplicationsContainer extends Component<IProps, IState> {
     this.getApplications = this.getApplications.bind(this);
     this.getApplicationsToDisplay = this.getApplicationsToDisplay.bind(this);
     this.setCurrentId = this.setCurrentId.bind(this);
+    this.getUserActionPopUp = this.getUserActionPopUp.bind(this);
   }
 
   changeFormation(elem: string) {
@@ -67,8 +68,17 @@ class ApplicationsContainer extends Component<IProps, IState> {
     this.setState({currentId: elem})
   }
 
+  getUserActionPopUp(elem: any) {
+    if (elem === 'valid' && this.state.currentId !== null) {
+      console.log("VALIDATION") // setState : 11
+      this.setState({ currentId: null })
+    }
+    else if (elem === 'cancel' && this.state.currentId !== null) {
+      this.setState({ currentId: null })
+    }
+  } 
+
   render() {
-    console.log("currentId " + this.state.currentId);
     return (
       <div>
         <ApplicationsNavbar handleClickFormation={this.changeFormation} />
@@ -79,7 +89,7 @@ class ApplicationsContainer extends Component<IProps, IState> {
         <p className="list">
           <ApplicationsList formation={this.state.currentFormation} category={this.state.currentCategory} candidaturesListe={this.getApplicationsToDisplay(this.state.applications)} handleClickRefuseApplicationsList={this.setCurrentId}/>
         </p>
-        <ConfirmationPopUp title='Confirmez-vous cette action ?' content='Cette action est irréversible et la candidature sera refusé.' show={true} onClose={()=>console.log(this.state.currentId)} />
+        <ConfirmationPopUp title='Confirmez-vous cette action ?' content="Le refus d'une candidature est irréversible." show={this.state.currentId !== null} onClose={this.getUserActionPopUp} />
       </div>
     )
   } 

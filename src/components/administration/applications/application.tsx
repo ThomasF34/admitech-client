@@ -6,6 +6,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import {categories} from "../../utils/categoriesEnum";
 import SingleApplication from "../../../models/singleApplication";
+import information2 from "../../../img/icons/information2.png";
 
 interface IProps {
   application : SingleApplication,
@@ -78,9 +79,7 @@ class Application extends React.Component<IProps> {
           {
               (this.props.application.ETAT !== 11) 
               ? (
-                  <a href="#">
-                    <button id="buttonRefuse" type="button" className="btn btn-secondary btn-sm" onClick={() => this.props.handleClickRefuseApplication(this.props.application.ID)}> Refuser </button>
-                  </a>
+                  <button id="buttonRefuse" type="button" className="btn btn-secondary btn-sm" onClick={() => this.props.handleClickRefuseApplication(this.props.application.ID)}> Refuser </button>
               ) : (null)
               
           } 
@@ -98,6 +97,14 @@ class Application extends React.Component<IProps> {
                   <button id="buttonJury" type="button" className="btn btn-secondary btn-sm"> + JURY </button>
               ) : (null)
           }    
+
+          {
+            this.props.application.ETAT > 1 
+              ? (
+                <a href={"candidature/" + this.props.application.ID} className="application-a"> Consulter <img className="info-icon-2" src={information2} alt='' /> </a>
+              ) : (null)
+          }
+
         </div>
       </div>
          

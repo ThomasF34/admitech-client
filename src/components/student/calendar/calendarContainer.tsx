@@ -7,9 +7,9 @@ import '../../../style/student/calendar/calendar.css';
 import { getAvailableSlots, getMySlot } from'../../../services/student/calendar/application.service';
 import InfoPopUpCalendar from '../../helpers/InfoPopUpCalendar';
 
-const user_id = 1; //todo
-const formation = "do"; //todo
-const status = 7; //todo
+const user_id = 1; //TODO
+const formation = "do"; //TODO
+const status = 7; //TODO
 
 interface IProps {
 
@@ -50,7 +50,7 @@ class CalendarContainer extends React.Component<IProps, IState> {
     getAppointmentApplicant = async (idApplicant: number) : Promise<void> => {
         let appointmentApplicant = (await getMySlot(user_id)).data;
 
-        if (appointmentApplicant.candidature_id !== undefined) { 
+        if (appointmentApplicant.id !== undefined) {
             let slot = { startDate: appointmentApplicant.begining_hour, endDate: appointmentApplicant.ending_hour, id: appointmentApplicant.id, title: 'MON ENTRETIEN' }
             this.setState({slotApplicant: slot})
         }
@@ -82,7 +82,7 @@ class CalendarContainer extends React.Component<IProps, IState> {
         else return { startDate:'', endDate:'' }
     }
 
-    render() {
+    render() { 
         return (
             status === 7  ? (
                 <div id='card-title-calendar-container'>

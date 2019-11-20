@@ -6,10 +6,11 @@ import AdminForm from './adminForm';
 import CivilForm from './civilForm';
 import ALevelForm from './aLevelForm';
 import FileContainer, { IAttachement } from './filesContainer';
-import ExperiencesForm from './experiencesForm';
+import ScolarityForm from './scolarityForm';
 import { Experiences } from '../../../models/application/application';
 import LanguageForm from './languageForm';
 import OtherApplyForm from './otherApplyForm';
+import ExperiencesForm from './experiencesForm';
 
 interface IProps {
   handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void,
@@ -106,7 +107,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
             <h4 className="text-white">Parcours Scolaire</h4>
           </button>
 
-          <ExperiencesForm isDisplayedBlock={this.state.AreDisplayedBlock["scolaire"]} experiences={this.props.experiences} handleChangeExperiences={this.props.handleExperiencesChange} editMode={isStudent() ? this.props.editMode : false} />
+          <ScolarityForm isDisplayedBlock={this.state.AreDisplayedBlock["scolaire"]} experiences={this.props.experiences} handleChangeExperiences={this.props.handleExperiencesChange} editMode={isStudent() ? this.props.editMode : false} />
         </div>
 
         {/* EXPERIENCES */}
@@ -115,7 +116,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
             <h4 className="text-white">Expériences</h4>
           </button>
 
-          <ExperiencesForm isDisplayedBlock={this.state.AreDisplayedBlock["plus"]} experiences={this.props.experiences} handleChangeExperiences={this.props.handleExperiencesChange} editMode={isStudent() ? this.props.editMode : false} />
+          <ExperiencesForm isDisplayedBlock={this.state.AreDisplayedBlock["plus"]} handleChange={this.props.handleChange} values={this.props.values} editMode={isStudent() ? this.props.editMode : false} />
         </div>
 
         {/* AUTRE CANDIDATURE */}

@@ -2,14 +2,14 @@ import * as React from 'react';
 import Paper from '@material-ui/core/Paper';
 import { ViewState, AppointmentModel } from '@devexpress/dx-react-scheduler';
 import { Scheduler, WeekView, Appointments, Toolbar, DateNavigator } from '@devexpress/dx-react-scheduler-material-ui';
+import { assignMySlot } from'../../../services/student/calendar/application.service';
 
 const user_id = 1; //TODO
 
 const Appointment: React.ComponentType<Appointments.AppointmentProps> = (props) => {
-  //TODO : + console.log
   if (props.data.title === "MON ENTRETIEN") {
-    return <Appointments.Appointment {...props} onClick={ () =>
-      console.log(props.data)    
+    return <Appointments.Appointment style={{ backgroundColor: '#3F2EE3' }} {...props} onClick={ async () =>
+      await assignMySlot(user_id, props.data.id)
     }
     />;
   }
@@ -17,7 +17,8 @@ const Appointment: React.ComponentType<Appointments.AppointmentProps> = (props) 
 };
 
 interface IProps {
-  listAppointments: Array<AppointmentModel>
+  listAppointments: Array<AppointmentModel>,
+  applicantAppointment: AppointmentModel
 }
 
 interface IState {
@@ -28,18 +29,9 @@ class CalendarApplicant extends React.PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      data: this.props.listAppointments.concat(this.getAppointmentApplicant(user_id))
+      data: this.props.listAppointments.concat(this.props.applicantAppointment)
     }
-    this.getAppointmentApplicant = this.getAppointmentApplicant.bind(this);
     this.getMinAppointmentAvailable = this.getMinAppointmentAvailable.bind(this);
-  }
-
-  
-  getAppointmentApplicant(idApplicant: number) : AppointmentModel {
-    if (1 === user_id) { //TODO TEST IF APPLICANT HAS AN EXISTING APPOINTMENT
-      return { startDate: '2019-11-26 10:00', endDate: '2019-11-26 11:00', title: 'MON ENTRETIEN' } //TODO RETURN APPOINTMENT
-    }
-    return { startDate:'', endDate:'' }
   }
 
   getMinAppointmentAvailable(appointments: Array<AppointmentModel>): AppointmentModel {
@@ -54,8 +46,8 @@ class CalendarApplicant extends React.PureComponent<IProps, IState> {
     else return { startDate:'', endDate:'' }
   }
 
-  getDefaultCurrentDate(idApplicant: number, appointments: Array<AppointmentModel>) : AppointmentModel {
-    if (this.getAppointmentApplicant(idApplicant).startDate !== '') return this.getAppointmentApplicant(idApplicant)
+  getDefaultCurrentDate(appointments: Array<AppointmentModel>) : AppointmentModel {
+    if (this.props.applicantAppointment.startDate !== '') return this.props.applicantAppointment
     else if (this.getMinAppointmentAvailable(appointments).startDate !== '') return this.getMinAppointmentAvailable(appointments)
     else return { startDate: new Date(), endDate: new Date() }
   }
@@ -69,7 +61,7 @@ class CalendarApplicant extends React.PureComponent<IProps, IState> {
           locale='fr-FR'
         >
           <ViewState
-            defaultCurrentDate={this.getDefaultCurrentDate(user_id, this.props.listAppointments).startDate}
+            defaultCurrentDate={this.getDefaultCurrentDate(this.props.listAppointments).startDate}
           />
 
           <WeekView

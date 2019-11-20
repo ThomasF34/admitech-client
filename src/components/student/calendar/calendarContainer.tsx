@@ -39,7 +39,7 @@ class CalendarContainer extends React.Component<IProps, IState> {
         if (availableAppointments.length !== 0) {
             let availableSlots = new Array<AppointmentModel>();
             availableAppointments.filter((elem: any) => elem !== undefined).map( (elem: any) => 
-                availableSlots = availableSlots.concat({startDate: elem.begining_hour, endDate: elem.ending_hour, id: elem.id})
+                availableSlots = availableSlots.concat({startDate: elem.begining_hour, endDate: elem.ending_hour, id: elem.id, title: 'Entretien disponible'})
             )
             this.setState({listAvailableSlots: availableSlots})
         }
@@ -48,10 +48,9 @@ class CalendarContainer extends React.Component<IProps, IState> {
     getAppointmentApplicant = async (idApplicant: number) : Promise<void> => {
         let appointmentApplicant = (await getMySlot(user_id)).data;
 
-        if (appointmentApplicant.id !== undefined) { 
-            let dateStart = new Date(appointmentApplicant.begining_hour).getDate() + ' ' + months.get(new Date(appointmentApplicant.begining_hour).getMonth()+1) + ' ' + new Date(appointmentApplicant.begining_hour).getFullYear() + ' ' + (new Date(appointmentApplicant.begining_hour).getHours()-1) + ':' + new Date(appointmentApplicant.begining_hour).getMinutes();
-            let appointmentFormated = { startDate: dateStart, endDate: appointmentApplicant.ending_hour, title: 'MON ENTRETIEN' }
-            this.setState({slotApplicant: appointmentFormated})
+        if (appointmentApplicant.candidature_id !== undefined) { 
+            let slot = { startDate: appointmentApplicant.begining_hour, endDate: appointmentApplicant.ending_hour, id: appointmentApplicant.id, title: 'MON ENTRETIEN' }
+            this.setState({slotApplicant: slot})
         }
     }
     
@@ -89,7 +88,12 @@ class CalendarContainer extends React.Component<IProps, IState> {
                     ? (
                         <h5>
                             
-                            Votre entretien est programmé pour le <span id="span-calendar-container"> {this.state.slotApplicant.startDate} </span> .
+                            Votre entretien est programmé pour le 
+                            <span id="span-calendar-container"> 
+                            {
+                                ' ' + new Date(this.state.slotApplicant.startDate).getDate() + ' ' + months.get(new Date(this.state.slotApplicant.startDate).getMonth()+1) + ' ' + new Date(this.state.slotApplicant.startDate).getFullYear() + ' ' + (new Date(this.state.slotApplicant.startDate).getHours()-1) + ':' + new Date(this.state.slotApplicant.startDate).getMinutes() + '.'
+                            } 
+                            </span>
                         
                         </h5>
                     ) 
@@ -122,7 +126,7 @@ class CalendarContainer extends React.Component<IProps, IState> {
                         </h6>
                     )
                 } 
-                <CalendarApplicant listAppointments={this.state.listAvailableSlots} />
+                <CalendarApplicant listAppointments={this.state.listAvailableSlots} applicantAppointment={this.state.slotApplicant} />
             </div>
 
         )

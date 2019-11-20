@@ -22,7 +22,7 @@ const getMySlot = async (idApplicant: number) => {
     return res;
 };
 
-const assignMySlot = async (idApplicant: number, idSlot: number) => {
+const assignMySlot = async (idApplicant: number, idSlot: string|number|undefined) => {
     const res = await axios
       .put(`${config.API_URL}/entretien/etudiant/affecter`, {'candidature_id': idApplicant, 'entretien_id': idSlot},
         {

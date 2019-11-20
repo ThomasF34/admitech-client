@@ -198,8 +198,12 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
         });
   }
 
-  handleChangeAttachements(attachementsUpdated: IAttachement[]) {
+  handleChangeAttachements = (attachementsUpdated: IAttachement[]) => {
+    console.log(attachementsUpdated)
     let newAttachments = attachementsUpdated.map(x => new Attachments(x.id,x.attach_type,x.key))
+    console.log(newAttachments)
+    console.log(this.state.values)
+   
     let newValues = this.state.values
     newValues.attachments = newAttachments
     this.setState({
@@ -208,7 +212,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     console.log(this.state.values)
   }
 
-  handleChangeExperiences(experiencesUpdated: Experiences[]) {
+  handleChangeExperiences = (experiencesUpdated: Experiences[]) => {
     let newValues = this.state.values
     newValues.experiences = experiencesUpdated
     this.setState({

@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { setAuthToken, setToken, getAuthToken, removeAuthToken } from './token.service';
+import { setAuthToken, setToken, getAuthToken, removeAuthToken, removeToken } from './token.service';
+import { isAdmin } from '../helpers/authorizationHelper';
 const buildUrl = require('build-url');
 const request = require('request');
 const jwtDecode = require('jwt-decode');
-
+const random = require('random')
 
 
 
@@ -59,24 +60,38 @@ if (exp<current_time)
     })
     if (res.status === 200){
       removeAuthToken("access_token")
-      setAuthToken("access_token",res.data.refresh_token)
+      setAuthToken("access_token",res.data.access_token)
        await admiTechToken(headers(res.data.access_token,true))
                     }}
 
   }
 
+axios.interceptors.response.use( (response)=> {
+    return response
+  }, async function (error) {
+    if(error.response.data==="Token expired"){
+      if(isAdmin()){
+        await refreshToken()
+      }
+      else {
+        removeToken();
+        window.location.reload()
+      }
+    }
+  });
 
-
-const state = 13445644;
 const client_id='b065ce17-b210-43a9-8409-8e58ca67fe1a';
 const redirectURI="http://localhost:3000/oauth"
-const authURL=buildUrl(endPoints.authorizeEndPoint, {
+const authURL=():string=> {
+  const state = random.int(1,100);
+  setAuthToken("state",state)
+  return buildUrl(endPoints.authorizeEndPoint, {
   queryParams: {
     client_id: client_id,
-    state:state,
+    state:getAuthToken("state"),
     redirect_uri: redirectURI
   }
 })
+}
 
-
-export{token,authURL,state,client_id,refreshToken}
+export{token,authURL,client_id,refreshToken}

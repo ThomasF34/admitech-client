@@ -5,9 +5,11 @@ import {months} from "../../utils/months";
 import 'bootstrap/dist/css/bootstrap.css';
 import '../../../style/student/calendar/calendar.css';
 import { getAvailableSlots, getMySlot } from'../../../services/student/calendar/application.service';
+import InfoPopUpCalendar from '../../helpers/InfoPopUpCalendar';
 
 const user_id = 1; //todo
 const formation = "do"; //todo
+const status = 7; //todo
 
 interface IProps {
 
@@ -15,7 +17,7 @@ interface IProps {
 
 interface IState {
     slotApplicant: AppointmentModel,
-    listAvailableSlots: Array<AppointmentModel>
+    listAvailableSlots: Array<AppointmentModel>,
 }
 
 class CalendarContainer extends React.Component<IProps, IState> {
@@ -24,7 +26,7 @@ class CalendarContainer extends React.Component<IProps, IState> {
         super(props);
         this.state = {
             slotApplicant: {startDate: '', endDate: ''},
-            listAvailableSlots: []
+            listAvailableSlots: [],
         }
 
         this.getAvailableAppointments = this.getAvailableAppointments.bind(this);
@@ -82,53 +84,45 @@ class CalendarContainer extends React.Component<IProps, IState> {
 
     render() {
         return (
-            <div id='card-title-calendar-container'>
-                {
-                    this.state.slotApplicant.startDate !== '' 
-                    ? (
-                        <h5>
-                            
-                            Votre entretien est programmé pour le 
-                            <span id="span-calendar-container"> 
-                            {
-                                ' ' + new Date(this.state.slotApplicant.startDate).getDate() + ' ' + months.get(new Date(this.state.slotApplicant.startDate).getMonth()+1) + ' ' + new Date(this.state.slotApplicant.startDate).getFullYear() + ' ' + (new Date(this.state.slotApplicant.startDate).getHours()-1) + ':' + new Date(this.state.slotApplicant.startDate).getMinutes() + '.'
-                            } 
-                            </span>
-                        
-                        </h5>
-                    ) 
-                    : (
-                        <h5>
-                            {
-                                'Aucun rendez-vous n\'est programmé pour le moment. Cliquez sur un créneau pour vous y inscrire.'
-                            }
-                        </h5>
-                    )
-                }
-                {
-                    this.getMinAppointmentAvailable(this.state.listAvailableSlots).startDate !== '' 
-                    ? (
-                        <h6> 
-                            {
-                                'Les rendez-vous s\'étendent de la période du ' +
-                                this.getMinAppointmentAvailable(this.state.listAvailableSlots).startDate
-                                + ' au ' +
-                                this.getMaxAppointmentAvailable(this.state.listAvailableSlots).startDate
-                                + '.'
-                            }   
-                        </h6>
-                    )
-                    : (
-                        <h6>
-                            {
-                                'Aucun créneau n\'est disponible pour le moment.'
-                            }
-                        </h6>
-                    )
-                } 
-                <CalendarApplicant listAppointments={this.state.listAvailableSlots} applicantAppointment={this.state.slotApplicant} />
-            </div>
+            status === 7  ? (
+                <div id='card-title-calendar-container'>
+                    <h5>
+                        {
+                            'Aucun rendez-vous n\'est programmé pour le moment. Cliquez sur un créneau pour vous y inscrire.'
+                        }
+                    </h5>
 
+                    {
+                        this.getMinAppointmentAvailable(this.state.listAvailableSlots).startDate !== '' 
+                        ? (
+                            <h6> 
+                                {
+                                    'Les rendez-vous s\'étendent de la période du ' +
+                                    this.getMinAppointmentAvailable(this.state.listAvailableSlots).startDate
+                                    + ' au ' +
+                                    this.getMaxAppointmentAvailable(this.state.listAvailableSlots).startDate
+                                    + '.'
+                                }   
+                            </h6>
+                        )
+                        : (
+                            <h6>
+                                {
+                                    'Aucun créneau n\'est disponible pour le moment.'
+                                }
+                            </h6>
+                        )
+                    }
+                    <CalendarApplicant listAppointments={this.state.listAvailableSlots} applicantAppointment={this.state.slotApplicant} />
+
+                </div>
+            )
+            : (
+                <InfoPopUpCalendar 
+                    title = 'Vous avez déjà un entretien' 
+                    content = "Programmé pour le " { ... new Date(this.state.slotApplicant.startDate).getDate() + ' ' + months.get(new Date(this.state.slotApplicant.startDate).getMonth()+1) + ' ' + new Date(this.state.slotApplicant.startDate).getFullYear() + ' ' + (new Date(this.state.slotApplicant.startDate).getHours()-1) + ':' + new Date(this.state.slotApplicant.startDate).getMinutes() }
+                />
+            )
         )
     }
 }

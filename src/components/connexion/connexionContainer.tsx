@@ -4,7 +4,6 @@ import '../../style/container.css';
 import ConnexionNav from './connexionNav';
 import SignInForm from './signInForm';
 import SignUpForm from './sighUpForm';
-import { token ,client_id} from '../../services/oauth2.service';
 
 
 interface IProps {

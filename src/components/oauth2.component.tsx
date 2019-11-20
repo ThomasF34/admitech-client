@@ -11,8 +11,7 @@ class  WaitToken extends React.Component {
       let search = new URLSearchParams(decodedUrl);
       if(search.get("state")===state.toString()&& search.get("state") !==null ){
         const data ={client_id:client_id,code:search.get("code")};
-        const tokenAsync= await token(data);
-
+        await token(data);
 
       }
     }

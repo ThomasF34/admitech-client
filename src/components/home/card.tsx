@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Link } from 'react-router-dom';
-import { isAdmin, isLoggedIn } from '../../helpers/authorizationHelper';
+import { isLoggedIn } from '../../helpers/authorizationHelper';
 
 interface IProps {
   title: string,

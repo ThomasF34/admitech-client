@@ -8,7 +8,7 @@ interface IProps {
   editMode: boolean
 }
 
-class Language extends React.Component<IProps>{
+class LanguageForm extends React.Component<IProps>{
   render() {
 
     return (
@@ -68,4 +68,4 @@ class Language extends React.Component<IProps>{
   }
 }
 
-export default Language;
+export default LanguageForm;

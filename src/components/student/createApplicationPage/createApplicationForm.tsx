@@ -55,7 +55,11 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
   constructor(props: IProps) {
     super(props);
     this.state = {
-      values: {},
+      values: {
+        other_apply: false,
+        other_apply_apprentise: false
+
+      },
       experiences: [],
       attachments: [],
       errors: {},
@@ -219,9 +223,14 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
 
     if (event.target != null) {
+
       const newValues = this.state.values
-      const field: string = event.target.name
-      const value: string = event.target.value
+      let field: string = event.target.name
+      let value: any = event.target.value
+      if (field === ("other_apply" || "other_apply_apprentise")) {
+        value = !newValues[field]
+      }
+
       newValues[field] = value
       this.setState({
         values: newValues
@@ -250,7 +259,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
         {/*Saving Buttons*/}
         {isStudent() ? (
-          <div className="row justify-content-center" style={{ marginTop: '3%' }}>
+          <div className="row justify-content-center" style={{ marginTop: '2%' }}>
             <div className="col-6 col-sm-5 col-lg-2">
               <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={this.submitDraft}>Enregistrer</button>
               <small className="text-secondary">Enregistrer en tant que brouillon</small>
@@ -262,7 +271,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
           </div>
         ) : null}
         {isAdmin() ? (
-          <div className="row justify-content-md-center" style={{ marginTop: '3%' }}>
+          <div className="row justify-content-md-center" style={{ marginTop: '2%' }}>
             <div className="col-6 col-sm-5 col-md-2">
               <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Enregistrer</button>
             </div>

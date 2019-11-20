@@ -8,7 +8,8 @@ import ALevelForm from './aLevelForm';
 import FileContainer, { IAttachement } from './filesContainer';
 import ExperiencesForm from './experiencesForm';
 import { Experiences } from '../../../models/application/application';
-import Language from './language';
+import LanguageForm from './languageForm';
+import OtherApplyForm from './otherApplyForm';
 
 interface IProps {
   handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void,
@@ -33,8 +34,10 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
         bac: false,
         admin: false,
         fichiers: false,
-        experiences: false,
-        langue: false
+        plus: false,
+        langue: false,
+        other_apply: false,
+        scolaire: false
       },
     };
   }
@@ -94,16 +97,34 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
             <h4 className="text-white">Connaissances Linguistiques</h4>
           </button>
 
-          <Language isDisplayedBlock={this.state.AreDisplayedBlock["langue"]} handleChange={this.props.handleChange} values={this.props.values} editMode={isStudent() ? this.props.editMode : false} />
+          <LanguageForm isDisplayedBlock={this.state.AreDisplayedBlock["langue"]} handleChange={this.props.handleChange} values={this.props.values} editMode={isStudent() ? this.props.editMode : false} />
+        </div>
+
+        {/* PARCOURS SCOLAIRE */}
+        <div className="col-md-12">
+          <button className="btn btn-lg btn-block shadow" onClick={(e) => { e.preventDefault(); this.changeDisplayMode("scolaire") }} style={{ backgroundColor: 'rgba(0, 204, 255, 0.863)', marginBottom: '1%' }}>
+            <h4 className="text-white">Parcours Scolaire</h4>
+          </button>
+
+          <ExperiencesForm isDisplayedBlock={this.state.AreDisplayedBlock["scolaire"]} experiences={this.props.experiences} handleChangeExperiences={this.props.handleExperiencesChange} editMode={isStudent() ? this.props.editMode : false} />
         </div>
 
         {/* EXPERIENCES */}
         <div className="col-md-12">
-          <button className="btn btn-lg btn-block shadow" onClick={(e) => { e.preventDefault(); this.changeDisplayMode("experiences") }} style={{ backgroundColor: 'rgba(0, 204, 255, 0.863)', marginBottom: '1%' }}>
-            <h4 className="text-white">Experiences</h4>
+          <button className="btn btn-lg btn-block shadow" onClick={(e) => { e.preventDefault(); this.changeDisplayMode("plus") }} style={{ backgroundColor: 'rgba(0, 204, 255, 0.863)', marginBottom: '1%' }}>
+            <h4 className="text-white">Expériences</h4>
           </button>
 
-          <ExperiencesForm isDisplayedBlock={this.state.AreDisplayedBlock["experiences"]} experiences={this.props.experiences} handleChangeExperiences={this.props.handleExperiencesChange} editMode={isStudent() ? this.props.editMode : false} />
+          <ExperiencesForm isDisplayedBlock={this.state.AreDisplayedBlock["plus"]} experiences={this.props.experiences} handleChangeExperiences={this.props.handleExperiencesChange} editMode={isStudent() ? this.props.editMode : false} />
+        </div>
+
+        {/* AUTRE CANDIDATURE */}
+        <div className="col-md-12">
+          <button className="btn btn-lg btn-block shadow" onClick={(e) => { e.preventDefault(); this.changeDisplayMode("other_apply") }} style={{ backgroundColor: 'rgba(0, 204, 255, 0.863)', marginBottom: '1%' }}>
+            <h4 className="text-white">Autre candidature</h4>
+          </button>
+
+          <OtherApplyForm isDisplayedBlock={this.state.AreDisplayedBlock["other_apply"]} values={this.props.values} handleChange={this.props.handleChange} editMode={isStudent() ? this.props.editMode : false} />
         </div>
 
         {/* FICHIERS */}

@@ -33,6 +33,8 @@ class ApplicationsContainer extends Component<IProps, IState> {
     this.getApplicationsToDisplay = this.getApplicationsToDisplay.bind(this);
     this.setCurrentId = this.setCurrentId.bind(this);
     this.getUserActionPopUp = this.getUserActionPopUp.bind(this);
+
+    this.getApplications();
   }
 
   changeFormation(elem: string) {
@@ -60,17 +62,16 @@ class ApplicationsContainer extends Component<IProps, IState> {
     )
   }
 
-  UNSAFE_componentWillMount() {
-    this.getApplications()
-  }
-
   setCurrentId(elem: any) {
     this.setState({currentId: elem})
   }
 
   async getUserActionPopUp(elem: any) {
     if (elem === 'valid' && this.state.currentId !== null) {
-      await updateStatusApplication(this.state.currentId, 11) //TODO : Vérifier que ça fonctionne bien
+      await updateStatusApplication(this.state.currentId, 11)
+      let newApplications = this.state.applications.map(elem => elem.ID === this.state.currentId ? new SingleApplication(elem.ID, elem.NOM, elem.FORMATION, 11, elem.JURY, elem.NOTE, elem.QCM) : elem)
+      this.setState({applications: newApplications})
+      this.setState({ currentId: null })
     }
     else if (elem === 'cancel' && this.state.currentId !== null) {
       this.setState({ currentId: null })

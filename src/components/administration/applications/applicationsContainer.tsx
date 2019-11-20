@@ -80,7 +80,7 @@ class ApplicationsContainer extends Component<IProps, IState> {
   render() {
     return (
       <div>
-        <ApplicationsNavbar handleClickFormation={this.changeFormation} />
+        <ApplicationsNavbar handleClickFormation={this.changeFormation} pressedButtonFormation={this.state.currentFormation} />
         <h6 id="total" className="card-subtitle mb-2 text-muted"> Total : {this.getApplicationsToDisplay(this.state.applications).length} </h6>
         <p className="dpdn">
           <ApplicationsDropdownComponent  handleClickCategory={this.changeCategory} />

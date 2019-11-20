@@ -1,32 +1,58 @@
 import React from 'react';
 import CalendarApplicant from './calendarApplicant';
-import {AppointmentModel} from '@devexpress/dx-react-scheduler';
+import { AppointmentModel } from '@devexpress/dx-react-scheduler';
 import {months} from "../../utils/months";
 import 'bootstrap/dist/css/bootstrap.css';
 import '../../../style/student/calendar/calendar.css';
-import {getAvailableSlots, getMySlot, assignMySlot} from '../../../services/student/calendar/application.service';
+import { getAvailableSlots, getMySlot } from'../../../services/student/calendar/application.service';
 
-const user_id = 1;
+const user_id = 1; //todo
+const formation = "do"; //todo
 
-class CalendarContainer extends React.Component {
+interface IProps {
 
-    //TODO
-    getAvailableAppointments = async (): Promise<Array<AppointmentModel>> => {
-        let availableAppointments = await getAvailableSlots("se");
-        return [
-          { startDate: '2019-12-3 18:00', endDate: '2019-12-3 19:30', title: 'Entretien Disponible 1' },
-          { startDate: '2019-12-3 11:00', endDate: '2019-12-3 12:30', title: 'Entretien Disponible 2' },
-          { startDate: '2019-12-1 11:00', endDate: '2019-12-1 12:30', title: 'Entretien Disponible 3' }
-        ]
+}
+
+interface IState {
+    slotApplicant: AppointmentModel,
+    listAvailableSlots: Array<AppointmentModel>
+}
+
+class CalendarContainer extends React.Component<IProps, IState> {
+
+    constructor(props: IProps) {
+        super(props);
+        this.state = {
+            slotApplicant: {startDate: '', endDate: ''},
+            listAvailableSlots: []
+        }
+
+        this.getAvailableAppointments = this.getAvailableAppointments.bind(this);
+        this.getAppointmentApplicant = this.getAppointmentApplicant.bind(this);
+
+        this.getAvailableAppointments(formation);
+        this.getAppointmentApplicant(user_id);
     }
 
-    //TODO
-    getAppointmentApplicant = async (idApplicant: number) : Promise<AppointmentModel> => {
-        let appointmentApplicant = await getMySlot(idApplicant);
-        if (appointmentApplicant.data !== undefined) { //TODO TEST IF APPLICANT HAS AN EXISTING APPOINTMENT
-          return { startDate: '26 novembre 2019 de 10h à 11h', endDate: '2019-11-26 11:00', title: 'MON ENTRETIEN' } //TODO RETURN APPOINTMENT
+    getAvailableAppointments = async (formation: string): Promise<void> => {
+        let availableAppointments = (await getAvailableSlots(formation)).data;
+        if (availableAppointments.length !== 0) {
+            let availableSlots = new Array<AppointmentModel>();
+            availableAppointments.filter((elem: any) => elem !== undefined).map( (elem: any) => 
+                availableSlots = availableSlots.concat({startDate: elem.begining_hour, endDate: elem.ending_hour, id: elem.id})
+            )
+            this.setState({listAvailableSlots: availableSlots})
         }
-        return { startDate:'', endDate:'' }
+    }
+
+    getAppointmentApplicant = async (idApplicant: number) : Promise<void> => {
+        let appointmentApplicant = (await getMySlot(user_id)).data;
+
+        if (appointmentApplicant.id !== undefined) { 
+            let dateStart = new Date(appointmentApplicant.begining_hour).getDate() + ' ' + months.get(new Date(appointmentApplicant .begining_hour).getMonth()+1) + ' ' + new Date(appointmentApplicant.begining_hour).getFullYear() + ' ' + (new Date(appointmentApplicant.begining_hour).getHours()-1) + ':' + new Date(appointmentApplicant.begining_hour).getMinutes();
+            let appointmentFormated = { startDate: dateStart, endDate: appointmentApplicant.ending_hour, title: 'MON ENTRETIEN' }
+            this.setState({slotApplicant: appointmentFormated})
+        }
     }
     
     getMinAppointmentAvailable = (appointments: Array<AppointmentModel>): AppointmentModel => {
@@ -36,7 +62,7 @@ class CalendarContainer extends React.Component {
             else if (new Date(elem1.startDate).getTime() < new Date(elem2.startDate).getTime()) return -1
             else return 0
           })
-          let dateStart = (new Date(sortedAppointments[0].startDate).getDay()+1) + ' ' + months.get(new Date(sortedAppointments[0].startDate).getMonth()+1) + ' ' + new Date(sortedAppointments[0].startDate).getFullYear();
+          let dateStart = (new Date(sortedAppointments[0].startDate).getDate()) + ' ' + months.get(new Date(sortedAppointments[0].startDate).getMonth()+1) + ' ' + new Date(sortedAppointments[0].startDate).getFullYear();
           return {startDate: dateStart, endDate: ''}
         }
         else return { startDate:'', endDate:'' }
@@ -49,7 +75,7 @@ class CalendarContainer extends React.Component {
             else if (new Date(elem1.startDate).getTime() > new Date(elem2.startDate).getTime()) return -1
             else return 0
           })
-          let dateStart = (new Date(sortedAppointments[0].startDate).getDay()+1) + ' ' + months.get(new Date(sortedAppointments[0].startDate).getMonth()+1) + ' ' + new Date(sortedAppointments[0].startDate).getFullYear();
+          let dateStart = (new Date(sortedAppointments[0].startDate).getDate()) + ' ' + months.get(new Date(sortedAppointments[0].startDate).getMonth()+1) + ' ' + new Date(sortedAppointments[0].startDate).getFullYear();
           return {startDate: dateStart, endDate: ''}
         }
         else return { startDate:'', endDate:'' }
@@ -59,11 +85,11 @@ class CalendarContainer extends React.Component {
         return (
             <div id='card-title-calendar-container'>
                 {
-                    this.getAppointmentApplicant(user_id).startDate !== '' 
+                    this.state.slotApplicant.startDate !== '' 
                     ? (
                         <h5>
                             
-                            Votre entretien est programmé pour le <span id="span-calendar-container"> {this.getAppointmentApplicant(user_id).startDate} </span> .
+                            Votre entretien est programmé pour le <span id="span-calendar-container"> {this.state.slotApplicant.startDate} </span> .
                         
                         </h5>
                     ) 
@@ -76,14 +102,14 @@ class CalendarContainer extends React.Component {
                     )
                 }
                 {
-                    this.getMinAppointmentAvailable(this.getAvailableAppointments()).startDate !== '' 
+                    this.getMinAppointmentAvailable(this.state.listAvailableSlots).startDate !== '' 
                     ? (
                         <h6> 
                             {
                                 'Les rendez-vous s\'étendent de la période du ' +
-                                this.getMinAppointmentAvailable(this.getAvailableAppointments()).startDate
+                                this.getMinAppointmentAvailable(this.state.listAvailableSlots).startDate
                                 + ' au ' +
-                                this.getMaxAppointmentAvailable(this.getAvailableAppointments()).startDate
+                                this.getMaxAppointmentAvailable(this.state.listAvailableSlots).startDate
                                 + '.'
                             }   
                         </h6>
@@ -96,7 +122,7 @@ class CalendarContainer extends React.Component {
                         </h6>
                     )
                 } 
-                <CalendarApplicant listAppointments={this.getAvailableAppointments()} />
+                <CalendarApplicant listAppointments={this.state.listAvailableSlots} />
             </div>
 
         )

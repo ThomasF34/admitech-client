@@ -23,16 +23,6 @@ const createApplication = async (application: Application) => {
   return res;
 };
 
-const getAllApplications = async () => {
-  const res = await axios
-    .get(`${config.API_URL}/candidature`,
-    {
-      headers: { Authorization: `Bearer ${getToken()}` }
-    }
-  );
-return res;
-};
-
 const updateApplication = async (id: string, application: Application) => {
   const res = await axios
     .put(`${config.API_URL}/candidature/${id}`, application,
@@ -53,14 +43,4 @@ const myApplications = async () => {
   return res;
 };
 
-const updateStatusApplication = async (id: string, status: number) => {
-  const res = await axios
-    .put(`${config.API_URL}/candidature/${id}/status`, {"status":status},
-      {
-        headers: { Authorization: `Bearer ${getToken()}` }
-      }
-    );
-  return res;
-};
-
-export { createApplication, myApplications, getSingleApplication, updateApplication, getAllApplications, updateStatusApplication};
+export { createApplication, myApplications, getSingleApplication, updateApplication };

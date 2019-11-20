@@ -5,7 +5,7 @@ import ApplicationsList from './applicationsList';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../../../style/administration/applications/applicationsContainer.css';
 import SingleApplication from '../../../models/administration/applications/singleApplication';
-import {getAllApplications, updateStatusApplication} from "../../../services/application.service";
+import {getAllApplications, updateStatusApplication} from "../../../services/administration/applications/application.service";
 import ConfirmationPopUp from '../../helpers/ConfirmationPopUp';
 
 interface IState {

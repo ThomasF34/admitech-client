@@ -1,0 +1,12 @@
+#button-navbar-applications {
+    width:33.33%!important;
+    border-style:none;
+}
+
+#button-navbar-applications:hover, #button-navbar-applications:visited, #button-navbar-applications:link, #button-navbar-applications:active {
+    background-color:grey;
+}
+
+#pressed-button-navbar-applications {
+    width:33.33%!important;
+}

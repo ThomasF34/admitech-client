@@ -8,6 +8,7 @@ import ALevelForm from './aLevelForm';
 import FileContainer, { IAttachement } from './filesContainer';
 import ExperiencesForm from './experiencesForm';
 import { Experiences } from '../../../models/application/application';
+import Language from './language';
 
 interface IProps {
   handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void,
@@ -32,7 +33,8 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
         bac: false,
         admin: false,
         fichiers: false,
-        experiences: false
+        experiences: false,
+        langue: false
       },
     };
   }
@@ -86,13 +88,13 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
           <ALevelForm isDisplayedBlock={this.state.AreDisplayedBlock["bac"]} handleChange={this.props.handleChange} values={this.props.values} editMode={isStudent() ? this.props.editMode : false} />
         </div>
 
-        {/* FICHIERS */}
+        {/* CONNAISSANCES LINGUISTIQUES */}
         <div className="col-md-12">
-          <button className="btn btn-lg btn-block shadow" onClick={(e) => { e.preventDefault(); this.changeDisplayMode("fichiers") }} style={{ backgroundColor: 'rgba(0, 204, 255, 0.863)', marginBottom: '1%' }}>
-            <h4 className="text-white">Pièces Jointes</h4>
+          <button className="btn btn-lg btn-block shadow" onClick={(e) => { e.preventDefault(); this.changeDisplayMode("langue") }} style={{ backgroundColor: 'rgba(0, 204, 255, 0.863)', marginBottom: '1%' }}>
+            <h4 className="text-white">Connaissances Linguistiques</h4>
           </button>
 
-          <FileContainer candId={getId()} isDisplayedBlock={this.state.AreDisplayedBlock["fichiers"]} attachments={this.props.attachments} handleChangeAttachement={this.props.handleAttachmentsChange} editMode={isStudent() ? this.props.editMode : false} />
+          <Language isDisplayedBlock={this.state.AreDisplayedBlock["langue"]} handleChange={this.props.handleChange} values={this.props.values} editMode={isStudent() ? this.props.editMode : false} />
         </div>
 
         {/* EXPERIENCES */}
@@ -102,6 +104,15 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
           </button>
 
           <ExperiencesForm isDisplayedBlock={this.state.AreDisplayedBlock["experiences"]} experiences={this.props.experiences} handleChangeExperiences={this.props.handleExperiencesChange} editMode={isStudent() ? this.props.editMode : false} />
+        </div>
+
+        {/* FICHIERS */}
+        <div className="col-md-12">
+          <button className="btn btn-lg btn-block shadow" onClick={(e) => { e.preventDefault(); this.changeDisplayMode("fichiers") }} style={{ backgroundColor: 'rgba(0, 204, 255, 0.863)', marginBottom: '1%' }}>
+            <h4 className="text-white">Pièces Jointes</h4>
+          </button>
+
+          <FileContainer candId={getId()} isDisplayedBlock={this.state.AreDisplayedBlock["fichiers"]} attachments={this.props.attachments} handleChangeAttachement={this.props.handleAttachmentsChange} editMode={isStudent() ? this.props.editMode : false} />
         </div>
 
       </div>

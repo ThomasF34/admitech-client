@@ -156,7 +156,7 @@ class ExperiencesForm extends React.Component<IProps, IState> {
     return (
       <div>
         {this.props.isDisplayedBlock ? (
-          <div className='container bg-light mt-5 p-3'>
+          <div className='bg-light mt-5 p-3'>
             {this.props.editMode ? (
               <div>
                 <form className="" onChange={() => this.checkSubmitAvailability()}>

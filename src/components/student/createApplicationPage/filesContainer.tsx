@@ -216,7 +216,7 @@ class FileContainer extends React.Component<IProps, IState> {
     return (
       <div>
         {this.props.isDisplayedBlock ? (
-          <div className='container bg-light mt-5 p-3'>
+          <div className='bg-light mt-5 p-3'>
             {this.props.editMode ? (
               <div>
                 <form className="row">
@@ -229,7 +229,7 @@ class FileContainer extends React.Component<IProps, IState> {
                   </div>
                   <div className="form-group mx-sm-3 mb-2">
                     <label htmlFor="file" className="label-file btn btn-info">Télécharger</label>
-                    <input id="file" type="file" className="form-control-file input-file" onChange={(e) => this.handleDocumentChange(e)} style ={{display:"none"}}/>
+                    <input id="file" type="file" className="form-control-file input-file" onChange={(e) => this.handleDocumentChange(e)} style ={{display:"non"}}/>
                   </div>
                   <div className="form-group mb-2">
                     {this.state.currentFile !== null ? (

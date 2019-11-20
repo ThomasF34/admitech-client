@@ -43,12 +43,13 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       getSingleApplication(this.props.existingApplicationId)
         .then(res => {
           this.setState({
-            values: res.data
+            values: res.data,
+            attachments: res.data.attachments,
+            experiences: res.data.experiences
           });
         })
         .catch((e) => this.error(e))
     }
-
   }
 
   constructor(props: IProps) {
@@ -101,7 +102,6 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       error: true,
       errorMessage: e.response.data
     })
-    console.log(e)
   }
 
   changeEditMode = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -138,7 +138,6 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
     let existingAppId = this.state.values.id
     const application = new Application(formValues, true)
-
     if (existingAppId)
       updateApplication(existingAppId, application)
         .then(rep => successUpdate())
@@ -199,17 +198,14 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
   }
 
   handleChangeAttachements = (attachementsUpdated: IAttachement[]) => {
-    console.log(attachementsUpdated)
-    let newAttachments = attachementsUpdated.map(x => new Attachments(x.id,x.attach_type,x.key))
-    console.log(newAttachments)
-    console.log(this.state.values)
-   
+
+    let newAttachments = attachementsUpdated.map(x => new Attachments(x.id, x.attach_type, x.key))
+
     let newValues = this.state.values
     newValues.attachments = newAttachments
     this.setState({
       values: newValues
     })
-    console.log(this.state.values)
   }
 
   handleChangeExperiences = (experiencesUpdated: Experiences[]) => {
@@ -218,7 +214,6 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     this.setState({
       values: newValues
     })
-    console.log(this.state.values)
   }
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
@@ -228,13 +223,9 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       const field: string = event.target.name
       const value: string = event.target.value
       newValues[field] = value
-      console.log(newValues)
       this.setState({
         values: newValues
       });
-
-      console.log(this.state.values)
-
     }
   }
 
@@ -255,7 +246,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
           </div>
         ) : null}
 
-        <GlobalApplicationForm handleExperiencesChange={this.handleChangeExperiences} handleAttachmentsChange={this.handleChangeAttachements} handleChange={this.handleChange} attachments= {this.state.attachments} experiences={this.state.experiences} values={this.state.values} editMode={this.state.editMode} />
+        <GlobalApplicationForm handleExperiencesChange={this.handleChangeExperiences} handleAttachmentsChange={this.handleChangeAttachements} handleChange={this.handleChange} attachments={this.state.attachments} experiences={this.state.experiences} values={this.state.values} editMode={this.state.editMode} />
 
         {/*Saving Buttons*/}
         {isStudent() ? (

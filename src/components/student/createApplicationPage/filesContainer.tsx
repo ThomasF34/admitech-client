@@ -67,6 +67,14 @@ class FileContainer extends React.Component<IProps, IState> {
     this.displayNumberOfMissingFiles = this.displayNumberOfMissingFiles.bind(this);
   }
 
+  componentDidUpdate(prevProps : IProps) {
+    if (this.props.attachments !== prevProps.attachments) {
+      this.setState({
+        filesAdded: this.props.attachments
+      });
+    }
+  }
+
   confirmPopUp = async (file: IAttachement) => {
     this.setState({
       showPopup: true,
@@ -205,7 +213,6 @@ class FileContainer extends React.Component<IProps, IState> {
   }
 
   render() {
-
     return (
       <div>
         {this.props.isDisplayedBlock ? (

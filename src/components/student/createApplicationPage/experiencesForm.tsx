@@ -4,7 +4,7 @@ import { Experiences } from '../../../models/application/application';
 import '../../../style/fileManaging.css';
 
 interface IProps {
-  values: IFields,
+  experiences: Array<Experiences>,
   handleChangeExperiences: (elems: Experiences[]) => void,
   isDisplayedBlock: boolean,
   editMode: boolean
@@ -39,7 +39,15 @@ class ExperiencesForm extends React.Component<IProps, IState> {
       },
       errors: {},
       experienceCanBeSummited: false,
-      experiences: []
+      experiences: this.props.experiences
+    }
+  }
+
+  componentDidUpdate(prevProps: IProps) {
+    if (this.props.experiences !== prevProps.experiences) {
+      this.setState({
+        experiences: this.props.experiences
+      });
     }
   }
 

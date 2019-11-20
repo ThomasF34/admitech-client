@@ -46,7 +46,6 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
   }
 
   render() {
-
     return (
       <div>
         {/* SPECIALITE */}
@@ -102,7 +101,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
             <h4 className="text-white">Experiences</h4>
           </button>
 
-          <ExperiencesForm isDisplayedBlock={this.state.AreDisplayedBlock["experiences"]} values={this.props.experiences} handleChangeExperiences={this.props.handleExperiencesChange} editMode={isStudent() ? this.props.editMode : false} />
+          <ExperiencesForm isDisplayedBlock={this.state.AreDisplayedBlock["experiences"]} experiences={this.props.experiences} handleChangeExperiences={this.props.handleExperiencesChange} editMode={isStudent() ? this.props.editMode : false} />
         </div>
 
       </div>

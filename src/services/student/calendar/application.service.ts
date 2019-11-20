@@ -1,6 +1,5 @@
 import axios from 'axios';
 import * as config from './../../configApi.service';
-import Application from '../../../models/application/application';
 import { getToken } from './../../token.service';
 
 const getAvailableSlots = async (formation: string) => {

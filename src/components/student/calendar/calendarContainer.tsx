@@ -49,7 +49,7 @@ class CalendarContainer extends React.Component<IProps, IState> {
         let appointmentApplicant = (await getMySlot(user_id)).data;
 
         if (appointmentApplicant.id !== undefined) { 
-            let dateStart = new Date(appointmentApplicant.begining_hour).getDate() + ' ' + months.get(new Date(appointmentApplicant .begining_hour).getMonth()+1) + ' ' + new Date(appointmentApplicant.begining_hour).getFullYear() + ' ' + (new Date(appointmentApplicant.begining_hour).getHours()-1) + ':' + new Date(appointmentApplicant.begining_hour).getMinutes();
+            let dateStart = new Date(appointmentApplicant.begining_hour).getDate() + ' ' + months.get(new Date(appointmentApplicant.begining_hour).getMonth()+1) + ' ' + new Date(appointmentApplicant.begining_hour).getFullYear() + ' ' + (new Date(appointmentApplicant.begining_hour).getHours()-1) + ':' + new Date(appointmentApplicant.begining_hour).getMinutes();
             let appointmentFormated = { startDate: dateStart, endDate: appointmentApplicant.ending_hour, title: 'MON ENTRETIEN' }
             this.setState({slotApplicant: appointmentFormated})
         }

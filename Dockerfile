@@ -1,6 +1,8 @@
 FROM node:12.2.0-alpine as build
 WORKDIR /usr/src/app
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=$REACT_APP_API_URL
 COPY package.json ./package.json
 RUN npm install --silent
 RUN npm install -g serve --silent

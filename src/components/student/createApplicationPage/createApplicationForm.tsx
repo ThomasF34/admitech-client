@@ -6,6 +6,7 @@ import InfoPopUp from '../../helpers/InfoPopUp';
 import GlobalApplicationForm from './globalApplicationForm';
 import { isStudent, isAdmin } from '../../../helpers/authorizationHelper';
 import { IAttachement } from './filesContainer';
+import { removeToken } from '../../../services/token.service';
 
 export interface IFields {
   [key: string]: any;
@@ -102,9 +103,15 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
   }
 
   error = (e: any) => {
+    let message = e.response.data
+    if (message === "Token expired") {
+      message = "Temps de connexion expiré. Veuillez vous reconnecter."
+      removeToken()
+      window.location.reload()
+    }
     this.setState({
       error: true,
-      errorMessage: e.response.data
+      errorMessage: message
     })
   }
 

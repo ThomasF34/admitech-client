@@ -3,7 +3,7 @@ import CalendarApplicant from './calendarApplicant';
 import { AppointmentModel } from '@devexpress/dx-react-scheduler';
 import {months} from "../../utils/months";
 import 'bootstrap/dist/css/bootstrap.css';
-import '../../../style/calendar.css';
+import '../../../style/student/calendar/calendar.css';
 
 const user_id = 1;
 

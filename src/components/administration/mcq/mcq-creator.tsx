@@ -4,7 +4,8 @@ import Question from '../../../models/mcq/question.model'
 import '../../../style/mcq.css'
 import FormQuestion from './formQuestion';
 import Mcq from '../../../models/mcq/mcq.model';
-import {sendQCM} from '../../../services/qcm.service'
+import { sendQCM } from '../../../services/qcm.service'
+import { Link } from 'react-router-dom';
 
 interface IState {
   questions: Question[],
@@ -100,23 +101,32 @@ class QuizzCreator extends React.Component<IProps, IState> {
 
 
   sendQCM() {
-    const mcq = new Mcq()
-    mcq.title = this.state.title
-    mcq.formation = this.state.formation
-    mcq.origin = this.state.origin
-    mcq.questions = this.state.questions
+    if (this.state.formation === '') {
+      window.alert("Vous n'avez pas renseigné de formation pour ce QCM. Veuillez en choisir une. ")
+    } else if (this.state.origin === '') {
+      window.alert("Vous n'avez pas renseigné de formation d'origine pour ce QCM. Veuillez en choisir une. ")
+    } else if (this.state.title === '') {
+      window.alert("Veuillez donner un titre à votre QCM.")
+    } else if (this.state.questions.length === 0) {
+      window.alert("Veuillez rajouter au moins une question à votre QCM avant de le valider. ")
+    }else {
+      const mcq = new Mcq()
+      mcq.title = this.state.title
+      mcq.formation = this.state.formation
+      mcq.origin = this.state.origin
+      mcq.questions = this.state.questions
+      sendQCM(mcq)
+    }
     
-    console.log(mcq)
-    const res = sendQCM(mcq)
-    console.log(res)
   }
 
   render() {
     return (
       <div className='container'>
-        <h3>Formulaire de création d'un quizz</h3>
-        <button className="btn btn-outline-primary float-right col-12 mb-3" type="button" onClick={() => this.sendQCM()}>Sauvegarger et envoyer le QCM</button>
-        <div className="card p-3 mb-2">
+        <Link to={'/administration/qcm/'} style={{ textDecoration: 'none' }}>
+        <button className="btn btn-outline-primary float-right col-12 mb-3 mt-3" type="button" onClick={() => this.sendQCM()}>Sauvegarger et envoyer le QCM</button>
+        </Link>
+          <div className="card p-3 mb-2">
           <h5 className="card-title">1. Informations générales</h5>
           <div className="card-body">
             <form className="form-inline col-12">

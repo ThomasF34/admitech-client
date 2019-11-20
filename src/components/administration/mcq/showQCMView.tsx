@@ -1,14 +1,12 @@
 import '../../../style/container.css';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import company from '../../../img/fond-polytech.jpeg';
 import user from '../../../img/user.png';
-import filesIcon from '../../../img/icons/applications.png';
 import AdminNav from '../adminNav';
-import ApplicationsTable from './applicationsTable';
-import BottomBar from '../../helpers/bottomBar';
+import { Link } from 'react-router-dom';
+import containerGetQCM from './containerGetGCM'
 
-class ApplicationsContainer extends React.Component {
+class ShowQCMView extends React.Component {
 
   render() {
     return (
@@ -23,41 +21,35 @@ class ApplicationsContainer extends React.Component {
 
           <div className="col-sm-12 col-md-10 fill">
             <div className="image-container">
-              <img src={company} className="img-background" alt="polytech" />
-              <div className="main-container align-items-end" >
+              <div className="main-container" >
 
                 <div className="row no-gutters" style={{ width: '100%', height: '10%', padding: '0.7%' }}>
-                  <div className="fill-container shadow-lg white">
+                  <div className="w-100 shadow-lg white">
                     <div className="name-mainTitle" >
-                      <img src={filesIcon} className="img-icon" alt="files" />
-                      Canditatures
+                      <Link to={'/administration/qcm/'} style={{ textDecoration: 'none' }}>
+                        <button className="btn btn-outline-dark float-left" type="button">Retour</button>
+                      </Link>
+                      Formulaire de création d'un quizz
                     </div>
                   </div>
                 </div>
                 <div className="row no-gutters " style={{ width: '100%', height: '80%', padding: '0.7%' }}>
-                  <div className="fill-container shadow-lg white">
-                    <div className="row fill-container align-items-center">
+                  <div className="shadow-lg white">
+                    <div className="row fill-container">
                       <div className="container">
-                        <ApplicationsTable />
+                        {containerGetQCM()}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="row no-gutters" style={{ width: '100%', height: '10%', padding: '0.7%' }}>
-                  <BottomBar />
-                </div>
               </div>
             </div>
-
-
           </div>
 
         </div>
       </div>
-
-
     );
   }
 }
 
-export default ApplicationsContainer;
+export default ShowQCMView;

@@ -44,10 +44,10 @@ class FormQuestion extends React.Component<IProps, IState> {
     const response = new Response()
     response.label = this.state.currentResponse;
     response.correct = this.state.checked;
-    
-
+    response.idResponse = this.state.currentId
     const res = this.state.responses
     const currentId = this.state.currentId + 1
+    console.log(currentId)
     res.push(response)
     this.setState({
       responses: res,
@@ -70,6 +70,7 @@ class FormQuestion extends React.Component<IProps, IState> {
   }
 
   deleteItem(id: number) {
+    console.log(id,this.state.responses )
     const responses = this.state.responses;
     const res = responses.filter(elem => elem.idResponse !== id)
     this.setState({ responses: res })
@@ -113,6 +114,7 @@ class FormQuestion extends React.Component<IProps, IState> {
                   </div>
                 </div>
                 <input type="text" className="form-control" disabled value={elem.label} />
+                {console.log(elem)}
                 <button className="btn btn-outline-danger" type="button" id="button-addon2" onClick={() => this.deleteItem(elem.idResponse)}>Supprimer</button>
               </div>
             ))
@@ -145,7 +147,7 @@ class FormQuestion extends React.Component<IProps, IState> {
           <div className="input-group mb-3 col-12">
             <div className="input-group-prepend">
               <div className="input-group-text">
-                <input type="checkbox" onChange={this.handleCheckChange} />
+                <input type="checkbox" onChange={this.handleCheckChange} checked={this.state.checked} />
               </div>
             </div>
             <input type="text" className="form-control" onChange={(event) => this.handleChange(event)} value={this.state.currentResponse} />

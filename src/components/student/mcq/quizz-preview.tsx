@@ -36,6 +36,8 @@ class Quizz extends React.Component<IProps, IState> {
   }
 
   validateAnswers() {
+    // Envoyer les réponses
+    //Penser à envoyer l'id de la candidature => 
     this.setState({ finished: true })
   }
 

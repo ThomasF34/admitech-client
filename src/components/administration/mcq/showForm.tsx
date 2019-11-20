@@ -4,13 +4,15 @@ import QuestionModel from '../../../models/mcq/question.model';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Mcq from '../../../models/mcq/mcq.model';
 import '../../../style/mcq.css';
+import { useParams } from 'react-router';
+import {getQCMAdmin} from '../../../services/qcm.service'
 
 interface IState {
   qcm: Mcq;
 }
 
 interface IProps {
-  idQcm: number;
+  idQcm : number
 }
 
 const fakeResponses: Response[] = [{ idResponse: 3, label: "un chien", correct:true }, { idResponse: 4, label: "un chat" }, { idResponse: 5, label: "un oiseau" },]
@@ -25,16 +27,25 @@ qcm.title = "Bonjour"
 class ShowQuizz extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props)
-    this.state = {qcm : qcm}
-    /*
-    const res = getQCM(this.props.idQcm)
-    res.then((mcq) => {
-      this.setState({ qcm: mcq })
-    })
-    */
+    this.state = { qcm: qcm }
+
   }
 
+  componentDidMount() {
+    let { id } = useParams()
+    console.log(id)
+    if (id !== undefined) {
+      console.log("J'ai l'id")
+      const res = getQCMAdmin(this.props.idQcm)
+      res.then((mcq) => {
+        this.setState({ qcm: mcq })
+      })
+    }
+  }
+
+
   render() {
+    
     return (
       <div className="p-5">
         <button className="btn btn-outline-primary">

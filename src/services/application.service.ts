@@ -58,4 +58,3 @@ const deleteAttachmentInApplication = async (canId: number, attachId: number) =>
 
 export { createApplication, myApplications, getSingleApplication, updateApplication, deleteAttachmentInApplication };
 
-

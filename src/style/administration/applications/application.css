@@ -49,3 +49,18 @@
     text-align: center;
     margin-bottom: 1%;
 }
+
+.application-a {
+    float:right;
+    margin-right:3%;
+}
+
+.application-a:hover, .application-a:visited, .application-a:link, .application-a:active {
+    text-decoration:none;
+    color:black;
+}
+
+.info-icon-2 {
+    width:15px;
+    height:15px;
+}

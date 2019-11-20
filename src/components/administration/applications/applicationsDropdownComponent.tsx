@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import '../../../style/applications/applicationsDropdownComponent.css';
+import '../../../style/administration/applications/applicationsDropdownComponent.css';
 import {categories} from "../../utils/categoriesEnum";
 
 interface IProps {
@@ -56,7 +56,7 @@ class ApplicationsDropdownComponent extends Component<IProps, IState> {
             ? (
               <div className="dropdown-content" id="dropdown-content-application">
                 {Array.from(categories.keys()).map(index => 
-                  this.state.currentCategory !== categories.get(index) 
+                  this.state.currentCategory !== categories.get(index) && categories.get(index) !== 'Brouillon'
                     ? (
                       <div onClick={() => this.setCategoryMenu(index)}> {categories.get(index)} </div>
                     ) 

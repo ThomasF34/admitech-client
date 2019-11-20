@@ -43,6 +43,4 @@ const myApplications = async () => {
   return res;
 };
 
-
 export { createApplication, myApplications, getSingleApplication, updateApplication };
-

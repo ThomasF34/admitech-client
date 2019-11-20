@@ -4,7 +4,7 @@ import ApplicationsNavbar from './applicationsNavbar';
 import ApplicationsList from './applicationsList';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../../../style/applications/applicationsContainer.css';
-import SingleApplication from "../../../models/singleApplication";
+import SingleApplication from '../../../models/administration/applications/singleApplication';
 import {getAllApplications, updateStatusApplication} from "../../../services/application.service";
 import ConfirmationPopUp from '../../helpers/ConfirmationPopUp';
 

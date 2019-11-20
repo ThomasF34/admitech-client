@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../../style/applications/applicationsList.css';
 import Application from './application';
-import SingleApplication from '../../../models/singleApplication';
+import SingleApplication from "../../../models/administration/applications/singleApplication";
 
 interface IProps {
   formation: string,

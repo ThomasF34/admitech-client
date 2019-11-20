@@ -5,7 +5,7 @@ import infoIcon from '../../../img/icons/information.png';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import {categories} from "../../utils/categoriesEnum";
-import SingleApplication from "../../../models/singleApplication";
+import SingleApplication from "../../../models/administration/applications/singleApplication";
 import information2 from "../../../img/icons/information2.png";
 
 interface IProps {

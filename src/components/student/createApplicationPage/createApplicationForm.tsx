@@ -76,6 +76,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
         applicationSuccess: false
       });
   }
+
   closeFailurePopUP = () => {
     if (this.state.applicationFailure === true || this.state.draftFailure === true)
       this.setState({
@@ -94,7 +95,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
   error = (e: any) => {
     this.setState({
       error: true,
-      errorMessage: e.response.data
+      errorMessage: 'TODO'
     })
     console.log(e)
   }
@@ -219,16 +220,16 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
         {/*Edit Buttons*/}
         {this.props.existingApplicationId !== undefined ? (
-        <div className="row justify-content-md-end" style={{ marginTop: '3%', marginRight: '5%' }}>
-          <div className="col-4 col-md-1 col-sm-3">
-            <button className="btn btn-light btn-lg btn-block shadow" onClick={this.changeEditMode}>
-              <img src={edit} className="img-icon " alt="editButton" />
-            </button>
+          <div className="row justify-content-md-end" style={{ marginTop: '3%', marginRight: '5%' }}>
+            <div className="col-4 col-md-1 col-sm-3">
+              <button className="btn btn-light btn-lg btn-block shadow" onClick={this.changeEditMode}>
+                <img src={edit} className="img-icon " alt="editButton" />
+              </button>
+            </div>
           </div>
-        </div>
-           ) : null}
+        ) : null}
 
-        <GlobalApplicationForm handleChange={this.handleChange} values={this.state.values} editMode={this.state.editMode}/>
+        <GlobalApplicationForm handleChange={this.handleChange} values={this.state.values} editMode={this.state.editMode} />
 
         {/*Saving Buttons*/}
         {isStudent() ? (

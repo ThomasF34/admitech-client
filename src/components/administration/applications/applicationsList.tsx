@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../../style/applications/applicationsList.css';
+import '../../../style/administration/applications/applicationsList.css';
 import Application from './application';
 import SingleApplication from "../../../models/administration/applications/singleApplication";
 

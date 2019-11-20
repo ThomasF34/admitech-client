@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../../style/applications/application.css';
+import '../../../style/administration/applications/application.css';
 import infoIcon from '../../../img/icons/information.png';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";

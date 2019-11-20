@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import '../../../style/applications/applicationsDropdownComponent.css';
+import '../../../style/administration/applications/applicationsDropdownComponent.css';
 import {categories} from "../../utils/categoriesEnum";
 
 interface IProps {

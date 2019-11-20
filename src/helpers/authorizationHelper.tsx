@@ -41,11 +41,11 @@ const getUsername = (): string | null => {
 };
 const getId = (): number => {
   const decoded = getTokenJson();
-  let idString = ""
+  let idString = '';
   if (typeof decoded == 'object' && decoded != null)
     idString = decoded.id;
   try {
-    return parseInt(idString)
+    return parseInt(idString);
   } catch{
     return 0.1;
   }

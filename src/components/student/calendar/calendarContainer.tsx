@@ -1,16 +1,18 @@
 import React from 'react';
 import CalendarApplicant from './calendarApplicant';
-import { AppointmentModel } from '@devexpress/dx-react-scheduler';
+import {AppointmentModel} from '@devexpress/dx-react-scheduler';
 import {months} from "../../utils/months";
 import 'bootstrap/dist/css/bootstrap.css';
 import '../../../style/student/calendar/calendar.css';
+import {getAvailableSlots, getMySlot, assignMySlot} from '../../../services/student/calendar/application.service';
 
 const user_id = 1;
 
 class CalendarContainer extends React.Component {
 
     //TODO
-    getAvailableAppointments = (): Array<AppointmentModel> => {
+    getAvailableAppointments = async (): Promise<Array<AppointmentModel>> => {
+        let availableAppointments = await getAvailableSlots("se");
         return [
           { startDate: '2019-12-3 18:00', endDate: '2019-12-3 19:30', title: 'Entretien Disponible 1' },
           { startDate: '2019-12-3 11:00', endDate: '2019-12-3 12:30', title: 'Entretien Disponible 2' },
@@ -19,8 +21,9 @@ class CalendarContainer extends React.Component {
     }
 
     //TODO
-    getAppointmentApplicant = (idApplicant: number) : AppointmentModel => {
-        if (1 === user_id) { //TODO TEST IF APPLICANT HAS AN EXISTING APPOINTMENT
+    getAppointmentApplicant = async (idApplicant: number) : Promise<AppointmentModel> => {
+        let appointmentApplicant = await getMySlot(idApplicant);
+        if (appointmentApplicant.data !== undefined) { //TODO TEST IF APPLICANT HAS AN EXISTING APPOINTMENT
           return { startDate: '26 novembre 2019 de 10h à 11h', endDate: '2019-11-26 11:00', title: 'MON ENTRETIEN' } //TODO RETURN APPOINTMENT
         }
         return { startDate:'', endDate:'' }

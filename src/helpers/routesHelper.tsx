@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { isAdmin, isStudent, isCompany, isLoggedIn } from './authorizationHelper';
+import { isAdmin, isStudent, isCompany, isLoggedIn, getRole } from './authorizationHelper';
 
 const getRedirectionStudentPage = () => {
   if (isLoggedIn()) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Link } from 'react-router-dom';
-import { isAdmin } from '../../helpers/authorizationHelper';
+import { isAdmin, isLoggedIn } from '../../helpers/authorizationHelper';
 
 interface IProps {
   title: string,
@@ -32,7 +32,7 @@ class Card extends React.Component<IProps> {
 
       <div className="root">
         <div className="container">
-          {this.props.isAdminLink ?  
+          {(this.props.isAdminLink && !isLoggedIn())?
         (<a href={this.props.clickLink} style={{ textDecoration: 'none' }}>
           <ContentsCard {...this.props}/>
           </a>

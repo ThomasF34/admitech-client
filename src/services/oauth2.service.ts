@@ -1,6 +1,8 @@
 
 import axios from 'axios';
 import { setAuthToken, setToken, getAuthToken, removeAuthToken } from './token.service';
+
+import { cpus } from 'os';
 const buildUrl = require('build-url');
 const request = require('request');
 const jwtDecode = require('jwt-decode');
@@ -12,19 +14,21 @@ const endPoints={
   tokenEndPoint:"https://oauth.igpolytech.fr/token",
   refreshTokenEndPoint:"https://oauth.igpolytech.fr/refresh",
   authorizeEndPoint: "https://oauth.igpolytech.fr/authorize",
-  admiTechServer:""
+  admiTechServer:"https://test-api-admitech.igpolytech.fr/utilisateur/connexionMyDash"
 }
 
 const headers = (token:string)=>{
-  return {'Authorization':'Bearer '+token}
+  return {'Authorization':'Bearer '+token,
+  'Content-type': 'application/json'
+}
 }
 
 const token = async (data:any) => {
 const res = await axios.post(endPoints.tokenEndPoint,data);
         if (res.status === 200){
+          await admiTechToken(headers(res.data.access_token))
           setAuthToken("access_token",res.data.access_token)
           setAuthToken("refresh_token",res.data.refresh_token)
-           await admiTechToken(headers(res.data.access_token))
                         }
       };
 
@@ -35,9 +39,10 @@ const admiTechToken= async (headers:any)=>{
     headers: headers,
     form: {}
     }
-  request(options,  (error:any, response:any, body:any)=> {
+  request(options,  (error:any, response:any)=> {
     if (!error && response.statusCode === 200) {
-        setToken(body.token)
+       setToken(response.body)
+       window.location.replace("/administration/accueil")
     }
 })
 }

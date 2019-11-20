@@ -18,8 +18,11 @@ const getTokenJson = (): IToken | null => {
 };
 const getRole = (): string | null => {
   const decoded = getTokenJson();
-  if (typeof decoded == 'object' && decoded != null)
+  if (typeof decoded == 'object' && decoded != null){
     return decoded.role;
+    
+
+  }
   else
     return null;
 };
@@ -39,9 +42,9 @@ const getUsername = (): string | null => {
     return null;
 };
 
-const isLoggedIn = (): boolean => getToken() != null;
+const isLoggedIn = (): boolean => getToken() != null; console.log(getToken() != null)
 const isStudent = (): boolean => getRole() === 'eleve';
-const isAdmin = (): boolean => getRole() === 'administration';
+const isAdmin = (): boolean => getRole() === 'administration'|| getRole()==='professeur';
 const isCompany = (): boolean => getRole() === 'entreprise';
 
 export { isLoggedIn, getUsername, getRole, isStudent,isAdmin, isCompany, getEmail };

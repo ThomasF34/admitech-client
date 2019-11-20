@@ -55,7 +55,7 @@ const myApplications = async () => {
 
 const updateStatusApplication = async (id: string, status: number) => {
   const res = await axios
-    .put(`${config.API_URL}/candidature/${id}/${status}`,
+    .put(`${config.API_URL}/candidature/${id}/status`, {"status":status},
       {
         headers: { Authorization: `Bearer ${getToken()}` }
       }

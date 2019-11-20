@@ -1,10 +1,9 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import logo from '../../../img/polytechLogo.svg';
-import ActorNavBloc from './actorNavBloc';
-import logoutIcon from '../../../img/icons/logout.png';
-import { logout } from '../../../services/auth.service';
+import '../../../style/nav.css'
+import logo from '../../../img/logo.svg'
 import { getUsername } from '../../../helpers/authorizationHelper';
+import ActorNavBloc from './actorNavBloc';
 
 interface IProps {
   userName: string,
@@ -12,47 +11,79 @@ interface IProps {
   routes: Array<Array<[string, string]>>
 }
 
-class ActorNavContainer extends React.Component<IProps> {
+interface IState{
+  display: boolean;
+  classDisplay: string;
+}
+
+class ActorNavContainer extends React.Component<IProps,IState> {
+  constructor(props: IProps) {
+    super(props);
+    this.display = this.display.bind(this)
+    this.state = ({
+      display: false,
+      classDisplay: 'navbar-light bg-light navbar-vertical hidden background'
+    })
+}
+  
+  display() {
+    //If visible, set "hidden"
+    if (this.state.display) {
+      this.setState({
+        display: false,
+        classDisplay: 'navbar-light bg-light navbar-vertical hidden background'
+      })
+    } else {
+      this.setState({
+        display: true,
+        classDisplay: 'navbar-light bg-light navbar-vertical show background'
+      })
+    }
+  }
+
 
   render() {
     return (
-      <div style={{ height: '100%' }}>
-        <div className="row no-gutters justify-content-md-center" style={{ backgroundColor: 'rgb(0, 204, 255)', height: '92%', padding: '5%' }}>
+      <nav className={this.state.classDisplay}>
+        <a className="navbar-brand" href="#">Espace<br/> Candidat</a>
+        <button className="navbar-toggler ml-auto" type="button" onClick={this.display}>
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <p className="small">bienvenue,</p>
+        <p className="name">{getUsername()}</p>
 
-          {/*profile image and name*/}
-          <div className="row justify-content-md-center " style={{ height: '35%' }}>
-            <div className="row justify-content-md-center" style={{ padding: '5%' }}>
-              <img src={this.props.userImage} className="rounded-circle img-fluid shadow-lg" style={{ width: '60%', backgroundColor: 'white' }} alt="profile" />
-            </div>
-            <div className="row justify-content-md-center" >
-              <h4 style={{ color: 'white', paddingTop: '3%' }}>{getUsername()}</h4>
-            </div>
-
-          </div>
-
-          {/*nav*/}
-          <div className="row container justify-content-md-center" style={{ height: '65%', paddingBottom: '30%' }}>
-            <ul className="nav flex-column justify-content-md-center" style={{ width: '100%' }}>
-              {this.props.routes.map(bloc => <ActorNavBloc blocList={bloc} key={getUsername()!} />)}
-            </ul>
-            <a href="/" style={{ textDecoration: 'none' }} onClick={() => logout()}>
-              <img src={logoutIcon} className="img-icon" alt="off" />
-            </a>
-          </div>
-
-        </div>
-
-        {/*logo*/}
-        <div className="row no-gutters" style={{ height: '8%' }}>
-          <div className="container" style={{ width: '60%', paddingTop: '5%' }}>
-            <img src={logo} className="img-fluid" alt="logo" />
-          </div>
-        </div>
-
-      </div>
+        <ul className="navbar-nav">
+          <li className="nav-item active">
+            {this.props.routes.map(bloc => <ActorNavBloc blocList={bloc} key={getUsername()!} />)}
+          </li>
+        </ul>
+        <img className="bottom-logo" src={logo}/>
+      </nav>
 
     );
   }
 }
 
 export default ActorNavContainer;
+
+
+/** 
+
+</div>
+<div className="row container justify-content-md-center" style={{ height: '65%', paddingBottom: '30%' }}>
+  <ul className="nav flex-column justify-content-md-center" style={{ width: '100%' }}>
+    {this.props.routes.map(bloc => <ActorNavBloc blocList={bloc} key={getUsername()!} />)}
+  </ul>
+  <a href="/" style={{ textDecoration: 'none' }} onClick={() => logout()}>
+    <img src={logoutIcon} className="img-icon" alt="off" />
+  </a>
+</div>
+        </div >
+  < div className = "row no-gutters" style = {{ height: '8%' }}>
+    <div className="container" style={{ width: '60%', paddingTop: '5%' }}>
+      <img src={logo} className="img-fluid" alt="logo" />
+    </div>
+        </div >
+
+      </div >
+*/

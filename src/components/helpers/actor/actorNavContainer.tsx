@@ -47,7 +47,7 @@ class ActorNavContainer extends React.Component<IProps,IState> {
   render() {
     return (
       <nav className={this.state.classDisplay}>
-        <a className="navbar-brand" href="#">Polytech Montpellier</a>
+        <p className="navbar-brand">Polytech Montpellier</p>
         <button className="navbar-toggler ml-auto" type="button" onClick={this.display}>
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -60,10 +60,10 @@ class ActorNavContainer extends React.Component<IProps,IState> {
           </li>
         </ul>
         <div className='logout' onClick={() => logout()}>
-          <img className=' disconnect' src={disconnect} />
+          <img className=' disconnect' src={disconnect} alt='logout icon'/>
           <p className='logoutext'>Se deconnecter</p>
         </div>
-        <img className="bottom-logo" src={logo}/>
+        <img className="bottom-logo" alt='admitech logo' src={logo}/>
       </nav>
 
     );

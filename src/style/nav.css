@@ -13,7 +13,7 @@ button{
   width: 220px;
   height: 100vh;
   padding: 0.5rem 1rem;
-  position: absolute;
+  position: fixed;
   transition: left 0.31s;
   left: 0;
   top: 0;
@@ -47,6 +47,7 @@ button{
     width: 100%;
     margin-top: 1rem;
   }
+  
   .show{
     left: 0
   }
@@ -74,4 +75,23 @@ button{
       font-family:'Oswald';
       font-weight: 200 !important
     }
+
+    .logout{
+      color: #c0392b;
+      cursor: pointer;
+      position:absolute;
+      bottom:100px;
+      
+    }
     
+    .disconnect{
+      width:20px;
+      display:inline-block;
+      margin-right:10px;
+      padding-bottom:4px;
+      cursor:pointer;
+    }
+
+    .logoutext{
+display:inline-block;
+    }

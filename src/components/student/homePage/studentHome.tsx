@@ -50,14 +50,13 @@ class StudentHome extends React.Component<IProps, IState> {
       <div className="root fill ">
         <div className="row fill no-gutters">
 
-          <div className="d-none d-lg-block col-lg-2 shadow-lg fill" >
+          <div className=" d-lg-block nav shadow-own fill" >
             {/* should deal here with burger menu when small*/}
             <StudentNav userImage={user} userName="Romain Planchet" />
           </div>
 
-          <div className="col-sm-12 col-lg-10 fill">
+          <div className=" content fill">
             <div className="image-container">
-              <img src={company} className="img-background" alt="polytech" />
               <div className="main-container align-items-end" >
                 <div className="row no-gutters" style={{ width: '100%', height: '90%' }}>
 
@@ -65,7 +64,7 @@ class StudentHome extends React.Component<IProps, IState> {
 
                     <div className="row no-gutters" style={{ width: '100%', height: '50%' }}>
                       <div className="col-sm-12 col-lg-6 fill-container" style={{ padding: '0.7%' }}>
-                        <div className="fill-container shadow-lg white" style={{ height: '100%' }}>
+                        <div className="fill-container shadow-own white" style={{ height: '100%' }}>
 
                           <MyAppliance applications={this.state.applications} />
 
@@ -73,7 +72,7 @@ class StudentHome extends React.Component<IProps, IState> {
                         </div >
                       </div>
                       <div className="col-sm-12 col-lg-6 fill-container " style={{ padding: '0.7%' }}>
-                        <div className="fill-container shadow-lg white" >
+                        <div className="fill-container shadow-own white" >
                           <MyInterviews />
                         </div>
                       </div>
@@ -81,7 +80,7 @@ class StudentHome extends React.Component<IProps, IState> {
 
                     <div className="row no-gutters" style={{ width: '100%', height: '50%' }}>
                       <div className="col-sm-12 col-lg-12 fill-container" style={{ padding: '0.7%' }}>
-                        <div className="fill-container shadow-lg white">
+                        <div className="fill-container shadow-own white">
 
                         </div>
                       </div>
@@ -91,7 +90,7 @@ class StudentHome extends React.Component<IProps, IState> {
 
                   {/*mail container*/}
                   <div className="col-sm-12 col-lg-3 fill-container" style={{ padding: '0.7%' }}>
-                    <div className="fill-container shadow-lg white">
+                    <div className="fill-container shadow-own white">
                       <MyMessages />
                     </div>
                   </div>

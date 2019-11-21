@@ -2,8 +2,10 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../../../style/nav.css'
 import logo from '../../../img/logo.svg'
+import disconnect from '../../../img/icons/logout.png'
 import { getUsername } from '../../../helpers/authorizationHelper';
 import ActorNavBloc from './actorNavBloc';
+import { logout } from '../../../services/auth.service';
 
 interface IProps {
   userName: string,
@@ -45,7 +47,7 @@ class ActorNavContainer extends React.Component<IProps,IState> {
   render() {
     return (
       <nav className={this.state.classDisplay}>
-        <a className="navbar-brand" href="#">Espace<br/> Candidat</a>
+        <a className="navbar-brand" href="#">Polytech Montpellier</a>
         <button className="navbar-toggler ml-auto" type="button" onClick={this.display}>
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -57,6 +59,10 @@ class ActorNavContainer extends React.Component<IProps,IState> {
             {this.props.routes.map(bloc => <ActorNavBloc blocList={bloc} key={getUsername()!} />)}
           </li>
         </ul>
+        <div className='logout' onClick={() => logout()}>
+          <img className=' disconnect' src={disconnect} />
+          <p className='logoutext'>Se deconnecter</p>
+        </div>
         <img className="bottom-logo" src={logo}/>
       </nav>
 

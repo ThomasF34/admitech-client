@@ -21,3 +21,19 @@ padding-right: 2%
   color: #4b4949;
 }
 
+.shadow-own{
+  box-shadow: 0 0rem 3px rgba(0,0,0,.175) !important;
+}
+
+
+@media only screen and (max-width: 600px) {
+.main-container {
+    position: absolute;
+    top: 5%;
+    left: 15%;
+    right: 2%;
+    bottom: 5%;
+}
+}
+
+

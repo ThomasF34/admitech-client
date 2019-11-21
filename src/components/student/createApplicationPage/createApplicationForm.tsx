@@ -8,6 +8,7 @@ import { isStudent, isAdmin } from '../../../helpers/authorizationHelper';
 import { IAttachement } from './filesContainer';
 import { removeToken } from '../../../services/token.service';
 import StepsBar from '../../helpers/stepsBar';
+import { draftStep, notCompleteApplication, chooseInterview, doMCQ, giveJury, giveMCQ, decision } from '../../../helpers/statusHelper';
 
 export interface IFields {
   [key: string]: any;
@@ -295,16 +296,64 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       <form style={{ width: '100%', height: '100%' }}>
         <StepsBar statusId={this.state.values.status ? parseInt(this.state.values.status) : undefined} />
 
-        {/*Edit Buttons*/}
-        {this.props.existingApplicationId !== undefined ? (
-          <div className="row justify-content-md-end" style={{ marginTop: '3%', marginRight: '5%' }}>
+
+
+        <div className="row justify-content-md-end" style={{ marginTop: '3%', marginRight: '5%' }}>
+          {/*Edit Button*/}
+          {this.props.existingApplicationId !== undefined && (isAdmin() || (isStudent() && notCompleteApplication(this.state.values.status))) ? (
             <div className="col-4 col-md-1 col-sm-3">
               <button className="btn btn-light btn-lg btn-block shadow" onClick={this.changeEditMode}>
                 <img src={edit} className="img-icon " alt="editButton" />
               </button>
             </div>
-          </div>
-        ) : null}
+          ) : null}
+
+          {isStudent() ? (
+            <div>
+              {doMCQ(this.state.values.status) ? (
+                <div className="col-5 col-sm-5 col-lg-2">
+                  <button className="btn btn-secondary btn-lg btn-block shadow" type="submit" >QCM</button>
+                  <small className="text-secondary">Effectuer votre QCM</small>
+                </div>
+              ) : null}
+              {chooseInterview(this.state.values.status) ? (
+                <div className="col-5 col-sm-5 col-lg-2">
+                  <button className="btn btn-secondary btn-lg btn-block shadow" type="submit" >Entretien</button>
+                  <small className="text-secondary">Programmer votre entretien</small>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+
+
+          {isAdmin() ? (
+            <div>
+              {giveMCQ(this.state.values.status) ? (
+                <div className="col-5 col-sm-5 col-lg-2">
+                  <button className="btn btn-secondary btn-lg btn-block shadow" type="submit" >QCM</button>
+                  <small className="text-secondary">Assigner un QCM</small>
+                </div>
+              ) : null}
+              {giveJury(this.state.values.status) ? (
+                <div className="col-5 col-sm-5 col-lg-2">
+                  <button className="btn btn-secondary btn-lg btn-block shadow" type="submit" >Jury</button>
+                  <small className="text-secondary">Assigner un jury</small>
+                </div>
+              ) : null}
+              {decision(this.state.values.status) ? (
+                <div>
+                  <div className="col-5 col-sm-5 col-lg-2">
+                    <button className="btn btn-success btn-lg btn-block shadow" type="submit" >Accepter</button>
+                  </div>
+                  <div className="col-5 col-sm-5 col-lg-2">
+                    <button className="btn btn-danger btn-lg btn-block shadow" type="submit" >Refuser</button>
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
+
+        </div>
 
         <GlobalApplicationForm handleExperiencesChange={this.handleChangeExperiences} handleAttachmentsChange={this.handleChangeAttachements} errors={this.state.errors} handleChange={this.handleChange} attachments={this.state.attachments} experiences={this.state.experiences} values={this.state.values} editMode={this.state.editMode} />
 
@@ -313,14 +362,18 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
         {
           isStudent() ? (
             <div className="row justify-content-center" style={{ marginTop: '2%' }}>
-              <div className="col-6 col-sm-5 col-lg-2">
-                <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={this.submitDraft}>Enregistrer</button>
-                <small className="text-secondary">Enregistrer en tant que brouillon</small>
-              </div>
-              <div className="col-5 col-sm-5 col-lg-2">
-                <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Envoyer</button>
-                <small className="text-success">Soumettre à Polytech</small>
-              </div>
+              {draftStep(this.state.values.status) ? (
+                <div className="col-6 col-sm-5 col-lg-2">
+                  <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={this.submitDraft}>Enregistrer</button>
+                  <small className="text-secondary">Enregistrer en tant que brouillon</small>
+                </div>
+              ) : null}
+              {notCompleteApplication(this.state.values.status) ? (
+                <div className="col-5 col-sm-5 col-lg-2">
+                  <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Envoyer</button>
+                  <small className="text-success">Soumettre à Polytech</small>
+                </div>
+              ) : null}
             </div>
           ) : null
         }
@@ -328,8 +381,13 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
           isAdmin() ? (
             <div className="row justify-content-md-center" style={{ marginTop: '2%' }}>
               <div className="col-6 col-sm-5 col-md-2">
-                <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Enregistrer</button>
+                <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Enregistrer</button>
               </div>
+              {notCompleteApplication(this.state.values.status) ? (
+                <div className="col-5 col-sm-5 col-lg-2">
+                  <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Complet</button>
+                </div>
+              ) : null}
             </div>
           ) : null
         }

@@ -14,7 +14,8 @@ class SpecialityForm extends React.Component<IProps>{
 
     return (
 
-      <div className="container col-sm-6 col-md-5 col-md-3" style={{ padding: '2%' }}>
+      <div className="container row align-items-end" style={{ padding: '2%' }}>
+        <div className="col-6">
         <h4 className="text-info">Candidature pour : </h4>
         <select name="branch" className="form-control" onChange={this.props.handleChange} disabled={!this.props.editMode}>
           <option value="" >Selectionner ...</option>
@@ -22,8 +23,9 @@ class SpecialityForm extends React.Component<IProps>{
           <option value="se" selected={this.props.values.branch && this.props.values.branch.toUpperCase() === "SE"}>SE</option>
         </select>
         <h6 className='text-danger'>{this.props.errors.branch}</h6>
-
-        <div className="row" style={{ padding: '5px' }}>
+        </div>
+     
+        <div className="col-6">
           <div className="form-group">
             <div className="form-check">
               <input name="certified" className="form-check-input input-lg" type="checkbox" onChange={this.props.handleChange} disabled={!this.props.editMode} />
@@ -31,7 +33,7 @@ class SpecialityForm extends React.Component<IProps>{
             </div>
             <h6 className='text-danger'>{this.props.errors.certified}</h6>
           </div>
-        </div>
+          </div>
       </div>
 
     );

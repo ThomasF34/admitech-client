@@ -3,6 +3,7 @@ import '../../../style/home.css';
 import SoftApplication from '../../../models/application/softApplication';
 import arrow from '../../../img/icons/right-arrow.png'
 import { Link } from 'react-router-dom';
+import { categories } from '../../utils/categoriesEnum';
 
 interface IProps {
   applications: SoftApplication[] | null,
@@ -34,7 +35,7 @@ class TabApplication extends React.Component<ITab> {
             <tr key={application.id} >
 
               <th scope="row">{application.branch}</th>
-              <td>{application.status}</td>
+              <td>{categories.get(parseInt(application.status))}</td>
 
               <td>
                  <Link style={{ textDecoration: 'none' }} to={{

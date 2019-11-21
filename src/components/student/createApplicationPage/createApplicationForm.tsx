@@ -7,6 +7,8 @@ import GlobalApplicationForm from './globalApplicationForm';
 import { isStudent, isAdmin } from '../../../helpers/authorizationHelper';
 import { IAttachement } from './filesContainer';
 import { removeToken } from '../../../services/token.service';
+import StepsBar from '../../helpers/stepsBar';
+import { draftStep, notCompleteApplication, chooseInterview, doMCQ, giveJury, giveMCQ, decision } from '../../../helpers/statusHelper';
 
 export interface IFields {
   [key: string]: any;
@@ -51,7 +53,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
             experiences: res.data.experiences
           });
         })
-        .catch((e) => this.error(e))
+        .catch((e) => console.log(e))
     }
   }
 
@@ -292,52 +294,122 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
     return (
 
-      <form style={{ width: '100%', height: '100%' }}>
+      <div className="main-container" >
+        <div className="row justify-content-md-center" >
+          <div className="name-mainTitle" style={{ width: '100%' }}>
+          {isAdmin() ? `Candidature de ${this.state.values.last_name} ${this.state.values.first_name}` : ""}
+          </div>
+        </div>
 
-        {/*Edit Buttons*/}
-        {this.props.existingApplicationId !== undefined ? (
+        <form style={{ width: '100%', height: '100%' }}>
+          <StepsBar statusId={this.state.values.status ? parseInt(this.state.values.status) : undefined} />
+
+
+
           <div className="row justify-content-md-end" style={{ marginTop: '3%', marginRight: '5%' }}>
-            <div className="col-4 col-md-1 col-sm-3">
-              <button className="btn btn-light btn-lg btn-block shadow" onClick={this.changeEditMode}>
-                <img src={edit} className="img-icon " alt="editButton" />
-              </button>
-            </div>
-          </div>
-        ) : null}
+            {/*Edit Button*/}
+            {this.props.existingApplicationId !== undefined && (isAdmin() || (isStudent() && notCompleteApplication(this.state.values.status))) ? (
+              <div className="col-4 col-md-1 col-sm-3">
+                <button className="btn btn-light btn-lg btn-block shadow" onClick={this.changeEditMode}>
+                  <img src={edit} className="img-icon " alt="editButton" />
+                </button>
+              </div>
+            ) : null}
 
-        <GlobalApplicationForm handleExperiencesChange={this.handleChangeExperiences} handleAttachmentsChange={this.handleChangeAttachements} errors={this.state.errors} handleChange={this.handleChange} attachments={this.state.attachments} experiences={this.state.experiences} values={this.state.values} editMode={this.state.editMode} />
-        
-        {/*Saving Buttons*/}
-        {isStudent() ? (
-          <div className="row justify-content-center" style={{ marginTop: '2%' }}>
-            <div className="col-6 col-sm-5 col-lg-2">
-              <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={this.submitDraft}>Enregistrer</button>
-              <small className="text-secondary">Enregistrer en tant que brouillon</small>
-            </div>
-            <div className="col-5 col-sm-5 col-lg-2">
-              <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Envoyer</button>
-              <small className="text-success">Soumettre à Polytech</small>
-            </div>
-          </div>
-        ) : null}
-        {isAdmin() ? (
-          <div className="row justify-content-md-center" style={{ marginTop: '2%' }}>
-            <div className="col-6 col-sm-5 col-md-2">
-              <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Enregistrer</button>
-            </div>
-          </div>
-        ) : null}
-        {/*Pop up*/}
-        <InfoPopUp isError={false} title="Brouillon Candidature" content="Votre brouillon de candidature a bien été sauvegardé. Vous pourrez le retrouver dans le menu 'Mes candidatures'."
-          show={this.state.draftSuccess} onClose={this.closeDraftSuccessPopUP} />
-        <InfoPopUp isError={false} title="Envoie de votre Candidature" content="Votre candidature a bien été envoyée. Nous pouvez dès maintenant suivre son avancement."
-          show={this.state.applicationSuccess} onClose={this.closeApplicationSuccessPopUP} />
-        <InfoPopUp isError={true} title="ERREUR" content={this.state.errorMessage === "" ? "Une erreur innatendue s'est produite." : this.state.errorMessage}
-          show={this.state.error} onClose={this.closeErrorPopUP} />
-        <InfoPopUp isError={true} title="ERREUR" content="Veuillez remplire tous les champs nécessaires s'il vous plait."
-          show={this.state.applicationFailure || this.state.draftFailure} onClose={this.closeFailurePopUP} />
+            {isStudent() ? (
+              <div>
+                {doMCQ(this.state.values.status) ? (
+                  <div className="col-5 col-sm-5 col-lg-2">
+                    <button className="btn btn-secondary btn-lg btn-block shadow" type="submit" >QCM</button>
+                    <small className="text-secondary">Effectuer votre QCM</small>
+                  </div>
+                ) : null}
+                {chooseInterview(this.state.values.status) ? (
+                  <div className="col-5 col-sm-5 col-lg-2">
+                    <button className="btn btn-secondary btn-lg btn-block shadow" type="submit" >Entretien</button>
+                    <small className="text-secondary">Programmer votre entretien</small>
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
 
-      </form >
+
+            {isAdmin() ? (
+              <div>
+                {giveMCQ(this.state.values.status) ? (
+                  <div className="col-5 col-sm-5 col-lg-2">
+                    <button className="btn btn-secondary btn-lg btn-block shadow" type="submit" >QCM</button>
+                    <small className="text-secondary">Assigner un QCM</small>
+                  </div>
+                ) : null}
+                {giveJury(this.state.values.status) ? (
+                  <div className="col-5 col-sm-5 col-lg-2">
+                    <button className="btn btn-secondary btn-lg btn-block shadow" type="submit" >Jury</button>
+                    <small className="text-secondary">Assigner un jury</small>
+                  </div>
+                ) : null}
+                {decision(this.state.values.status) ? (
+                  <div className='btn-group'>
+                    <div className="col-5 col-sm-5 col-lg-6">
+                      <button className="btn btn-success btn-lg btn-block shadow" type="submit" >Accepter</button>
+                    </div>
+                    <div className="col-5 col-sm-5 col-lg-6">
+                      <button className="btn btn-danger btn-lg btn-block shadow" type="submit" >Refuser</button>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            ) : null}
+          </div>
+
+          <GlobalApplicationForm handleExperiencesChange={this.handleChangeExperiences} handleAttachmentsChange={this.handleChangeAttachements} errors={this.state.errors} handleChange={this.handleChange} attachments={this.state.attachments} experiences={this.state.experiences} values={this.state.values} editMode={this.state.editMode} />
+
+
+          {/*Saving Buttons*/}
+          {
+            isStudent() ? (
+              <div className="row justify-content-center" style={{ marginTop: '2%' }}>
+                {draftStep(this.state.values.status) ? (
+                  <div className="col-6 col-sm-5 col-lg-2">
+                    <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={this.submitDraft}>Enregistrer</button>
+                    <small className="text-secondary">Enregistrer en tant que brouillon</small>
+                  </div>
+                ) : null}
+                {notCompleteApplication(this.state.values.status) ? (
+                  <div className="col-5 col-sm-5 col-lg-2">
+                    <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Envoyer</button>
+                    <small className="text-success">Soumettre à Polytech</small>
+                  </div>
+                ) : null}
+              </div>
+            ) : null
+          }
+          {
+            isAdmin() ? (
+              <div className="row justify-content-md-center" style={{ marginTop: '2%' }}>
+                <div className="col-6 col-sm-5 col-md-2">
+                  <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Enregistrer</button>
+                </div>
+                {notCompleteApplication(this.state.values.status) ? (
+                  <div className="col-5 col-sm-5 col-lg-2">
+                    <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Complet</button>
+                  </div>
+                ) : null}
+              </div>
+            ) : null
+          }
+          {/*Pop up*/}
+          <InfoPopUp isError={false} title="Brouillon Candidature" content="Votre brouillon de candidature a bien été sauvegardé. Vous pourrez le retrouver dans le menu 'Mes candidatures'."
+            show={this.state.draftSuccess} onClose={this.closeDraftSuccessPopUP} />
+          <InfoPopUp isError={false} title="Envoie de votre Candidature" content="Votre candidature a bien été envoyée. Nous pouvez dès maintenant suivre son avancement."
+            show={this.state.applicationSuccess} onClose={this.closeApplicationSuccessPopUP} />
+          <InfoPopUp isError={true} title="ERREUR" content={this.state.errorMessage === "" ? "Une erreur innatendue s'est produite." : this.state.errorMessage}
+            show={this.state.error} onClose={this.closeErrorPopUP} />
+          <InfoPopUp isError={true} title="ERREUR" content="Veuillez remplire tous les champs nécessaires s'il vous plait."
+            show={this.state.applicationFailure || this.state.draftFailure} onClose={this.closeFailurePopUP} />
+
+        </form >
+      </div>
     );
   }
 }

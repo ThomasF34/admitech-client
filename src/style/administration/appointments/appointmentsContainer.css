@@ -13,3 +13,8 @@
     float:right;
     margin:2%;
 }
+
+#span-error {
+    color:#e00000;
+    font-size:80%;
+}

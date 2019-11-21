@@ -5,8 +5,8 @@ import company from '../../../img/fond-polytech.jpeg';
 import user from '../../../img/user.png';
 import filesIcon from '../../../img/icons/applications.png';
 import AdminNav from '../adminNav';
-import AppointmentsContainer from './appointmentsContainer';
 import BottomBar from '../../helpers/bottomBar';
+import AppointmentsContainer from './appointmentsContainer';
 
 class ApplicationsPage extends React.Component {
 

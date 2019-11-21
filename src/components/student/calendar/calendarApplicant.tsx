@@ -5,17 +5,17 @@ import { Scheduler, WeekView, Appointments, Toolbar, DateNavigator } from '@deve
 import { assignMySlot } from'../../../services/student/calendar/application.service';
 import ConfirmationPopUp from '../../helpers/ConfirmationPopUp';
 
-const user_id = 1; //TODO
-
 const Appointment: React.ComponentType<Appointments.AppointmentProps> = (props) => {
   if (props.data.title === "MON ENTRETIEN") {
     return <Appointments.Appointment style={{ backgroundColor: '#3F2EE3' }} {...props} onClick={ () =>
-      console.log("Je clique sur mon entretien")
+      console.log("Mon entretien")
     }
     />;
   }
-  return <Appointments.Appointment {...props} onClick={ async () =>
-    await assignMySlot(user_id, props.data.id)
+  return <Appointments.Appointment {...props} onClick={ async () => {
+    await assignMySlot(+window.location.href.split('/')[window.location.href.split('/').length-1], props.data.id)
+    window.location.reload()
+  }
   } />;
 };
 

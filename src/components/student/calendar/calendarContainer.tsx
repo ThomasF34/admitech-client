@@ -55,8 +55,7 @@ class CalendarContainer extends React.Component<IProps, IState> {
 
     async getAppointmentApplicant(idApplicant: number) {
         let appointmentApplicant = (await getMySlot(this.getUserId())).data;
-
-        if (appointmentApplicant.id !== undefined) {
+        if (appointmentApplicant.begining_hour !== undefined) {
             let slot = { 
                 startDate: new Date(new Date(appointmentApplicant.begining_hour).setHours(new Date(appointmentApplicant.begining_hour).getHours() - 1)), 
                 endDate: new Date(new Date(appointmentApplicant.ending_hour).setHours(new Date(appointmentApplicant.ending_hour).getHours() - 1)), 
@@ -94,7 +93,7 @@ class CalendarContainer extends React.Component<IProps, IState> {
 
     render() { 
         return (
-            status === 7 
+            this.state.slotApplicant.startDate === '' 
             ? (
                 <div id='card-title-calendar-container'>
                     <h5>
@@ -136,7 +135,7 @@ class CalendarContainer extends React.Component<IProps, IState> {
             : (
                 <InfoPopUpCalendar 
                     title = 'Vous avez déjà un entretien' 
-                    content = "Programmé pour le " { ... new Date(this.state.slotApplicant.startDate).getDate() + ' ' + months.get(new Date(this.state.slotApplicant.startDate).getMonth()+1) + ' ' + new Date(this.state.slotApplicant.startDate).getFullYear() + ' ' + (new Date(this.state.slotApplicant.startDate).getHours()-1) + ':' + new Date(this.state.slotApplicant.startDate).getMinutes() }
+                    content = { `Programmé pour le ${new Date(this.state.slotApplicant.startDate).getDate() + ' ' + months.get(new Date(this.state.slotApplicant.startDate).getMonth()+1) + ' ' + new Date(this.state.slotApplicant.startDate).getFullYear() + ' ' + (new Date(this.state.slotApplicant.startDate).getHours()) + ':' + new Date(this.state.slotApplicant.startDate).getMinutes()}` }
                 />
             )
         )

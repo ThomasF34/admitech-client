@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import user from '../../../img/user.png';
 import StudentNav from '../studentNav';
 import MyAppliance from './myApplication';
-import MyMessages from './myMessages';
 import MyInterviews from './myInterviews';
 import BottomBar from '../../helpers/bottomBar';
 import SoftApplication from '../../../models/application/softApplication';

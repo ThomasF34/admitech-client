@@ -92,6 +92,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
         applicationSuccess: false
       });
   }
+
   closeFailurePopUP = () => {
     if (this.state.applicationFailure === true || this.state.draftFailure === true)
       this.setState({
@@ -359,7 +360,6 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
                 ) : null}
               </div>
             ) : null}
-
           </div>
 
           <GlobalApplicationForm handleExperiencesChange={this.handleChangeExperiences} handleAttachmentsChange={this.handleChangeAttachements} errors={this.state.errors} handleChange={this.handleChange} attachments={this.state.attachments} experiences={this.state.experiences} values={this.state.values} editMode={this.state.editMode} />

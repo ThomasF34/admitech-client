@@ -1,7 +1,6 @@
 import React from 'react';
 import '../../../style/container.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import StepsBar from '../stepsBar';
 import CreateApplicationForm from '../../student/createApplicationPage/createApplicationForm';
 
 interface IProps {
@@ -19,14 +18,9 @@ class StudentApplicationContainer extends React.Component<IProps> {
             {this.props.title}
           </div>
         </div>
-        <div className="row align-items-center">
-          <div className="container" >
-            <StepsBar />
-          </div>
-        </div>
-        <div className="row" >
+        
           <CreateApplicationForm existingApplicationId={this.props.id} />
-        </div>
+      
       </div>
 
     );

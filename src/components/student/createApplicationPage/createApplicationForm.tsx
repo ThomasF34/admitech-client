@@ -53,7 +53,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
             experiences: res.data.experiences
           });
         })
-        .catch((e) => this.error(e))
+        .catch((e) => console.log(e))
     }
   }
 
@@ -341,11 +341,11 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
                 </div>
               ) : null}
               {decision(this.state.values.status) ? (
-                <div>
-                  <div className="col-5 col-sm-5 col-lg-2">
+                <div className='btn-group'>
+                  <div className="col-5 col-sm-5 col-lg-6">
                     <button className="btn btn-success btn-lg btn-block shadow" type="submit" >Accepter</button>
                   </div>
-                  <div className="col-5 col-sm-5 col-lg-2">
+                  <div className="col-5 col-sm-5 col-lg-6">
                     <button className="btn btn-danger btn-lg btn-block shadow" type="submit" >Refuser</button>
                   </div>
                 </div>

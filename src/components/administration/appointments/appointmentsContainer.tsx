@@ -6,12 +6,17 @@ import {addSlots} from '../../../services/administration/appointments/applicatio
 import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
 
+import Paper from '@material-ui/core/Paper';
+import { ViewState, AppointmentModel } from '@devexpress/dx-react-scheduler';
+import { Scheduler, WeekView, Appointments, Toolbar, DateNavigator } from '@devexpress/dx-react-scheduler-material-ui';
+
 interface IState {
   currentFormation: string,
   showModal: boolean,
   startDateForm: string,
   endDateForm: string,
   durationForm: string,
+  data: Array<AppointmentModel>
 }
 
 interface IProps {
@@ -26,10 +31,13 @@ class AppointmentsContainer extends Component<IProps, IState> {
       startDateForm: '',
       endDateForm: '',
       durationForm: '0.5',
+      data: [],
     };
 
     this.changeFormation = this.changeFormation.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.getSlotsAvailable = this.getSlotsAvailable.bind(this);
+    this.getSlotsUnavailable = this.getSlotsUnavailable.bind(this);
   }
 
   changeFormation(elem: string) {
@@ -39,7 +47,14 @@ class AppointmentsContainer extends Component<IProps, IState> {
   async handleSave() {
     this.setState({showModal: false})
     await addSlots(this.state.currentFormation, this.state.startDateForm, this.state.endDateForm, this.state.durationForm) 
-    //TODO requete post
+  }
+
+  async getSlotsAvailable() {
+
+  } 
+
+  async getSlotsUnavailable() {
+
   }
 
   render() {
@@ -96,6 +111,29 @@ class AppointmentsContainer extends Component<IProps, IState> {
             </Modal>
         </div>
 
+        <Paper>
+            <Scheduler
+            data={this.state.data}
+            height={660}
+            locale='fr-FR'
+            >
+                <ViewState
+                    defaultCurrentDate={new Date()}
+                />
+
+                <WeekView
+                    excludedDays={[0, 6]}
+                    startDayHour={8}
+                    endDayHour={19}
+                />
+                
+                <Toolbar />
+                <DateNavigator />
+
+                <Appointments />
+
+            </Scheduler>
+        </Paper>
       </div>
     )
   } 

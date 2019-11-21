@@ -12,4 +12,6 @@ const addSlots = async (formation: string, startDate: string, endDate: string, d
   return res;
 };
 
+
+
 export { addSlots };

@@ -51,7 +51,7 @@ class CalendarApplicant extends React.PureComponent<IProps, IState> {
     else if (this.getMinAppointmentAvailable(appointments).startDate !== '') return this.getMinAppointmentAvailable(appointments)
     else return { startDate: new Date(), endDate: new Date() }
   }
-
+  
   render() {
     return (
       <Paper>
@@ -66,8 +66,8 @@ class CalendarApplicant extends React.PureComponent<IProps, IState> {
 
           <WeekView
             excludedDays={[0, 6]}
-            startDayHour={7}
-            endDayHour={20}
+            startDayHour={8}
+            endDayHour={19}
           />
 
           <Toolbar />

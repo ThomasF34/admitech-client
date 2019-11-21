@@ -8,7 +8,7 @@ import { getAvailableSlots, getMySlot } from'../../../services/student/calendar/
 import InfoPopUpCalendar from '../../helpers/InfoPopUpCalendar';
 
 const user_id = 1; //TODO
-const formation = "do"; //TODO
+const formation = "se"; //TODO
 const status = 7; //TODO
 
 interface IProps {
@@ -28,7 +28,6 @@ class CalendarContainer extends React.Component<IProps, IState> {
             slotApplicant: {startDate: '', endDate: ''},
             listAvailableSlots: [],
         }
-
         this.getAvailableAppointments = this.getAvailableAppointments.bind(this);
         this.getAppointmentApplicant = this.getAppointmentApplicant.bind(this);
 
@@ -36,18 +35,22 @@ class CalendarContainer extends React.Component<IProps, IState> {
         this.getAppointmentApplicant(user_id);
     }
 
-    getAvailableAppointments = async (formation: string): Promise<void> => {
+    async getAvailableAppointments(formation: string) {
         let availableAppointments = (await getAvailableSlots(formation)).data;
         if (availableAppointments.length !== 0) {
             let availableSlots = new Array<AppointmentModel>();
             availableAppointments.filter((elem: any) => elem !== undefined).map( (elem: any) => 
-                availableSlots = availableSlots.concat({startDate: elem.begining_hour, endDate: elem.ending_hour, id: elem.id, title: 'Entretien disponible'})
+                availableSlots = availableSlots.concat({
+                    startDate: new Date(new Date(elem.begining_hour).setHours(new Date(elem.begining_hour).getHours() - 1)), 
+                    endDate: new Date(new Date(elem.ending_hour).setHours(new Date(elem.ending_hour).getHours() - 1)), 
+                    id: elem.id, 
+                    title: 'Entretien disponible'})
             )
             this.setState({listAvailableSlots: availableSlots})
         }
     }
 
-    getAppointmentApplicant = async (idApplicant: number) : Promise<void> => {
+    async getAppointmentApplicant(idApplicant: number) {
         let appointmentApplicant = (await getMySlot(user_id)).data;
 
         if (appointmentApplicant.id !== undefined) {
@@ -84,7 +87,8 @@ class CalendarContainer extends React.Component<IProps, IState> {
 
     render() { 
         return (
-            status === 7  ? (
+            status === 7 
+            ? (
                 <div id='card-title-calendar-container'>
                     <h5>
                         {
@@ -113,8 +117,13 @@ class CalendarContainer extends React.Component<IProps, IState> {
                             </h6>
                         )
                     }
-                    <CalendarApplicant listAppointments={this.state.listAvailableSlots} applicantAppointment={this.state.slotApplicant} />
-
+                    {
+                        this.state.listAvailableSlots.length !== 0 
+                        ?   (
+                            <CalendarApplicant applicantAppointment={this.state.slotApplicant} listAppointments={this.state.listAvailableSlots} />
+                        )
+                        : (null)
+                    }
                 </div>
             )
             : (

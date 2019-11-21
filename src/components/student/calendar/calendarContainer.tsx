@@ -4,10 +4,8 @@ import { AppointmentModel } from '@devexpress/dx-react-scheduler';
 import {months} from "../../utils/months";
 import 'bootstrap/dist/css/bootstrap.css';
 import '../../../style/student/calendar/calendar.css';
-import { getAvailableSlots, getMySlot } from'../../../services/student/calendar/application.service';
+import { getAvailableSlots, getMySlot, getSingleApplication } from'../../../services/student/calendar/application.service';
 import InfoPopUpCalendar from '../../helpers/InfoPopUpCalendar';
-
-const formation = "se"; //TODO
 
 interface IProps {
 
@@ -16,6 +14,8 @@ interface IProps {
 interface IState {
     slotApplicant: AppointmentModel,
     listAvailableSlots: Array<AppointmentModel>,
+    currentFormation: string,
+    loading: boolean
 }
 
 class CalendarContainer extends React.Component<IProps, IState> {
@@ -24,17 +24,27 @@ class CalendarContainer extends React.Component<IProps, IState> {
         this.state = {
             slotApplicant: {startDate: '', endDate: ''},
             listAvailableSlots: [],
+            currentFormation: '',
+            loading: true
         }
-        this.getUserId =this.getUserId.bind(this);
         this.getAvailableAppointments = this.getAvailableAppointments.bind(this);
         this.getAppointmentApplicant = this.getAppointmentApplicant.bind(this);
-
-        this.getAvailableAppointments(formation);
-        this.getAppointmentApplicant(this.getUserId());
+        this.getUserId =this.getUserId.bind(this);
+        this.getFormation = this.getFormation.bind(this);
+        this.getMinAppointmentAvailable = this.getMinAppointmentAvailable.bind(this)
+        this.getMaxAppointmentAvailable = this.getMaxAppointmentAvailable.bind(this)
     }
 
     getUserId() {
         return +window.location.href.split('/')[window.location.href.split('/').length-1];
+    }
+
+    async getFormation() {
+        getSingleApplication(this.getUserId().toString()).then(application =>{
+            this.setState({currentFormation: application.data.branch});
+            this.getAvailableAppointments(application.data.branch);
+        });
+        
     }
 
     async getAvailableAppointments(formation: string) {
@@ -49,6 +59,7 @@ class CalendarContainer extends React.Component<IProps, IState> {
                     title: 'Entretien disponible'})
             )
             this.setState({listAvailableSlots: availableSlots})
+            this.setState({loading: false})
         }
     }
 
@@ -90,9 +101,17 @@ class CalendarContainer extends React.Component<IProps, IState> {
         else return { startDate:'', endDate:'' }
     }
 
+    componentDidMount() {
+        this.getFormation();
+        this.getAppointmentApplicant(this.getUserId());
+    }
+
     render() { 
+        if (this.state.loading){
+            return null;
+        }
         return (
-            this.state.slotApplicant.startDate === '' 
+            this.state.slotApplicant.startDate === ''
             ? (
                 <div id='card-title-calendar-container'>
                     <h5>
@@ -122,19 +141,15 @@ class CalendarContainer extends React.Component<IProps, IState> {
                             </h6>
                         )
                     }
-                    {
-                        this.state.listAvailableSlots.length !== 0 
-                        ?   (
-                            <CalendarApplicant applicantAppointment={this.state.slotApplicant} listAppointments={this.state.listAvailableSlots} />
-                        )
-                        : (null)
-                    }
+                    
+                    <CalendarApplicant applicantAppointment={this.state.slotApplicant} listAppointments={this.state.listAvailableSlots} />
+
                 </div>
             )
             : (
                 <InfoPopUpCalendar 
                     title = 'Vous avez déjà un entretien' 
-                    content = { `Programmé pour le ${new Date(this.state.slotApplicant.startDate).getDate() + ' ' + months.get(new Date(this.state.slotApplicant.startDate).getMonth()+1) + ' ' + new Date(this.state.slotApplicant.startDate).getFullYear() + ' ' + (new Date(this.state.slotApplicant.startDate).getHours()) + ':' + new Date(this.state.slotApplicant.startDate).getMinutes()}` }
+                    content = { `Programmé pour le ${new Date(this.state.slotApplicant.startDate).getDate() + ' ' + months.get(new Date(this.state.slotApplicant.startDate).getMonth()+1) + ' ' + new Date(this.state.slotApplicant.startDate).getFullYear() + ' à ' + (new Date(this.state.slotApplicant.startDate).getHours()) + ':' + new Date(this.state.slotApplicant.startDate).getMinutes()}` }
                 />
             )
         )

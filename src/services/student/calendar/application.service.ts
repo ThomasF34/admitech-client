@@ -32,5 +32,15 @@ const assignMySlot = async (idApplicant: number, idSlot: string|number|undefined
     return res;
 };
 
-export { getAvailableSlots, getMySlot, assignMySlot };
+const getSingleApplication = async (id: string) => {
+  const res = await axios
+    .get(`${config.API_URL}/candidature/${id}`,
+      {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      }
+    );
+  return res;
+};
+
+export { getAvailableSlots, getMySlot, assignMySlot, getSingleApplication };
 

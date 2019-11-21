@@ -8,7 +8,6 @@ import { getAvailableSlots, getMySlot } from'../../../services/student/calendar/
 import InfoPopUpCalendar from '../../helpers/InfoPopUpCalendar';
 
 const formation = "se"; //TODO
-const status = 7; //TODO
 
 interface IProps {
 

@@ -4,7 +4,6 @@ import QuestionModel from '../../../models/mcq/question.model';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Mcq from '../../../models/mcq/mcq.model';
 import '../../../style/mcq.css';
-import { useParams } from 'react-router';
 import {getQCMAdmin} from '../../../services/qcm.service'
 
 interface IState {
@@ -15,8 +14,8 @@ interface IProps {
   idQcm : number
 }
 
-const fakeResponses: Response[] = [{ idResponse: 3, label: "un chien", correct:true }, { idResponse: 4, label: "un chat" }, { idResponse: 5, label: "un oiseau" },]
-const fakeQuestion: QuestionModel = { idQuestion: 1, title: "Quelle est la plus grande planète du système solaire ?", responses: fakeResponses }
+const fakeResponses: Response[] = [{ id: 3, label: "un chien", correct:true }, { id: 4, label: "un chat" }, { id: 5, label: "un oiseau" },]
+const fakeQuestion: QuestionModel = { id: 1, title: "Quelle est la plus grande planète du système solaire ?", responses: fakeResponses }
 const content = [fakeQuestion, fakeQuestion, fakeQuestion, fakeQuestion, fakeQuestion, fakeQuestion,]
 const qcm = new Mcq()
 qcm.formation = "IG"
@@ -32,9 +31,7 @@ class ShowQuizz extends React.Component<IProps, IState> {
   }
 
   componentDidMount() {
-    let { id } = useParams()
-    console.log(id)
-    if (id !== undefined) {
+    if (this.props.idQcm !== undefined) {
       console.log("J'ai l'id")
       const res = getQCMAdmin(this.props.idQcm)
       res.then((mcq) => {

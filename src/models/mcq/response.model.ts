@@ -1,6 +1,6 @@
 class Response {
 
-  public idResponse!: number;
+  public id!: number;
   public label!: string;
   public correct?: boolean;
 

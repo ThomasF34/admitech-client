@@ -44,7 +44,7 @@ class FormQuestion extends React.Component<IProps, IState> {
     const response = new Response()
     response.label = this.state.currentResponse;
     response.correct = this.state.checked;
-    response.idResponse = this.state.currentId
+    response.id = this.state.currentId
     const res = this.state.responses
     const currentId = this.state.currentId + 1
     console.log(currentId)
@@ -72,7 +72,7 @@ class FormQuestion extends React.Component<IProps, IState> {
   deleteItem(id: number) {
     console.log(id,this.state.responses )
     const responses = this.state.responses;
-    const res = responses.filter(elem => elem.idResponse !== id)
+    const res = responses.filter(elem => elem.id !== id)
     this.setState({ responses: res })
   }
 
@@ -115,7 +115,7 @@ class FormQuestion extends React.Component<IProps, IState> {
                 </div>
                 <input type="text" className="form-control" disabled value={elem.label} />
                 {console.log(elem)}
-                <button className="btn btn-outline-danger" type="button" id="button-addon2" onClick={() => this.deleteItem(elem.idResponse)}>Supprimer</button>
+                <button className="btn btn-outline-danger" type="button" id="button-addon2" onClick={() => this.deleteItem(elem.id)}>Supprimer</button>
               </div>
             ))
           }

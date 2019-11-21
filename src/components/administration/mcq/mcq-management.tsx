@@ -18,7 +18,7 @@ class QuizzManagement extends React.Component<IProps, IState> {
       listOfQCM: []
     }
     this.deleteItem =this.deleteItem.bind(this)
-
+    
   }
 
   async componentDidMount() {

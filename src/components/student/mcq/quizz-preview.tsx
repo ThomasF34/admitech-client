@@ -3,20 +3,18 @@ import Question from './question';
 import Response from '../../../models/mcq/response.model';
 import QuestionModel from '../../../models/mcq/question.model';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-
-const fakeResponses: Response[] = [{ idResponse: 3, label: "un chien" }, { idResponse: 4, label: "un chat" }, { idResponse: 5, label: "un oiseau" },]
-const fakeQuestion: QuestionModel = { idQuestion: 1, title: "Quelle est la plus grande planète du système solaire ?", responses: fakeResponses }
-const fakeQuestion2: QuestionModel = { idQuestion: 1, title: "Quelle est la plus grande planète du système solaire ?", responses: fakeResponses }
-const content = [fakeQuestion, fakeQuestion, fakeQuestion, fakeQuestion, fakeQuestion, fakeQuestion,]
+import Mcq from '../../../models/mcq/mcq.model';
+import {getQCMStudent, sendQCMStudent} from '../../../services/qcm.service'
 
 interface IState {
   answersCatched: { idQuestion: number, answers: number[] }[];
   finished: boolean;
+  mcq : Mcq
 }
 
 interface IProps {
-  //questions:QuestionModel[]
+  idCandidature: number;
+  idCandidat: number;
 }
 
 class Quizz extends React.Component<IProps, IState> {
@@ -24,11 +22,25 @@ class Quizz extends React.Component<IProps, IState> {
     super(props)
     this.state = {
       answersCatched: [],
-      finished: false
+      finished: false,
+      mcq : new Mcq()
     }
     this.handleAnswers = this.handleAnswers.bind(this);
     this.validateAnswers = this.validateAnswers.bind(this);
+
   }
+
+   componentDidMount() {
+     const pageContent = getQCMStudent(this.props.idCandidature);
+     console.log(pageContent)
+     pageContent.then((allElements) => {
+       if (allElements !== undefined) {
+         this.setState({ mcq: allElements })
+       } else {
+         window.alert("Une erreur s'est produite, veuillez réessayer plus tard")
+       }
+     }); 
+    }
 
   handleAnswers(answer: { idQuestion: number, answers: number[] }) {
     const res = this.state.answersCatched.concat(answer)
@@ -36,9 +48,16 @@ class Quizz extends React.Component<IProps, IState> {
   }
 
   validateAnswers() {
-    // Envoyer les réponses
-    //Penser à envoyer l'id de la candidature => 
     this.setState({ finished: true })
+    console.log({
+      idCandidature: this.props.idCandidature,
+      questions: this.state.answersCatched
+    })
+    sendQCMStudent({
+      idCandidature: this.props.idCandidature,
+      questions: this.state.answersCatched
+    })
+    // Renvoyer la réponse
   }
 
 
@@ -46,9 +65,15 @@ class Quizz extends React.Component<IProps, IState> {
     if (!this.state.finished) {
       return (
         <div className="container w-70">
-          {content.map(elem =>
-            <Question question={elem} sendResponse={this.handleAnswers} />
-          )}
+          {
+           this.state.mcq.questions === undefined ?
+                <h5>Loading</h5>
+            :
+              this.state.mcq.questions.map(elem =>
+                <Question question={elem} sendResponse={this.handleAnswers} />
+              )
+            }
+          
           <div>
             <p className="information"></p>
             <div className="text-center mb-5">

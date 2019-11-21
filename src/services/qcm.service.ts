@@ -43,4 +43,17 @@ const getPreviewQCM = async () => {
   }
 };
 
-export { sendQCM, getQCM, getPreviewQCM, deleteQCM, getQCMAdmin }
+const getQCMStudent = async (idCandidature: number) => {
+  const res = await axios
+    .get(`${API_URL}/candidate/${idCandidature}/mcq`);
+  const result: Mcq = res.data
+  return result
+}
+
+const sendQCMStudent = async (responses : any) => {
+  const res = await axios
+    .post(`${API_URL}/responseCandidat/`, responses);
+  return res;
+}
+
+export { sendQCM, getQCM, getPreviewQCM, deleteQCM, getQCMAdmin, getQCMStudent, sendQCMStudent}

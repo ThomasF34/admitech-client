@@ -1,7 +1,7 @@
 import Response from './response.model'
 class Question {
 
-  public idQuestion?: number;
+  public id!: number;
   public title!: string;
   public responses!: Response[];
 

@@ -28,7 +28,7 @@ class Question extends React.Component<IProps, IState> {
       cardProperties: 'card w-75 p-3 mx-auto mt-5',
       message:'En cliquant sur enregistrer, vous ne pourrez plus modifier vos réponses.'
     }
-
+    console.log(this.props.question)
     this.changeResponses = this.changeResponses.bind(this)
     this.saveResponses = this.saveResponses.bind(this)
   }
@@ -51,7 +51,7 @@ class Question extends React.Component<IProps, IState> {
     event.preventDefault()
     if (!this.state.pressed) {
       this.setState({ pressed: true , message:"Réponse enregistrée"})
-      this.props.sendResponse({ idQuestion: this.props.question.idQuestion, anwers: this.state.elemChecked })
+      this.props.sendResponse({ idQuestion: this.props.question.id, responses: this.state.elemChecked })
     }
   }
 
@@ -64,7 +64,7 @@ class Question extends React.Component<IProps, IState> {
               {this.props.question.responses.map((elem: Response) =>
                 <div className='response'>
                   <label>
-                    <input type="checkbox" key={elem.label} disabled={this.state.pressed} onClick={() => this.changeResponses(elem.idResponse)} />
+                    <input type="checkbox" key={elem.label} disabled={this.state.pressed} onClick={() => this.changeResponses(elem.id)} />
                     {elem.label}
                   </label>
                 </div>

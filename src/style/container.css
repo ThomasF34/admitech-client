@@ -19,3 +19,22 @@
 .white{
   background-color: whitesmoke;
   }
+
+.nav-container{
+  width:30px;
+}
+
+.content{
+  width: calc(100%-10px);
+  float: right;
+}
+
+.main-container {
+
+    position: absolute;
+    top: 5%;
+    left: 8%;
+    right: 2%;
+    bottom: 5%;
+
+}

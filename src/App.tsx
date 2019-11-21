@@ -54,7 +54,7 @@ function App() {
         <Route path="/etudiant/nouvelleCandidature">
             {PrivateStudentRoute(<CreateApplicationContainer />)}
         </Route>
-        <Route path="/etudiant/calendrier">
+        <Route path="/etudiant/calendrier/:idApplication">
             {PrivateStudentRoute(<CalendarPage />)}
         </Route>
         <Route exact path="/">

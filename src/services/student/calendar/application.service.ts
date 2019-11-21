@@ -24,7 +24,7 @@ const getMySlot = async (idApplicant: number) => {
 
 const assignMySlot = async (idApplicant: number, idSlot: string|number|undefined) => {
     const res = await axios
-      .put(`${config.API_URL}/entretien/etudiant/affecter`, {'candidature_id': idApplicant, 'entretien_id': idSlot},
+      .put(`${config.API_URL}/entretien/etudiant/affecter`, {"candidature_id": idApplicant, "entretien_id": idSlot},
         {
           headers: { Authorization: `Bearer ${getToken()}` }
         }

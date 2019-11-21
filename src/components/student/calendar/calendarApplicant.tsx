@@ -3,17 +3,20 @@ import Paper from '@material-ui/core/Paper';
 import { ViewState, AppointmentModel } from '@devexpress/dx-react-scheduler';
 import { Scheduler, WeekView, Appointments, Toolbar, DateNavigator } from '@devexpress/dx-react-scheduler-material-ui';
 import { assignMySlot } from'../../../services/student/calendar/application.service';
+import ConfirmationPopUp from '../../helpers/ConfirmationPopUp';
 
 const user_id = 1; //TODO
 
 const Appointment: React.ComponentType<Appointments.AppointmentProps> = (props) => {
   if (props.data.title === "MON ENTRETIEN") {
-    return <Appointments.Appointment style={{ backgroundColor: '#3F2EE3' }} {...props} onClick={ async () =>
-      await assignMySlot(user_id, props.data.id)
+    return <Appointments.Appointment style={{ backgroundColor: '#3F2EE3' }} {...props} onClick={ () =>
+      console.log("Je clique sur mon entretien")
     }
     />;
   }
-  return <Appointments.Appointment {...props} onClick={()=>console.log(props.data)} />;
+  return <Appointments.Appointment {...props} onClick={ async () =>
+    await assignMySlot(user_id, props.data.id)
+  } />;
 };
 
 interface IProps {
@@ -23,13 +26,16 @@ interface IProps {
 
 interface IState {
     data: Array<AppointmentModel>,
+    showPopUp: boolean
 }
 
 class CalendarApplicant extends React.PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      data: this.props.listAppointments.concat(this.props.applicantAppointment)
+      data: this.props.listAppointments.concat(this.props.applicantAppointment),
+        //startDate: 'Wed Nov 20 2019 08:00:00 GMT+0100', endDate: 'Wed Nov 20 2019 09:00:00 GMT+0100', title: 'MON ENTRETIEN'}),
+      showPopUp: false
     }
     this.getMinAppointmentAvailable = this.getMinAppointmentAvailable.bind(this);
   }
@@ -76,6 +82,8 @@ class CalendarApplicant extends React.PureComponent<IProps, IState> {
           <Appointments 
             appointmentComponent={Appointment}
           />
+
+          <ConfirmationPopUp title="Confirmation d'entretien" content="Confirmez-vous l'entretien à la date du .... à l'adresse Polytech, bâtiment 31, Place Eugène Bataillon 34095 Montpellier ?" show={ this.state.showPopUp } onClose={ ()=> this.setState({showPopUp: false}) } />
 
         </Scheduler>
       </Paper>

@@ -157,8 +157,8 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       createApplication(application)
         .then(rep => successCreate(rep))
         .catch(e => {
-          if (e.status === 400)
-            missingFields(e)
+          if (e.response.status === 400)
+            missingFields(e.response)
           else
             this.error(e)
         });
@@ -201,8 +201,8 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       createApplication(application)
         .then(rep => successCreate(rep))
         .catch(e => {
-          if (e.status === 400)
-            missingFields(e)
+          if (e.response.status === 400)
+            missingFields(e.response)
           else
             this.error(e)
         });
@@ -262,7 +262,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
           </div>
         ) : null}
 
-        <GlobalApplicationForm handleExperiencesChange={this.handleChangeExperiences} handleAttachmentsChange={this.handleChangeAttachements} handleChange={this.handleChange} attachments={this.state.attachments} experiences={this.state.experiences} values={this.state.values} editMode={this.state.editMode} />
+        <GlobalApplicationForm handleExperiencesChange={this.handleChangeExperiences} handleAttachmentsChange={this.handleChangeAttachements} errors={this.state.errors} handleChange={this.handleChange} attachments={this.state.attachments} experiences={this.state.experiences} values={this.state.values} editMode={this.state.editMode} />
 
         {/*Saving Buttons*/}
         {isStudent() ? (

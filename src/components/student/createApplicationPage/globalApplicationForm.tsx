@@ -17,6 +17,7 @@ interface IProps {
   handleExperiencesChange: (elems: Experiences[]) => void,
   handleAttachmentsChange: (elems: IAttachement[]) => void,
   values: IFields,
+  errors: IFields,
   experiences: Array<Experiences>,
   attachments: Array<IAttachement>,
   editMode: boolean
@@ -55,7 +56,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
     return (
       <div>
         {/* SPECIALITE */}
-        <SpecialityForm handleChange={this.props.handleChange} values={this.props.values} editMode={isStudent() ? this.props.editMode : false} />
+        <SpecialityForm handleChange={this.props.handleChange} values={this.props.values} errors={this.props.errors} editMode={isStudent() ? this.props.editMode : false} />
 
         {/* ADMIN*/}
         {isAdmin() ? (
@@ -66,7 +67,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
               <h4 className="text-white">Administration</h4>
             </button>
 
-            <AdminForm isDisplayedBlock={this.state.AreDisplayedBlock["admin"]} handleChange={this.props.handleChange} values={this.props.values} editMode={isAdmin() ? this.props.editMode : false} />
+            <AdminForm isDisplayedBlock={this.state.AreDisplayedBlock["admin"]} handleChange={this.props.handleChange} values={this.props.values} errors={this.props.errors} editMode={isAdmin() ? this.props.editMode : false} />
 
           </div>
         ) : null}
@@ -79,7 +80,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
             <h4 className="text-white">Etat Civil</h4>
           </button>
 
-          <CivilForm isDisplayedBlock={this.state.AreDisplayedBlock["civil"]} handleChange={this.props.handleChange} values={this.props.values} editMode={isStudent() ? this.props.editMode : false} />
+          <CivilForm isDisplayedBlock={this.state.AreDisplayedBlock["civil"]} handleChange={this.props.handleChange} values={this.props.values} errors={this.props.errors} editMode={isStudent() ? this.props.editMode : false} />
 
         </div>
 
@@ -89,7 +90,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
             <h4 className="text-white">Baccalauréat</h4>
           </button>
 
-          <ALevelForm isDisplayedBlock={this.state.AreDisplayedBlock["bac"]} handleChange={this.props.handleChange} values={this.props.values} editMode={isStudent() ? this.props.editMode : false} />
+          <ALevelForm isDisplayedBlock={this.state.AreDisplayedBlock["bac"]} handleChange={this.props.handleChange} values={this.props.values} errors={this.props.errors} editMode={isStudent() ? this.props.editMode : false} />
         </div>
 
         {/* CONNAISSANCES LINGUISTIQUES */}
@@ -98,7 +99,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
             <h4 className="text-white">Connaissances Linguistiques</h4>
           </button>
 
-          <LanguageForm isDisplayedBlock={this.state.AreDisplayedBlock["langue"]} handleChange={this.props.handleChange} values={this.props.values} editMode={isStudent() ? this.props.editMode : false} />
+          <LanguageForm isDisplayedBlock={this.state.AreDisplayedBlock["langue"]} handleChange={this.props.handleChange} values={this.props.values} errors={this.props.errors} editMode={isStudent() ? this.props.editMode : false} />
         </div>
 
         {/* PARCOURS SCOLAIRE */}
@@ -116,7 +117,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
             <h4 className="text-white">Expériences</h4>
           </button>
 
-          <ExperiencesForm isDisplayedBlock={this.state.AreDisplayedBlock["plus"]} handleChange={this.props.handleChange} values={this.props.values} editMode={isStudent() ? this.props.editMode : false} />
+          <ExperiencesForm isDisplayedBlock={this.state.AreDisplayedBlock["plus"]} handleChange={this.props.handleChange} values={this.props.values} errors={this.props.errors} editMode={isStudent() ? this.props.editMode : false} />
         </div>
 
         {/* AUTRE CANDIDATURE */}
@@ -125,7 +126,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
             <h4 className="text-white">Autre candidature</h4>
           </button>
 
-          <OtherApplyForm isDisplayedBlock={this.state.AreDisplayedBlock["other_apply"]} values={this.props.values} handleChange={this.props.handleChange} editMode={isStudent() ? this.props.editMode : false} />
+          <OtherApplyForm isDisplayedBlock={this.state.AreDisplayedBlock["other_apply"]} values={this.props.values} errors={this.props.errors} handleChange={this.props.handleChange} editMode={isStudent() ? this.props.editMode : false} />
         </div>
 
         {/* FICHIERS */}

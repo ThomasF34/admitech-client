@@ -5,6 +5,7 @@ interface IProps {
   handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void,
   isDisplayedBlock: boolean,
   values: IFields,
+  errors: IFields,
   editMode: boolean
 }
 
@@ -23,6 +24,7 @@ class LanguageForm extends React.Component<IProps>{
                   <div className="col-md-6">
                     <h6>Langue maternelle : </h6>
                     <input name="native_lang_name" type="text" className="form-control" placeholder={this.props.values.native_lang_name || "Langue maternelle"} value={this.props.values.native_lang_name} onChange={this.props.handleChange} disabled={!this.props.editMode} />
+                    <h6 className='text-danger'>{this.props.errors.native_lang_name}</h6>
                   </div>
                 </div>
 
@@ -30,6 +32,7 @@ class LanguageForm extends React.Component<IProps>{
                   <div className="col">
                     <h6>LV1 : </h6>
                     <input name="second_lang_name" type="text" className="form-control" placeholder={this.props.values.second_lang_name || "LV1"} value={this.props.values.second_lang_name} onChange={this.props.handleChange} disabled={!this.props.editMode} />
+                    <h6 className='text-danger'>{this.props.errors.second_lang_name}</h6>
                   </div>
                   <div className="col">
                     <h6>Niveau LV1 : </h6>
@@ -39,6 +42,7 @@ class LanguageForm extends React.Component<IProps>{
                       <option value="medium" selected={this.props.values.second_lang_level && this.props.values.second_lang_level.toLowerCase() === "medium"}>Moyen</option>
                       <option value="basic" selected={this.props.values.second_lang_level && this.props.values.second_lang_level.toLowerCase() === "basic"}>Elémentaire</option>
                     </select>
+                    <h6 className='text-danger'>{this.props.errors.second_lang_level}</h6>
                   </div>
                 </div>
 
@@ -46,6 +50,7 @@ class LanguageForm extends React.Component<IProps>{
                   <div className="col">
                     <h6>LV2 : </h6>
                     <input name="third_lang_level" type="text" className="form-control" placeholder={this.props.values.third_lang_level || "LV2"} value={this.props.values.third_lang_level} onChange={this.props.handleChange} disabled={!this.props.editMode} />
+                    <h6 className='text-danger'>{this.props.errors.third_lang_name}</h6>
                   </div>
                   <div className="col">
                     <h6>Niveau LV2 : </h6>
@@ -55,6 +60,7 @@ class LanguageForm extends React.Component<IProps>{
                       <option value="medium" selected={this.props.values.third_lang_name && this.props.values.third_lang_name.toLowerCase() === "medium"}>Moyen</option>
                       <option value="basic" selected={this.props.values.third_lang_name && this.props.values.third_lang_name.toLowerCase() === "basic"}>Elémentaire</option>
                     </select>
+                    <h6 className='text-danger'>{this.props.errors.third_lang_level}</h6>
                   </div>
                 </div>
 

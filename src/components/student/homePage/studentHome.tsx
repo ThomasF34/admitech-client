@@ -11,6 +11,7 @@ import MyInterviews from './myInterviews';
 import BottomBar from '../../helpers/bottomBar';
 import SoftApplication from '../../../models/application/softApplication';
 import {myApplications } from '../../../services/application.service';
+import { removeToken } from '../../../services/token.service';
 
 interface IProps {
 }
@@ -35,6 +36,10 @@ class StudentHome extends React.Component<IProps, IState> {
         });
       })
       .catch((e) => {
+        if(e.response.status===400){
+          removeToken()
+          window.location.reload()
+        }
         this.setState({
           applications: null
         });

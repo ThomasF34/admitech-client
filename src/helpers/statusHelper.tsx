@@ -1,5 +1,5 @@
 export const draftStep = (status: string | undefined): boolean => {
-  {/* if new application */ }
+   /* if new application */ 
   if (status === undefined)
     return true;
   else {
@@ -9,7 +9,7 @@ export const draftStep = (status: string | undefined): boolean => {
 };
 
 export const notCompleteApplication = (status: string | undefined): boolean => {
-  {/* if new application */ }
+  /* if new application */ 
   if (status === undefined)
     return true;
   else {
@@ -19,7 +19,7 @@ export const notCompleteApplication = (status: string | undefined): boolean => {
 };
 
 export const giveJury = (status: string | undefined): boolean => {
-  {/* if new application */ }
+   /* if new application */ 
   if (status === undefined)
     return false;
   else {
@@ -29,7 +29,7 @@ export const giveJury = (status: string | undefined): boolean => {
 };
 
 export const chooseInterview = (status: string | undefined): boolean => {
-  {/* if new application */ }
+   /* if new application */ 
   if (status === undefined)
     return false;
   else {
@@ -39,7 +39,7 @@ export const chooseInterview = (status: string | undefined): boolean => {
 };
 
 export const giveMCQ = (status: string | undefined): boolean => {
-  {/* if new application */ }
+   /* if new application */ 
   if (status === undefined)
     return false;
   else {
@@ -49,7 +49,7 @@ export const giveMCQ = (status: string | undefined): boolean => {
 };
 
 export const doMCQ = (status: string | undefined): boolean => {
-  {/* if new application */ }
+   /* if new application */ 
   if (status === undefined)
     return false;
   else {
@@ -59,7 +59,7 @@ export const doMCQ = (status: string | undefined): boolean => {
 };
 
 export const decision = (status: string | undefined): boolean => {
-  {/* if new application */ }
+   /* if new application */ 
   if (status === undefined)
     return false;
   else {

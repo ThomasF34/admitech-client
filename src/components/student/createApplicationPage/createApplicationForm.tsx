@@ -1,10 +1,12 @@
 import React from 'react';
-import Application from '../../../models/application/application';
+import Application, { Experiences, Attachments } from '../../../models/application/application';
 import edit from '../../../img/icons/edit.png';
 import { createApplication, getSingleApplication, updateApplication } from '../../../services/application.service';
 import InfoPopUp from '../../helpers/InfoPopUp';
 import GlobalApplicationForm from './globalApplicationForm';
 import { isStudent, isAdmin } from '../../../helpers/authorizationHelper';
+import { IAttachement } from './filesContainer';
+import { removeToken } from '../../../services/token.service';
 
 export interface IFields {
   [key: string]: any;
@@ -17,6 +19,8 @@ interface IForm {
 
 interface IState {
   values: IFields,
+  experiences: Array<Experiences>,
+  attachments: Array<IAttachement>,
   errors: IFields,
   draftSuccess: boolean,
   draftFailure: boolean,
@@ -31,6 +35,8 @@ interface IState {
 interface IProps {
   existingApplicationId: string | undefined
 }
+const requiredFields = ['first_name', 'last_name', 'phone', 'first_name', 'last_name', 'nationnality', 'birth_date', 'birth_place', 'family_status', 'address', 'postal_code', 'city', 'state', 'bac_name', 'bac_year', 'bac_mention', 'bac_realname', 'last_facility_name', 'last_facility_address', 'last_facility_postal_code', 'last_facility_city', 'last_facility_state', 'native_lang_name', 'first_lang_name', 'first_lang_level', 'internships', 'travels', 'it_knowledge', 'sports_interests', 'strengths', 'branch']
+const requiredMessage = "Ce champ est obligatoire"
 
 class CreateApplicationForm extends React.Component<IProps, IState> implements IForm {
 
@@ -40,18 +46,25 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       getSingleApplication(this.props.existingApplicationId)
         .then(res => {
           this.setState({
-            values: res.data
+            values: res.data,
+            attachments: res.data.attachments,
+            experiences: res.data.experiences
           });
         })
         .catch((e) => this.error(e))
     }
-
   }
 
   constructor(props: IProps) {
     super(props);
     this.state = {
-      values: {},
+      values: {
+        other_apply: false,
+        other_apply_apprentise: false
+
+      },
+      experiences: [],
+      attachments: [],
       errors: {},
       draftSuccess: false,
       draftFailure: false,
@@ -61,6 +74,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       errorMessage: "",
       editMode: this.props.existingApplicationId === undefined
     };
+
   }
 
   closeDraftSuccessPopUP = () => {
@@ -92,12 +106,17 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       });
   }
 
-  error = (e: any) => {
+  error = (Errormessage: string) => {
+    let message = Errormessage
+    if (message === "Token expired") {
+      message = "Temps de connexion expiré. Veuillez vous reconnecter."
+      removeToken()
+      window.location.reload()
+    }
     this.setState({
       error: true,
-      errorMessage: 'TODO'
+      errorMessage: message
     })
-    console.log(e)
   }
 
   changeEditMode = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -134,7 +153,6 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
     let existingAppId = this.state.values.id
     const application = new Application(formValues, true)
-
     if (existingAppId)
       updateApplication(existingAppId, application)
         .then(rep => successUpdate())
@@ -143,10 +161,10 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       createApplication(application)
         .then(rep => successCreate(rep))
         .catch(e => {
-          if (e.status === 400)
-            missingFields(e)
+          if (e.response.status === 400)
+            missingFields(e.response)
           else
-            this.error(e)
+            this.error(e.response.data)
         });
 
   }
@@ -179,37 +197,95 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     let existingAppId = this.state.values.id
     const application = new Application(formValues, false)
 
-    if (existingAppId)
-      updateApplication(existingAppId, application)
-        .then(rep => successUpdate())
-        .catch(e => this.error(e));
-    else
-      createApplication(application)
-        .then(rep => successCreate(rep))
-        .catch(e => {
-          if (e.status === 400)
-            missingFields(e)
-          else
-            this.error(e)
-        });
+    if (this.validForm()) {
 
+      if (existingAppId)
+        updateApplication(existingAppId, application)
+          .then(rep => successUpdate())
+          .catch(e => this.error(e));
+      else
+        createApplication(application)
+          .then(rep => successCreate(rep))
+          .catch(e => {
+            if (e.response.status === 400)
+              missingFields(e.response)
+            else
+              this.error(e.response.data)
+          });
+    }
+    else
+      this.error("Veuillez compléter tous les champs.")
+
+  }
+
+  handleChangeAttachements = (attachementsUpdated: IAttachement[]) => {
+
+    let newAttachments = attachementsUpdated.map(x => new Attachments(x.id, x.attach_type, x.key))
+
+    let newValues = this.state.values
+    newValues.attachments = newAttachments
+    this.setState({
+      values: newValues
+    })
+  }
+
+  handleChangeExperiences = (experiencesUpdated: Experiences[]) => {
+    let newValues = this.state.values
+    newValues.experiences = experiencesUpdated
+    this.setState({
+      values: newValues
+    })
   }
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
 
     if (event.target != null) {
+      let newErrors = this.state.errors
+
       const newValues = this.state.values
-      const field: string = event.target.name
-      const value: string = event.target.value
+      let field: string = event.target.name
+      let value: any = event.target.value
+
+      if (field === "other_apply" || field === "other_apply_apprentise" || field === "certified") {
+        value = !newValues[field]
+        if (field === "certified")
+          value ? newErrors.certified = "" : newErrors.certified = requiredMessage
+      }
+
+      if (requiredFields.includes(field))
+        (!value || value === "") ? newErrors[field] = requiredMessage : newErrors[field] = ""
+
       newValues[field] = value
-      console.log(newValues)
       this.setState({
-        values: newValues
+        values: newValues,
+        errors: newErrors
       });
-
-      console.log(this.state.values)
-
     }
+  }
+
+  validForm = (): boolean => {
+    let valid = true
+    let values = this.state.values
+    let newErrors: IFields = {}
+
+    requiredFields.forEach(field => {
+      if (!values[field] || values[field] === '') {
+        valid = false
+        newErrors[field] = requiredMessage
+      }
+    })
+
+    if (!values.certified === true) {
+      valid = false
+      newErrors.certified = requiredMessage
+    }
+
+    if (!valid)
+      this.setState({
+        errors: newErrors
+      })
+
+    return valid
   }
 
   render() {
@@ -229,11 +305,11 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
           </div>
         ) : null}
 
-        <GlobalApplicationForm handleChange={this.handleChange} values={this.state.values} editMode={this.state.editMode} />
-
+        <GlobalApplicationForm handleExperiencesChange={this.handleChangeExperiences} handleAttachmentsChange={this.handleChangeAttachements} errors={this.state.errors} handleChange={this.handleChange} attachments={this.state.attachments} experiences={this.state.experiences} values={this.state.values} editMode={this.state.editMode} />
+        
         {/*Saving Buttons*/}
         {isStudent() ? (
-          <div className="row justify-content-center" style={{ marginTop: '3%' }}>
+          <div className="row justify-content-center" style={{ marginTop: '2%' }}>
             <div className="col-6 col-sm-5 col-lg-2">
               <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={this.submitDraft}>Enregistrer</button>
               <small className="text-secondary">Enregistrer en tant que brouillon</small>
@@ -245,7 +321,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
           </div>
         ) : null}
         {isAdmin() ? (
-          <div className="row justify-content-md-center" style={{ marginTop: '3%' }}>
+          <div className="row justify-content-md-center" style={{ marginTop: '2%' }}>
             <div className="col-6 col-sm-5 col-md-2">
               <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Enregistrer</button>
             </div>

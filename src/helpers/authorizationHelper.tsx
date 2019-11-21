@@ -2,6 +2,7 @@ import { getToken } from '../services/token.service';
 import decoder from 'jwt-decode';
 
 interface IToken {
+  id: string,
   first_name: string,
   last_name: string,
   role: string,
@@ -23,7 +24,7 @@ const getRole = (): string | null => {
   else
     return null;
 };
-const getEmail = (): string  => {
+const getEmail = (): string => {
   const decoded = getTokenJson();
   if (typeof decoded == 'object' && decoded != null)
     return decoded.email;
@@ -38,10 +39,20 @@ const getUsername = (): string | null => {
   else
     return null;
 };
-
+const getId = (): number => {
+  const decoded = getTokenJson();
+  let idString = '';
+  if (typeof decoded == 'object' && decoded != null)
+    idString = decoded.id;
+  try {
+    return parseInt(idString);
+  } catch{
+    return 0.1;
+  }
+};
 const isLoggedIn = (): boolean => getToken() != null;
 const isStudent = (): boolean => getRole() === 'eleve';
 const isAdmin = (): boolean => getRole() === 'administration';
 const isCompany = (): boolean => getRole() === 'entreprise';
 
-export { isLoggedIn, getUsername, getRole, isStudent,isAdmin, isCompany, getEmail };
+export { isLoggedIn, getUsername, getRole, isStudent, isAdmin, isCompany, getEmail, getId };

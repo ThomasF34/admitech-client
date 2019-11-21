@@ -53,7 +53,9 @@ function App() {
         <Route exact path="/etudiant/candidature">
           {PrivateStudentRoute(<CreateApplicationContainer />)}
         </Route>
+
         <Route path="/">
+
           <CardContainer />
         </Route>
       </Switch>

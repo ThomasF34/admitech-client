@@ -53,6 +53,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
   }
 
   render() {
+    
     return (
       <div>
         {/* SPECIALITE */}

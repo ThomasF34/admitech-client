@@ -35,6 +35,8 @@ interface IState {
 interface IProps {
   existingApplicationId: string | undefined
 }
+const requiredFields = ['first_name', 'last_name', 'phone', 'first_name', 'last_name', 'nationnality', 'birth_date', 'birth_place', 'family_status', 'address', 'postal_code', 'city', 'state', 'bac_name', 'bac_year', 'bac_mention', 'bac_realname', 'last_facility_name', 'last_facility_address', 'last_facility_postal_code', 'last_facility_city', 'last_facility_state', 'native_lang_name', 'first_lang_name', 'first_lang_level', 'internships', 'travels', 'it_knowledge', 'sports_interests', 'strengths', 'branch']
+const requiredMessage = "Ce champ est obligatoire"
 
 class CreateApplicationForm extends React.Component<IProps, IState> implements IForm {
 
@@ -72,6 +74,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       errorMessage: "",
       editMode: this.props.existingApplicationId === undefined
     };
+
   }
 
   closeDraftSuccessPopUP = () => {
@@ -102,8 +105,8 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       });
   }
 
-  error = (e: any) => {
-    let message = e.response.data
+  error = (Errormessage: string) => {
+    let message = Errormessage
     if (message === "Token expired") {
       message = "Temps de connexion expiré. Veuillez vous reconnecter."
       removeToken()
@@ -160,7 +163,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
           if (e.response.status === 400)
             missingFields(e.response)
           else
-            this.error(e)
+            this.error(e.response.data)
         });
 
   }
@@ -193,19 +196,25 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     let existingAppId = this.state.values.id
     const application = new Application(formValues, false)
 
-    if (existingAppId)
-      updateApplication(existingAppId, application)
-        .then(rep => successUpdate())
-        .catch(e => this.error(e));
+    if (this.validForm()) {
+
+      if (existingAppId)
+        updateApplication(existingAppId, application)
+          .then(rep => successUpdate())
+          .catch(e => this.error(e));
+      else
+        createApplication(application)
+          .then(rep => successCreate(rep))
+          .catch(e => {
+            if (e.response.status === 400)
+              missingFields(e.response)
+            else
+              this.error(e.response.data)
+          });
+    }
     else
-      createApplication(application)
-        .then(rep => successCreate(rep))
-        .catch(e => {
-          if (e.response.status === 400)
-            missingFields(e.response)
-          else
-            this.error(e)
-        });
+      this.error("Veuillez compléter tous les champs.")
+
   }
 
   handleChangeAttachements = (attachementsUpdated: IAttachement[]) => {
@@ -230,19 +239,52 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
 
     if (event.target != null) {
+      let newErrors = this.state.errors
 
       const newValues = this.state.values
       let field: string = event.target.name
       let value: any = event.target.value
-      if (field === ("other_apply" || "other_apply_apprentise")) {
+
+      if (field === "other_apply" || field === "other_apply_apprentise" || field === "certified") {
         value = !newValues[field]
+        if (field === "certified")
+          value ? newErrors.certified = "" : newErrors.certified = requiredMessage
       }
+
+      if (requiredFields.includes(field))
+        (!value || value === "") ? newErrors[field] = requiredMessage : newErrors[field] = ""
 
       newValues[field] = value
       this.setState({
-        values: newValues
+        values: newValues,
+        errors: newErrors
       });
     }
+  }
+
+  validForm = (): boolean => {
+    let valid = true
+    let values = this.state.values
+    let newErrors: IFields = {}
+
+    requiredFields.forEach(field => {
+      if (!values[field] || values[field] === '') {
+        valid = false
+        newErrors[field] = requiredMessage
+      }
+    })
+
+    if (!values.certified === true) {
+      valid = false
+      newErrors.certified = requiredMessage
+    }
+
+    if (!valid)
+      this.setState({
+        errors: newErrors
+      })
+
+    return valid
   }
 
   render() {

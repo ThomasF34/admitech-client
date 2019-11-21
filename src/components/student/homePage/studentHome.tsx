@@ -2,7 +2,6 @@ import React from 'react';
 import '../../../style/home.css';
 import '../../../style/container.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import company from '../../../img/fond-student.jpeg';
 import user from '../../../img/user.png';
 import StudentNav from '../studentNav';
 import MyAppliance from './myApplication';
@@ -60,7 +59,7 @@ class StudentHome extends React.Component<IProps, IState> {
               <div className="main-container align-items-end" >
                 <div className="row no-gutters" style={{ width: '100%', height: '90%' }}>
 
-                  <div className="col-sm-12 col-lg-9 fill-container no-gutters" style={{ paddingRight: '0%' }}>
+                  <div className="col-sm-12 col-lg-12 fill-container no-gutters" style={{ paddingRight: '0%' }}>
 
                     <div className="row no-gutters" style={{ width: '100%', height: '50%' }}>
                       <div className="col-sm-12 col-lg-6 fill-container" style={{ padding: '0.7%' }}>
@@ -78,22 +77,19 @@ class StudentHome extends React.Component<IProps, IState> {
                       </div>
                     </div>
 
-                    <div className="row no-gutters" style={{ width: '100%', height: '50%' }}>
-                      <div className="col-sm-12 col-lg-12 fill-container" style={{ padding: '0.7%' }}>
-                        <div className="fill-container shadow-own white">
-
+                    <div className="row no-gutters " style={{ width: '100%', height: '50%' }}>
+                      <div className="col-sm-0 col-lg-0 fill-container" style={{ padding: '0.7%' }}>
+                        <div className="fill-container shadow-own background-formatech">
+                          <h5 className='title-do'>Découvrez la nouvelle formation Dev Ops en alternance</h5>
+                          <p className="explications">Cette nouvelle formation proposée par Polytech Montpellier s'oriente autour des nouveaux enjeux numériques de la mise en production d'application à large echelle. Rednez-vous sur notre plateforme Formatech pour en savoir plus.</p>
+                          <button className="button-pub">Découvrir</button>
                         </div>
                       </div>
                     </div>
 
                   </div>
 
-                  {/*mail container*/}
-                  <div className="col-sm-12 col-lg-3 fill-container" style={{ padding: '0.7%' }}>
-                    <div className="fill-container shadow-own white">
-                      <MyMessages />
-                    </div>
-                  </div>
+      
 
                 </div>
 

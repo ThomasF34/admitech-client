@@ -25,6 +25,37 @@ padding-right: 2%
   box-shadow: 0 0rem 3px rgba(0,0,0,.175) !important;
 }
 
+.background-formatech{
+  background: url('../img/fond-polytech.jpeg');
+  background-size: cover;
+}
+
+.title-do{
+  font-size:33px;
+  font-family:'Oswald';
+  padding-left:20px;
+  padding-top:20px;
+}
+
+.explications{
+  padding-top:40px;
+  padding-left:40px;
+  padding-right:300px;
+  font-weight:500;
+}
+
+.button-pub{
+  background:transparent;
+  border:2px solid #333 !important;
+  padding-top:10px;
+  padding-left:20px;
+  padding-right:20px;
+  padding-bottom:10px;
+  float:right;
+  margin-right:20%;
+
+}
+
 
 @media only screen and (max-width: 600px) {
 .main-container {

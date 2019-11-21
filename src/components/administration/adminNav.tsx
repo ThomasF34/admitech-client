@@ -20,7 +20,7 @@ class AdminNav extends React.Component<IProps> {
             ['QCM', '#'],
           ],
           [
-            ['Evenements', '#']
+            ['Entretiens', '/administration/entretiens']
           ],
           [
             ['Paramétrage', '#']

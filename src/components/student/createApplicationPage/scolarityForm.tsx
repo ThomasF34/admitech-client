@@ -117,7 +117,10 @@ class ScolarityForm extends React.Component<IProps, IState> {
         rating: ''
       },
       experienceCanBeSummited: false
-    }));
+    }),()=> {
+      this.props.handleChangeExperiences(this.state.experiences);
+    });
+   
     this.updateYears(this.state.valuesExperience.year, 'delete');
   }
 

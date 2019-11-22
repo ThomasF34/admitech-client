@@ -8,7 +8,7 @@ import { isStudent, isAdmin } from '../../../helpers/authorizationHelper';
 import { IAttachement } from './filesContainer';
 import { removeToken } from '../../../services/token.service';
 import StepsBar from '../../helpers/stepsBar';
-import { draftStep, notCompleteApplication} from '../../../helpers/statusHelper';
+import { draftStep, notCompleteApplication } from '../../../helpers/statusHelper';
 
 export interface IFields {
   [key: string]: any;
@@ -35,7 +35,7 @@ interface IState {
 
 interface IProps {
   values: IFields,
-  editMode : boolean
+  editMode: boolean
 }
 
 const requiredFields = ['first_name', 'last_name', 'phone', 'first_name', 'last_name', 'nationnality', 'birth_date', 'birth_place', 'family_status', 'address', 'postal_code', 'city', 'state', 'bac_name', 'bac_year', 'bac_mention', 'bac_realname', 'last_facility_name', 'last_facility_address', 'last_facility_postal_code', 'last_facility_city', 'last_facility_state', 'native_lang_name', 'first_lang_name', 'first_lang_level', 'internships', 'travels', 'it_knowledge', 'sports_interests', 'strengths', 'branch']
@@ -152,8 +152,8 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
     let existingAppId = this.state.values.id
     const application = new Application(formValues, true)
-    console.log("envoi")
-    console.log(application.attachments)
+    console.log("envoi, application :")
+    console.log(application)
     if (existingAppId)
       updateApplication(existingAppId, application)
         .then(rep => successUpdate())
@@ -220,7 +220,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
   }
 
   handleChangeAttachements = (attachementsUpdated: IAttachement[]) => {
-console.log("change attach")
+    console.log("change attach")
     let newAttachments = attachementsUpdated.map(x => new Attachments(x.id, x.attach_type, x.key))
 
     let newValues = this.state.values
@@ -228,8 +228,9 @@ console.log("change attach")
     this.setState({
       values: newValues
     })
-    console.log(this.state.experiences)
-    console.log(this.state.values.experiences)
+    console.log("attachments et values")
+    console.log(this.state.attachments)
+    console.log(this.state.values.attachments)
   }
 
   handleChangeExperiences = (experiencesUpdated: Experiences[]) => {
@@ -238,7 +239,9 @@ console.log("change attach")
     this.setState({
       values: newValues
     })
-    console.log(this.props.values.experiences)
+    console.log("exp et values")
+    console.log(this.state.experiences)
+    console.log(this.state.values.experiences)
   }
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
@@ -265,7 +268,8 @@ console.log("change attach")
         errors: newErrors
       });
     }
-    console.log(this.props.values.experiences)
+    console.log("handle")
+    console.log(this.props.values)
   }
 
   validForm = (): boolean => {
@@ -297,12 +301,12 @@ console.log("change attach")
     console.log(this.state.values)
     return (
 
-     
+
       <div className="main-container">
         <div className="row justify-content-md-center" >
           <div className="name-mainTitle" style={{ width: '100%' }}>
             {isAdmin() ? `Candidature de ${this.state.values.last_name} ${this.state.values.first_name}` : ""}
-            {isStudent() ? (this.state.values.id === undefined ? 'Nouvelle candidature': `Suivi de ma candidature pour ${this.state.values.branch}`) : ""}
+            {isStudent() ? (this.state.values.id === undefined ? 'Nouvelle candidature' : `Suivi de ma candidature pour ${this.state.values.branch}`) : ""}
           </div>
         </div>
 

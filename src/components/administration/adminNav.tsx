@@ -1,5 +1,6 @@
 import React from 'react';
 import ActorNavContainer from '../helpers/actor/actorNavContainer';
+import { refreshToken } from '../../services/oauth2.service';
 
 interface IProps {
   userName: string,
@@ -7,7 +8,9 @@ interface IProps {
 }
 
 class AdminNav extends React.Component<IProps> {
-
+  async componentDidMount() {
+      await refreshToken()
+  }
   render() {
     return (
 

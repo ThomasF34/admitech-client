@@ -17,10 +17,10 @@ class AdminNav extends React.Component<IProps> {
         routes={[
           [
             ['Candidatures', '/administration/candidatures'],
-            ['QCM', '#'],
+            ['QCM', '/administration/qcm'],
           ],
           [
-            ['Evenements', '#']
+            ['Entretiens', '/administration/entretiens']
           ],
           [
             ['Paramétrage', '#']

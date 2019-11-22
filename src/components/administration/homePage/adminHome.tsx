@@ -5,10 +5,11 @@ import company from '../../../img/fond-polytech.jpeg';
 import user from '../../../img/user.png';
 import AdminNav from '../adminNav';
 
+
 class AdminHome extends React.Component {
+  
 
   render() {
-    
       return (
 
         <div className="root fill ">

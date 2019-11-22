@@ -5,8 +5,8 @@ import company from '../../../img/fond-polytech.jpeg';
 import user from '../../../img/user.png';
 import filesIcon from '../../../img/icons/applications.png';
 import AdminNav from '../adminNav';
-import ApplicationsContainer from './applicationsContainer';
 import BottomBar from '../../helpers/bottomBar';
+import AppointmentsContainer from './appointmentsContainer';
 
 class ApplicationsPage extends React.Component {
 
@@ -19,6 +19,7 @@ class ApplicationsPage extends React.Component {
           <div className="d-none d-md-block col-md-2 shadow-lg fill" >
             {/* should deal here with burger menu when small*/}
             <AdminNav userImage={user} userName="Membre Polytech" />
+
           </div>
 
           <div className="col-sm-12 col-md-10 fill">
@@ -30,14 +31,14 @@ class ApplicationsPage extends React.Component {
                   <div className="fill-container shadow-lg white">
                     <div className="name-mainTitle" >
                       <img src={filesIcon} className="img-icon" alt="files" />
-                      Canditatures
+                      Entretiens
                     </div>
                   </div>
                 </div>
                 
                 <div className="row no-gutters " style={{ padding: '0.7%' }}>
                   <div className="fill-container shadow-lg white">
-                    <ApplicationsContainer />
+                    <AppointmentsContainer />
                   </div>
                 </div>
 

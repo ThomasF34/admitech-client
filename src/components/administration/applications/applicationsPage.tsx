@@ -19,7 +19,6 @@ class ApplicationsPage extends React.Component {
           <div className="d-none d-md-block col-md-2 shadow-lg fill" >
             {/* should deal here with burger menu when small*/}
             <AdminNav userImage={user} userName="Membre Polytech" />
-
           </div>
 
           <div className="col-sm-12 col-md-10 fill">

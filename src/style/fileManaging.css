@@ -1,0 +1,16 @@
+.label-file {
+    cursor: pointer;
+}
+
+.display{
+    color: #00b1ca;
+}
+
+.input-file {
+    display: none;
+}
+
+.btn-see:hover, .btn-delete:hover{
+text-decoration: underline;
+cursor: pointer;
+}

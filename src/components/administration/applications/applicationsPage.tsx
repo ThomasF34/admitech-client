@@ -1,14 +1,14 @@
-import '../../../style/container.css';
 import React from 'react';
+import '../../../style/container.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import company from '../../../img/fond-polytech.jpeg';
 import user from '../../../img/user.png';
 import filesIcon from '../../../img/icons/applications.png';
 import AdminNav from '../adminNav';
-import ApplicationsTable from './applicationsTable';
+import ApplicationsContainer from './applicationsContainer';
 import BottomBar from '../../helpers/bottomBar';
 
-class ApplicationsContainer extends React.Component {
+class ApplicationsPage extends React.Component {
 
   render() {
     return (
@@ -34,15 +34,13 @@ class ApplicationsContainer extends React.Component {
                     </div>
                   </div>
                 </div>
-                <div className="row no-gutters " style={{ width: '100%', height: '80%', padding: '0.7%' }}>
+                
+                <div className="row no-gutters " style={{ padding: '0.7%' }}>
                   <div className="fill-container shadow-lg white">
-                    <div className="row fill-container align-items-center">
-                      <div className="container">
-                        <ApplicationsTable />
-                      </div>
-                    </div>
+                    <ApplicationsContainer />
                   </div>
                 </div>
+
                 <div className="row no-gutters" style={{ width: '100%', height: '10%', padding: '0.7%' }}>
                   <BottomBar />
                 </div>
@@ -60,4 +58,4 @@ class ApplicationsContainer extends React.Component {
   }
 }
 
-export default ApplicationsContainer;
+export default ApplicationsPage;

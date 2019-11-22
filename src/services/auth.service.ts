@@ -27,8 +27,8 @@ const signUp = async (user: UserSignUpDto) => {
     .post(`${config.API_URL}/utilisateur/inscrire`, {
       email: user.email,
       password: user.password,
-      lname: user.lastname,
-      fname: user.firstname,
+      last_name: user.lastname,
+      first_name: user.firstname,
       role: user.role
     });
   return res;

@@ -1,16 +1,19 @@
 import { IFields } from "../../components/student/createApplicationPage/createApplicationForm";
 
-class Attachments {
+export class Attachments {
 
+  public id: number | null
   public attach_type: string | null;
-  public url: string | null;
-  constructor(attach_type?: string, url?: string) {
+  public key: string | null;
+
+  constructor(id?: number, attach_type?: string, key?: string) {
+    this.id = id === undefined ? null : id
     this.attach_type = attach_type === undefined ? null : attach_type
-    this.url = url === undefined ? null : url
+    this.key = key === undefined ? null : key
   }
 }
 
-class Experiences {
+export class Experiences {
 
   public degree: boolean | null;
   public facility_name: string | null;
@@ -32,19 +35,8 @@ class Experiences {
     this.year = year === undefined ? null : year
   }
 }
-class Application implements IFields {
 
-  /*public first_name?: string;
-  public last_name?: string;
-  public phone?: string;
-  public nationnality?: string;
-  // public birth_date?: Date;
-  public birth_place?: string;
-  /*public family_status?: string;
-  public address?: string;
-  public postal_code?: string;
-  public city?: string;
-  public state?: string*/
+class Application implements IFields {
 
   public address: string | null;
   public admin_comment: string | null;
@@ -94,6 +86,7 @@ class Application implements IFields {
 
 
   constructor(application: IFields, isDraft: boolean) {
+
     this.draft = isDraft
     this.address = application.address === undefined ? null : application.address;
     this.admin_comment = application.admin_comment === undefined ? null : application.admin_comment;

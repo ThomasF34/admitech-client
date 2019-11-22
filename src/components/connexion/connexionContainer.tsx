@@ -5,11 +5,12 @@ import ConnexionNav from './connexionNav';
 import SignInForm from './signInForm';
 import SignUpForm from './sighUpForm';
 
+
 interface IProps {
   text: string,
   image: string,
-  connexionRedirectPath:string,
-  role:string
+  connexionRedirectPath: string,
+  role: string
 }
 
 interface IState {
@@ -24,18 +25,18 @@ class ConnexionContainer extends React.Component<IProps, IState> {
     this.state = {
       text: this.props.text,
       image: this.props.image,
-      form: <SignInForm redirectPath={this.props.connexionRedirectPath}/>
+      form: <SignInForm redirectPath={this.props.connexionRedirectPath} />
     };
   }
 
   showComponent = (isSignInActive: boolean) => {
     if (!isSignInActive)
       this.setState({
-        form: <SignUpForm redirectPath={this.props.connexionRedirectPath} role={this.props.role}/>
+        form: <SignUpForm redirectPath={this.props.connexionRedirectPath} role={this.props.role} />
       });
     else
       this.setState({
-        form: <SignInForm redirectPath={this.props.connexionRedirectPath}/>
+        form: <SignInForm redirectPath={this.props.connexionRedirectPath} />
       });
   }
 

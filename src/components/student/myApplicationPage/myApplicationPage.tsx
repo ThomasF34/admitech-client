@@ -3,8 +3,8 @@ import '../../../style/container.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import user from '../../../img/user.png';
 import StudentNav from '../studentNav';
-import StudentApplicationContainer from '../../helpers/actor/studentApplicationContainer';
 import { useParams } from 'react-router-dom';
+import CreateApplicationForm from '../createApplicationPage/createApplicationForm';
 
 function MyApplicationPage() {
   let { id } = useParams();
@@ -20,7 +20,7 @@ function MyApplicationPage() {
           </div>
 
           <div className="col-sm-12 col-md-10 fill">
-              <StudentApplicationContainer title="" id={id}/>
+          <CreateApplicationForm  existingApplicationId={id} />
           </div>
 
         </div>

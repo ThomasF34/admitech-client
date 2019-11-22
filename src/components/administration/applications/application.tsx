@@ -40,10 +40,19 @@ class Application extends React.Component<IProps> {
           }
 
           {
-            this.props.application.QCM !== undefined
+            this.props.application.ETAT === 5
               ? (
                 <h6 className="card-subtitle mb-2 text-muted" id="card-subtitle-application"> 
-                  QCM : <span className="card-subtitle-span" id="card-subtitle-span-application"> {this.props.application.QCM} </span>
+                  QCM : <span className="card-subtitle-span" id="card-subtitle-span-application"> Assigné </span>
+                </h6>
+              ) : (null)
+          }
+
+          {
+            this.props.application.ETAT === 6
+              ? (
+                <h6 className="card-subtitle mb-2 text-muted" id="card-subtitle-application"> 
+                  QCM : <span className="card-subtitle-span" id="card-subtitle-span-application"> Effectué </span>
                 </h6>
               ) : (null)
           }
@@ -85,7 +94,7 @@ class Application extends React.Component<IProps> {
           } 
 
           {
-            (4 <= this.props.application.ETAT && this.props.application.ETAT <= 5 && this.props.application.ETAT !== 11)
+            (4 == this.props.application.ETAT)
               ? (
                   <button id="buttonMCQ" type="button" className="btn btn-secondary btn-sm"> + QCM </button>
               ) : (null)

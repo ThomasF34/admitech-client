@@ -12,6 +12,7 @@ import MyApplicationPage from './components/student/myApplicationPage/myApplicat
 import StudentApplicationPage from './components/administration/studentApplicationPage/studentApplicationPage';
 import CreateApplicationContainer from './components/student/createApplicationPage/createApplicationContainer';
 import ApplicationsPage from './components/administration/applications/applicationsPage';
+import CalendarPage from './components/student/calendar/calendarPage';
 import { PrivateStudentRoute, PrivateAdminRoute, PrivateCompanyRoute, LoginRoute } from './helpers/routesHelper';
 import WaitToken from './components/oauth2.component';
 
@@ -51,6 +52,9 @@ function App() {
         <Route exact path="/administration/candidature/:id">
           {PrivateAdminRoute(<StudentApplicationPage />)}
         </Route>
+        <Route path="/etudiant/calendrier/:idApplication">
+            {PrivateStudentRoute(<CalendarPage />)}
+        </Route>
 
         <Route exact path="/etudiant/candidature">
          {PrivateStudentRoute(<CreateApplicationContainer />)}
@@ -59,7 +63,6 @@ function App() {
          <Route exact path="/oauth">
           <WaitToken/>
         </Route>
-        
         <Route path="/">
           <CardContainer />
         </Route>

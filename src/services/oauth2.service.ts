@@ -12,7 +12,7 @@ const endPoints={
   tokenEndPoint:"https://oauth.igpolytech.fr/token",
   refreshTokenEndPoint:"https://oauth.igpolytech.fr/refresh",
   authorizeEndPoint: "https://oauth.igpolytech.fr/authorize",
-  admiTechServer:"https://test-api-admitech.igpolytech.fr/utilisateur/connexionMyDash"
+  admiTechServer:process.env.REACT_APP_MYDASH_CONNECTION_ROUTE
 }
 
 const headers = (token:string,refresh:boolean)=>{
@@ -68,20 +68,18 @@ if (exp<current_time)
 
 axios.interceptors.response.use( (response)=> {
     return response
-  }, async function (error) {
-    if(error.response.data==="Token expired"){
-      if(isAdmin()){
-        await refreshToken()
-      }
+  }, async (error) =>{
+    if(error.response.data==="Token expired" && isAdmin()){
+      await refreshToken() 
+    }
       else {
         removeToken();
         window.location.reload()
       }
-    }
   });
 
-const client_id='b065ce17-b210-43a9-8409-8e58ca67fe1a';
-const redirectURI="http://localhost:3000/oauth"
+const client_id=process.env.REACT_APP_MYDASH_CLIENT_ID;
+const redirectURI=process.env.REACT_APP_MYDASH_REDIRECT_API;
 const authURL=():string=> {
   const state = random.int(1,100);
   setAuthToken("state",state)

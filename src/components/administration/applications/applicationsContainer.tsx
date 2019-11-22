@@ -3,41 +3,16 @@ import ApplicationsDropdownComponent from './applicationsDropdownComponent';
 import ApplicationsNavbar from './applicationsNavbar';
 import ApplicationsList from './applicationsList';
 import 'bootstrap/dist/css/bootstrap.css';
-import '../../../style/applications/applicationsContainer.css';
-import SingleApplication from "../../../models/singleApplication";
-
-const eleve1 = new SingleApplication(
-  "Joe DOE",
-  "SE",
-  4,
-  ['Paul Durand', 'Lucas Dupont', 'Charles Despres'],
-  14,
-  "ID10"
-)
-
-const eleve2 = new SingleApplication(
-  "Juliette MARIN",
-  "DEVOPS",
-  8,
-  ["Corinne", "Arnaud", "Vincent"],
-  10,
-  "ID9"
-)
-
-const eleve3 = new SingleApplication(
-  "Martin DUMAS",
-  "SE",
-  2,
-  ["Paul Durand", "Lucas Dupont", "Charles Despres"],
-  17,
-  "ID10"
-)
-
-const listes=[eleve1, eleve2, eleve3]
+import '../../../style/administration/applications/applicationsContainer.css';
+import SingleApplication from '../../../models/administration/applications/singleApplication';
+import {getAllApplications, updateStatusApplication} from "../../../services/administration/applications/application.service";
+import ConfirmationPopUp from '../../helpers/ConfirmationPopUp';
 
 interface IState {
   currentFormation: string,
-  currentCategory: number
+  currentCategory: number,
+  applications: Array<SingleApplication>,
+  currentId: any
 }
 
 interface IProps {
@@ -46,13 +21,20 @@ interface IProps {
 class ApplicationsContainer extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
-      this.state = {
-        currentFormation: 'Toutes',
-        currentCategory: 0,
-      };
-      this.changeCategory = this.changeCategory.bind(this);
-      this.changeFormation = this.changeFormation.bind(this);
-      this.getTotal = this.getTotal.bind(this);
+    this.state = {
+      currentFormation: 'Toutes',
+      currentCategory: 0,
+      applications: new Array<SingleApplication>(),
+      currentId: null
+    };
+    this.changeCategory = this.changeCategory.bind(this);
+    this.changeFormation = this.changeFormation.bind(this);
+    this.getApplications = this.getApplications.bind(this);
+    this.getApplicationsToDisplay = this.getApplicationsToDisplay.bind(this);
+    this.setCurrentId = this.setCurrentId.bind(this);
+    this.getUserActionPopUp = this.getUserActionPopUp.bind(this);
+
+    this.getApplications();
   }
 
   changeFormation(elem: string) {
@@ -63,27 +45,53 @@ class ApplicationsContainer extends Component<IProps, IState> {
     this.setState({ currentCategory: elem });
   }
 
-  getTotal(listes: any) {
-    const newListes = listes.filter((elem: { ETAT: number; FORMATION: string; }) => 
-      (elem.ETAT === this.state.currentCategory || this.state.currentCategory === 0) 
-        && (elem.FORMATION === this.state.currentFormation || this.state.currentFormation === 'Toutes')
+  async getApplications() {
+    let allApplications = await getAllApplications();
+
+    let allApplicationsFormated = allApplications.data.map ( (elem: any) =>
+      new SingleApplication(elem.id, elem.first_name + ' ' + elem.last_name, elem.branch, elem.status, elem.jury, elem.mark, elem.mcq)
     )
-    return newListes.length
+
+    this.setState({applications: allApplicationsFormated})
   }
 
+  getApplicationsToDisplay(applications: Array<SingleApplication>): Array<SingleApplication> {
+    return applications.filter( (elem: any) => 
+      (elem.ETAT === this.state.currentCategory || this.state.currentCategory === 0) 
+      && (elem.FORMATION === this.state.currentFormation || this.state.currentFormation === 'Toutes')  
+    )
+  }
+
+  setCurrentId(elem: any) {
+    this.setState({currentId: elem})
+  }
+
+  async getUserActionPopUp(elem: any) {
+    if (elem === 'valid' && this.state.currentId !== null) {
+      await updateStatusApplication(this.state.currentId, 11)
+      let newApplications = this.state.applications.map(elem => elem.ID === this.state.currentId ? new SingleApplication(elem.ID, elem.NOM, elem.FORMATION, 11, elem.JURY, elem.NOTE, elem.QCM) : elem)
+      this.setState({applications: newApplications})
+      this.setState({ currentId: null })
+    }
+    else if (elem === 'cancel' && this.state.currentId !== null) {
+      this.setState({ currentId: null })
+    }
+  } 
+
   render() {
-      return (
-        <div>
-          <ApplicationsNavbar handleClickFormation={this.changeFormation} />
-          <h6 id="total" className="card-subtitle mb-2 text-muted"> Total : {this.getTotal(listes)} </h6>
-          <p className="dpdn">
-            <ApplicationsDropdownComponent  handleClickCategory={this.changeCategory} />
-          </p>
-          <p className="list">
-            <ApplicationsList formation={this.state.currentFormation} category={this.state.currentCategory} candidaturesListe={listes} />
-          </p>
-        </div>
-      )
+    return (
+      <div>
+        <ApplicationsNavbar handleClickFormation={this.changeFormation} pressedButtonFormation={this.state.currentFormation} />
+        <h6 id="total" className="card-subtitle mb-2 text-muted"> Total : {this.getApplicationsToDisplay(this.state.applications).length} </h6>
+        <p className="dpdn">
+          <ApplicationsDropdownComponent  handleClickCategory={this.changeCategory} />
+        </p>
+        <p className="list">
+          <ApplicationsList formation={this.state.currentFormation} category={this.state.currentCategory} candidaturesListe={this.getApplicationsToDisplay(this.state.applications)} handleClickRefuseApplicationsList={this.setCurrentId}/>
+        </p>
+        <ConfirmationPopUp title='Confirmez-vous cette action ?' content="Le refus d'une candidature est irréversible." show={this.state.currentId !== null} onClose={this.getUserActionPopUp} />
+      </div>
+    )
   } 
 }
 

@@ -15,13 +15,13 @@ class AdminHome extends React.Component {
         <div className="root fill ">
           <div className="row fill no-gutters">
 
-            <div className="d-none d-md-block col-md-2 shadow-lg fill" >
+            <div className="nav-container d-md-block shadow-lg fill" >
               {/* should deal here with burger menu when small*/}
               <AdminNav userImage={user} userName="Membre Polytech" />
 
             </div>
 
-            <div className="col-sm-12 col-md-10 fill">
+            <div className="content fill">
               <div className="image-container">
                 <img src={company} className="img-background" alt="polytech" />
               </div>

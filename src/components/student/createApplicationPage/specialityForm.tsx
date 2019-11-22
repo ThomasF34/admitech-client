@@ -28,7 +28,7 @@ class SpecialityForm extends React.Component<IProps>{
         <div className="col-6">
           <div className="form-group">
             <div className="form-check">
-              <input name="certified" className="form-check-input input-lg" type="checkbox" onChange={this.props.handleChange} disabled={!this.props.editMode} />
+              <input name="certified" className="form-check-input input-lg" type="checkbox" checked={this.props.values.certified} onChange={this.props.handleChange} disabled={!this.props.editMode} />
               <h6>Je certifie que toutes les informations renseignées sont correctes.</h6>
             </div>
             <h6 className='text-danger'>{this.props.errors.certified}</h6>

@@ -151,6 +151,8 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
     let existingAppId = this.state.values.id
     const application = new Application(formValues, true)
+    console.log("envoi")
+    console.log(application.attachments)
     if (existingAppId)
       updateApplication(existingAppId, application)
         .then(rep => successUpdate())
@@ -217,7 +219,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
   }
 
   handleChangeAttachements = (attachementsUpdated: IAttachement[]) => {
-
+console.log("change attach")
     let newAttachments = attachementsUpdated.map(x => new Attachments(x.id, x.attach_type, x.key))
 
     let newValues = this.state.values
@@ -225,6 +227,8 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     this.setState({
       values: newValues
     })
+    console.log(this.state.experiences)
+    console.log(this.state.values.experiences)
   }
 
   handleChangeExperiences = (experiencesUpdated: Experiences[]) => {
@@ -233,6 +237,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     this.setState({
       values: newValues
     })
+    console.log(this.props.values.experiences)
   }
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
@@ -259,6 +264,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
         errors: newErrors
       });
     }
+    console.log(this.props.values.experiences)
   }
 
   validForm = (): boolean => {
@@ -287,9 +293,10 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
   }
 
   render() {
-
+    console.log(this.state.values)
     return (
 
+     
       <div className="main-container">
         <div className="row justify-content-md-center" >
           <div className="name-mainTitle" style={{ width: '100%' }}>

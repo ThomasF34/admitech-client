@@ -204,7 +204,7 @@ class ScolarityForm extends React.Component<IProps, IState> {
                   <div className='form-row'>
                     <div className="col-md-6 mb-3">
                       <label className='col-sm-2 col-form-label font-weight-bold'>Moyenne</label>
-                      <input placeholder='Moyenne' className='form-control' value={this.state.valuesExperience.mean} name='mean' type="number" step="0.01" min="0" max="20" onChange={(e) => this.handleChange(e)} />
+                      <input placeholder='Moyenne' className='form-control' value={this.state.valuesExperience.mean} name='mean' type="number" step="0.1" min="0" max="20" onChange={(e) => this.handleChange(e)} />
                     </div>
 
                     <div className="col-md-6 mb-3">

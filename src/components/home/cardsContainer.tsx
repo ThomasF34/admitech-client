@@ -5,7 +5,7 @@ import polytech from '../../img/fond-polytech.jpeg';
 import company from '../../img/fond-company.jpeg';
 import Card from './card';
 import { authURL} from '../../services/oauth2.service';
-import { isLoggedIn } from '../../helpers/authorizationHelper';
+import { isLoggedIn, isAdmin } from '../../helpers/authorizationHelper';
 
 
 
@@ -23,7 +23,7 @@ class CardContainer extends React.Component {
             <Card title="Accès entreprises" isAdminLink={false}  clickLink="/entreprise/accueil" image={company} text="Voici un texte de présentation de la connexion entreprise" />
           </div>
           <div className="col-sm-12 col-md-4">
-            <Card title="Accès administration" isAdminLink={true}  clickLink={(isLoggedIn() )? ('/administration/accueil') :(authURL())} image={polytech} text="Voici un texte de présentation de la connexion admin" />
+            <Card title="Accès administration" isAdminLink={true}  clickLink={(isLoggedIn() && isAdmin())? ('/administration/accueil') :(authURL())} image={polytech} text="Voici un texte de présentation de la connexion admin" />
           </div>
         </div>
       </div>

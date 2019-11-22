@@ -8,9 +8,7 @@ interface IProps {
 }
 
 class AdminNav extends React.Component<IProps> {
-  async componentDidMount() {
-      await refreshToken()
-  }
+ 
   render() {
     return (
 

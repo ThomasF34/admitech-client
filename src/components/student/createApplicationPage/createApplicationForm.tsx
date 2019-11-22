@@ -327,7 +327,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
           </div>
 
-          <GlobalApplicationForm handleExperiencesChange={this.handleChangeExperiences} handleAttachmentsChange={this.handleChangeAttachements} errors={this.state.errors} handleChange={this.handleChange} attachments={this.state.attachments} experiences={this.state.experiences} values={this.state.values} editMode={this.state.editMode} />
+          <GlobalApplicationForm handleExperiencesChange={this.handleChangeExperiences} saveAdminMessage={this.submitApplication} handleAttachmentsChange={this.handleChangeAttachements} errors={this.state.errors} handleChange={this.handleChange} attachments={this.state.attachments} experiences={this.state.experiences} values={this.state.values} editMode={this.state.editMode} />
 
 
           {/*Saving Buttons*/}
@@ -352,9 +352,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
           {
             isAdmin() ? (
               <div className="row justify-content-md-center" style={{ marginTop: '2%' }}>
-                <div className="col-6 col-sm-5 col-md-2">
-                  <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Enregistrer</button>
-                </div>
+                
                 {notCompleteApplication(this.state.values.status) ? (
                   <div className="col-5 col-sm-5 col-lg-2">
                     <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Complet</button>

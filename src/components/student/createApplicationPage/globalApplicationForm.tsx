@@ -16,6 +16,7 @@ interface IProps {
   handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void,
   handleExperiencesChange: (elems: Experiences[]) => void,
   handleAttachmentsChange: (elems: IAttachement[]) => void,
+  saveAdminMessage: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
   values: IFields,
   errors: IFields,
   experiences: Array<Experiences>,
@@ -68,7 +69,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
               <h4 className="text-white">Administration</h4>
             </button>
 
-            <AdminForm isDisplayedBlock={this.state.AreDisplayedBlock["admin"]} handleChange={this.props.handleChange} values={this.props.values} errors={this.props.errors} editMode={isAdmin() ? this.props.editMode : false} />
+            <AdminForm isDisplayedBlock={this.state.AreDisplayedBlock["admin"]} saveAdminMessage={this.props.saveAdminMessage} handleChange={this.props.handleChange} values={this.props.values} errors={this.props.errors} editMode={isAdmin() ? this.props.editMode : false} />
 
           </div>
         ) : null}

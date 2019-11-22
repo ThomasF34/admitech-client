@@ -59,7 +59,6 @@ class StepsBar extends React.Component<IProps> {
   }
 
   getActiveMessage = (activeStep: number | undefined) => {
-    console.log(activeStep)
     let result
     if (activeStep === undefined)
       result = ""
@@ -72,7 +71,6 @@ class StepsBar extends React.Component<IProps> {
     const step = this.getActiveStep(this.props.statusId)
     let allSteps = [{ title: 'Dossier' }, { title: 'QCM' }, { title: 'Entretien' }, { title: 'Résultat' }]
     const message = this.getActiveMessage(this.props.statusId)
-    console.log("message" + message)
     allSteps[step].title = message ? message : ""
 
     return (

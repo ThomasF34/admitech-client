@@ -1,14 +1,14 @@
 import React from 'react';
 import Application, { Experiences, Attachments } from '../../../models/application/application';
 import edit from '../../../img/icons/edit.png';
-import { createApplication, getSingleApplication, updateApplication } from '../../../services/application.service';
+import { createApplication, updateApplication } from '../../../services/application.service';
 import InfoPopUp from '../../helpers/InfoPopUp';
 import GlobalApplicationForm from './globalApplicationForm';
 import { isStudent, isAdmin } from '../../../helpers/authorizationHelper';
 import { IAttachement } from './filesContainer';
 import { removeToken } from '../../../services/token.service';
 import StepsBar from '../../helpers/stepsBar';
-import { draftStep, notCompleteApplication, chooseInterview, doMCQ, giveJury, giveMCQ, decision } from '../../../helpers/statusHelper';
+import { draftStep, notCompleteApplication } from '../../../helpers/statusHelper';
 
 export interface IFields {
   [key: string]: any;
@@ -30,30 +30,27 @@ interface IState {
   applicationFailure: boolean,
   error: boolean,
   errorMessage: string,
-  editMode: boolean
-
+  editMode: boolean,
 }
 
 interface IProps {
-  existingApplicationId: string | undefined
+  values: IFields,
+  editMode: boolean
 }
+
 const requiredFields = ['first_name', 'last_name', 'phone', 'first_name', 'last_name', 'nationnality', 'birth_date', 'birth_place', 'family_status', 'address', 'postal_code', 'city', 'state', 'bac_name', 'bac_year', 'bac_mention', 'bac_realname', 'last_facility_name', 'last_facility_address', 'last_facility_postal_code', 'last_facility_city', 'last_facility_state', 'native_lang_name', 'first_lang_name', 'first_lang_level', 'internships', 'travels', 'it_knowledge', 'sports_interests', 'strengths', 'branch']
-const requiredMessage = "Ce champ est obligatoire"
+const requiredMessage = "Champ obligatoire pour submission"
 
 class CreateApplicationForm extends React.Component<IProps, IState> implements IForm {
 
-  componentDidMount() {
-    if (this.props.existingApplicationId !== undefined) {
+  componentDidUpdate(prevProps: IProps) {
+    if (this.props.values !== prevProps.values) {
+      this.setState({
+        values: this.props.values,
+        attachments: this.props.values.attachments,
+        experiences: this.props.values.experiences
 
-      getSingleApplication(this.props.existingApplicationId)
-        .then(res => {
-          this.setState({
-            values: res.data,
-            attachments: res.data.attachments,
-            experiences: res.data.experiences
-          });
-        })
-        .catch((e) => console.log(e))
+      });
     }
   }
 
@@ -63,7 +60,6 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       values: {
         other_apply: false,
         other_apply_apprentise: false
-
       },
       experiences: [],
       attachments: [],
@@ -74,7 +70,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       applicationFailure: false,
       error: false,
       errorMessage: "",
-      editMode: this.props.existingApplicationId === undefined
+      editMode: this.props.editMode
     };
 
   }
@@ -108,17 +104,18 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       });
   }
 
-  error = (Errormessage: string) => {
-    let message = Errormessage
+  error = (errorMessage: string) => {
+    console.log(errorMessage)
+    let message = errorMessage
+    this.setState({
+      error: true,
+      errorMessage: message
+    })
     if (message === "Token expired") {
       message = "Temps de connexion expiré. Veuillez vous reconnecter."
       removeToken()
       window.location.reload()
     }
-    this.setState({
-      error: true,
-      errorMessage: message
-    })
   }
 
   changeEditMode = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -155,10 +152,12 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
     let existingAppId = this.state.values.id
     const application = new Application(formValues, true)
+    console.log("envoi, application :")
+    console.log(application)
     if (existingAppId)
       updateApplication(existingAppId, application)
         .then(rep => successUpdate())
-        .catch(e => this.error(e));
+        .catch(e => this.error(e.response.data));
     else
       createApplication(application)
         .then(rep => successCreate(rep))
@@ -204,7 +203,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       if (existingAppId)
         updateApplication(existingAppId, application)
           .then(rep => successUpdate())
-          .catch(e => this.error(e));
+          .catch(e => this.error(e.response.data));
       else
         createApplication(application)
           .then(rep => successCreate(rep))
@@ -221,7 +220,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
   }
 
   handleChangeAttachements = (attachementsUpdated: IAttachement[]) => {
-
+    console.log("change attach")
     let newAttachments = attachementsUpdated.map(x => new Attachments(x.id, x.attach_type, x.key))
 
     let newValues = this.state.values
@@ -229,6 +228,9 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     this.setState({
       values: newValues
     })
+    console.log("attachments et values")
+    console.log(this.state.attachments)
+    console.log(this.state.values.attachments)
   }
 
   handleChangeExperiences = (experiencesUpdated: Experiences[]) => {
@@ -237,6 +239,9 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
     this.setState({
       values: newValues
     })
+    console.log("exp et values")
+    console.log(this.state.experiences)
+    console.log(this.state.values.experiences)
   }
 
   handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
@@ -263,6 +268,8 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
         errors: newErrors
       });
     }
+    console.log("handle")
+    console.log(this.props.values)
   }
 
   validForm = (): boolean => {
@@ -291,13 +298,15 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
   }
 
   render() {
-
+    console.log(this.state.values)
     return (
 
-      <div className="main-container" >
+
+      <div className="main-container">
         <div className="row justify-content-md-center" >
           <div className="name-mainTitle" style={{ width: '100%' }}>
-          {isAdmin() ? `Candidature de ${this.state.values.last_name} ${this.state.values.first_name}` : ""}
+            {isAdmin() ? `Candidature de ${this.state.values.last_name} ${this.state.values.first_name}` : ""}
+            {isStudent() ? (this.state.values.id === undefined ? 'Nouvelle candidature' : `Suivi de ma candidature pour ${this.state.values.branch}`) : ""}
           </div>
         </div>
 
@@ -308,7 +317,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
 
           <div className="row justify-content-md-end" style={{ marginTop: '3%', marginRight: '5%' }}>
             {/*Edit Button*/}
-            {this.props.existingApplicationId !== undefined && (isAdmin() || (isStudent() && notCompleteApplication(this.state.values.status))) ? (
+            {this.state.values.id !== undefined && (isAdmin() || (isStudent() && notCompleteApplication(this.state.values.status))) ? (
               <div className="col-4 col-md-1 col-sm-3">
                 <button className="btn btn-light btn-lg btn-block shadow" onClick={this.changeEditMode}>
                   <img src={edit} className="img-icon " alt="editButton" />
@@ -316,53 +325,9 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
               </div>
             ) : null}
 
-            {isStudent() ? (
-              <div>
-                {doMCQ(this.state.values.status) ? (
-                  <div className="col-5 col-sm-5 col-lg-2">
-                    <button className="btn btn-secondary btn-lg btn-block shadow" type="submit" >QCM</button>
-                    <small className="text-secondary">Effectuer votre QCM</small>
-                  </div>
-                ) : null}
-                {chooseInterview(this.state.values.status) ? (
-                  <div className="col-5 col-sm-5 col-lg-2">
-                    <button className="btn btn-secondary btn-lg btn-block shadow" type="submit" >Entretien</button>
-                    <small className="text-secondary">Programmer votre entretien</small>
-                  </div>
-                ) : null}
-              </div>
-            ) : null}
-
-
-            {isAdmin() ? (
-              <div>
-                {giveMCQ(this.state.values.status) ? (
-                  <div className="col-5 col-sm-5 col-lg-2">
-                    <button className="btn btn-secondary btn-lg btn-block shadow" type="submit" >QCM</button>
-                    <small className="text-secondary">Assigner un QCM</small>
-                  </div>
-                ) : null}
-                {giveJury(this.state.values.status) ? (
-                  <div className="col-5 col-sm-5 col-lg-2">
-                    <button className="btn btn-secondary btn-lg btn-block shadow" type="submit" >Jury</button>
-                    <small className="text-secondary">Assigner un jury</small>
-                  </div>
-                ) : null}
-                {decision(this.state.values.status) ? (
-                  <div className='btn-group'>
-                    <div className="col-5 col-sm-5 col-lg-6">
-                      <button className="btn btn-success btn-lg btn-block shadow" type="submit" >Accepter</button>
-                    </div>
-                    <div className="col-5 col-sm-5 col-lg-6">
-                      <button className="btn btn-danger btn-lg btn-block shadow" type="submit" >Refuser</button>
-                    </div>
-                  </div>
-                ) : null}
-              </div>
-            ) : null}
           </div>
 
-          <GlobalApplicationForm handleExperiencesChange={this.handleChangeExperiences} handleAttachmentsChange={this.handleChangeAttachements} errors={this.state.errors} handleChange={this.handleChange} attachments={this.state.attachments} experiences={this.state.experiences} values={this.state.values} editMode={this.state.editMode} />
+          <GlobalApplicationForm handleExperiencesChange={this.handleChangeExperiences} saveAdminMessage={this.submitApplication} handleAttachmentsChange={this.handleChangeAttachements} errors={this.state.errors} handleChange={this.handleChange} attachments={this.state.attachments} experiences={this.state.experiences} values={this.state.values} editMode={this.state.editMode} />
 
 
           {/*Saving Buttons*/}
@@ -384,20 +349,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
               </div>
             ) : null
           }
-          {
-            isAdmin() ? (
-              <div className="row justify-content-md-center" style={{ marginTop: '2%' }}>
-                <div className="col-6 col-sm-5 col-md-2">
-                  <button className="btn btn-outline-secondary btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Enregistrer</button>
-                </div>
-                {notCompleteApplication(this.state.values.status) ? (
-                  <div className="col-5 col-sm-5 col-lg-2">
-                    <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Complet</button>
-                  </div>
-                ) : null}
-              </div>
-            ) : null
-          }
+          
           {/*Pop up*/}
           <InfoPopUp isError={false} title="Brouillon Candidature" content="Votre brouillon de candidature a bien été sauvegardé. Vous pourrez le retrouver dans le menu 'Mes candidatures'."
             show={this.state.draftSuccess} onClose={this.closeDraftSuccessPopUP} />

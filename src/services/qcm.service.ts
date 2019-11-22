@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { API_URL } from './configApi.service';
+import { QCM_URL } from './configApi.service';
 import Mcq from '../models/mcq/mcq.model'
 import McqPreview from '../models/mcq/mcqPreview.model';
 
 const sendQCM = async (qcm: Mcq) => {
   const res = await axios
-    .post(`${API_URL}/mcq`, qcm
+    .post(`${QCM_URL}/mcq`, qcm
     );
   return res;
 };
@@ -13,21 +13,21 @@ const sendQCM = async (qcm: Mcq) => {
 // Student version
 const getQCM = async (idQcm: number) => {
   const res = await axios
-    .get(`${API_URL}/mcq/${idQcm}`);
+    .get(`${QCM_URL}/mcq/${idQcm}`);
   return res.data
 };
 
 // Admin version
 const getQCMAdmin = async (idQcm: number) => {
   const res = await axios
-    .get(`${API_URL}/mcqAdmin/${idQcm}`);
+    .get(`${QCM_URL}/mcqAdmin/${idQcm}`);
   const result: Mcq = res.data
   return result
 };
 
 const deleteQCM = async (id: number) => {
   const res = await axios
-    .delete(`${API_URL}/mcq/${id}`);
+    .delete(`${QCM_URL}/mcq/${id}`);
   return res;
 };
 
@@ -35,7 +35,7 @@ const deleteQCM = async (id: number) => {
 const getPreviewQCM = async () => {
   try {
     const res = await axios
-      .get(`${API_URL}/mcqs`);
+      .get(`${QCM_URL}/mcqs`);
     const data: McqPreview[] = res.data.mcqs
     return data
   } catch (error) {
@@ -45,15 +45,15 @@ const getPreviewQCM = async () => {
 
 const getQCMStudent = async (idCandidature: number) => {
   const res = await axios
-    .get(`${API_URL}/candidate/${idCandidature}/mcq`);
+    .get(`${QCM_URL}/candidate/${idCandidature}/mcq`);
   const result: Mcq = res.data
   return result
 }
 
-const sendQCMStudent = async (responses : any) => {
+const sendQCMStudent = async (responses: any) => {
   const res = await axios
-    .post(`${API_URL}/responseCandidat/`, responses);
+    .post(`${QCM_URL}/responseCandidat/`, responses);
   return res;
 }
 
-export { sendQCM, getQCM, getPreviewQCM, deleteQCM, getQCMAdmin, getQCMStudent, sendQCMStudent}
+export { sendQCM, getQCM, getPreviewQCM, deleteQCM, getQCMAdmin, getQCMStudent, sendQCMStudent }

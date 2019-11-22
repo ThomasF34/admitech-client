@@ -3,7 +3,6 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import company from '../../../img/fond-polytech.jpeg';
 import user from '../../../img/user.png';
-import filesIcon from '../../../img/icons/applications.png';
 import AdminNav from '../adminNav';
 import BottomBar from '../../helpers/bottomBar';
 import McqPreview from './mcq-management'

@@ -73,7 +73,7 @@ axios.interceptors.response.use((response) => {
   if (error.response.data === "Token expired" && isAdmin()) {
     await refreshToken()
   }
-  else {
+  else if (error.response.data === "Token expired") {
     removeToken();
     window.location.reload()
   }

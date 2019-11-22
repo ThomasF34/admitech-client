@@ -82,6 +82,7 @@ function App() {
         <Route exact path="/oauth">
           <WaitToken />
         </Route>
+
         <Route path="/">
           <CardContainer />
         </Route>

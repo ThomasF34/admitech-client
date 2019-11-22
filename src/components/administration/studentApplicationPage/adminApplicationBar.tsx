@@ -41,18 +41,6 @@ class AdminApplicationBar extends React.Component<IProps, IState>{
 
   messagePopUp = `Etes vous sur de vouloir valider votre choix ? Cette action est irréversible.`
 
-  /*[0, 'Tous'],
-        [1, 'Brouillon'],
-        [2, 'Soumis'],
-        [3, 'Dossier incomplet'],
-        [4, 'Dossier complet'],
-        [5, 'QCM à effectuer'],
-        [6, 'QCM effecuté'],
-        [7, 'Entretien à programmer'],
-        [8, 'Entretien programmé'],
-        [9, 'Entretien passé'], 
-        [10, 'Admis'],
-        [11, 'Refusé']*/
   render() {
 
     return (

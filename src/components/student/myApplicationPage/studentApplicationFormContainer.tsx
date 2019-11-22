@@ -38,7 +38,7 @@ class StudentApplicationFormContainer extends React.Component<IProps, IState>{
     return (
       <div className="row">
         <div className="col-sm-12 col-md-12 fill">
-          <CreateApplicationForm values={this.state.values} />
+          <CreateApplicationForm editMode={false} values={this.state.values} />
         </div>
       </div>
     );

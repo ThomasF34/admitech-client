@@ -34,7 +34,8 @@ interface IState {
 }
 
 interface IProps {
-  values: IFields
+  values: IFields,
+  editMode : boolean
 }
 
 const requiredFields = ['first_name', 'last_name', 'phone', 'first_name', 'last_name', 'nationnality', 'birth_date', 'birth_place', 'family_status', 'address', 'postal_code', 'city', 'state', 'bac_name', 'bac_year', 'bac_mention', 'bac_realname', 'last_facility_name', 'last_facility_address', 'last_facility_postal_code', 'last_facility_city', 'last_facility_state', 'native_lang_name', 'first_lang_name', 'first_lang_level', 'internships', 'travels', 'it_knowledge', 'sports_interests', 'strengths', 'branch']
@@ -69,7 +70,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
       applicationFailure: false,
       error: false,
       errorMessage: "",
-      editMode: this.props.values.id === undefined
+      editMode: this.props.editMode
     };
 
   }

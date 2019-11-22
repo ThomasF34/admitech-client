@@ -39,7 +39,7 @@ class AdminApplicationFormContainer extends React.Component<IProps,IState>{
     return (
       <div className= "row">
         <div className="col-sm-10 col-md-10 fill">
-          <CreateApplicationForm values={this.state.values}/>
+          <CreateApplicationForm editMode={false} values={this.state.values}/>
         </div>
 
         <div className="col-sm-2 col-md-2 fill">

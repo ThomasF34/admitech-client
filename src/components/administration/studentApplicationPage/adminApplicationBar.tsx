@@ -2,7 +2,7 @@ import React from 'react';
 import { giveMCQ, giveJury, decision, notCompleteApplication, valideMCQ } from '../../../helpers/statusHelper';
 import ConfirmationPopUp from '../../helpers/ConfirmationPopUp';
 import { updateStatusApplication } from '../../../services/administration/applications/application.service';
-import { getAllMcq } from '../../../services/qcm.service';
+import { getAllMcq, affectMcq } from '../../../services/qcm.service';
 
 interface Mcq {
   id: string,
@@ -61,6 +61,29 @@ class AdminApplicationBar extends React.Component<IProps, IState>{
     })
   }
 
+  handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
+    this.setState({
+      idMcq: event.target.value
+    })
+  }
+
+  affectMcq = () => {
+    console.log("enter")
+    if (this.state.idMcq && this.props.idApplication) {
+      console.log("exec")
+      console.log(this.state.idMcq)
+      affectMcq(this.props.idApplication, this.state.idMcq)
+        .then(async (res) => {
+          if (this.props.idApplication) {
+            await updateStatusApplication(this.props.idApplication, 5)
+            window.location.reload()
+          }
+        })
+        .catch((e) => console.log(e))
+    }
+
+  }
+
   messagePopUp = `Etes vous sur de vouloir valider votre choix ? Cette action est irréversible.`
 
   render() {
@@ -74,7 +97,7 @@ class AdminApplicationBar extends React.Component<IProps, IState>{
             <h2 className="text-light text-center" style={{ marginTop: '8%' }}>QCM</h2>
 
             <div className="col-11">
-              <select name='rating' id="mention-select" className='form-control' value={''} onChange={(e) => console.log(e)}>
+              <select name='rating' id="mention-select" className='form-control' value={this.state.idMcq ? this.state.idMcq : ""} onChange={this.handleChange}>
                 <option value='' >Choisir..</option>
                 {this.state.mcqs ? this.state.mcqs.map(mcq => <option key={mcq.id} value={mcq.id} >{mcq.title}</option>) : null}
               </select>
@@ -82,7 +105,7 @@ class AdminApplicationBar extends React.Component<IProps, IState>{
 
             <div className="row justify-content-md-center" style={{ marginTop: '8%' }}>
               <div className="col-5 col-sm-5 col-lg-6">
-                <button className="btn btn-light btn-outline-info btn-lg btn-block shadow" type="submit" >QCM</button>
+                <button className="btn btn-light btn-outline-info btn-lg btn-block shadow" type="submit" onClick={() => this.affectMcq()} >QCM</button>
                 <small className="text-light">Assigner un QCM</small>
               </div>
             </div>

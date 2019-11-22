@@ -7,6 +7,9 @@ import Tooltip from "react-bootstrap/Tooltip";
 import {categories} from "../../utils/categoriesEnum";
 import SingleApplication from "../../../models/administration/applications/singleApplication";
 import information2 from "../../../img/icons/information2.png";
+import Modal from 'react-bootstrap/Modal';
+import { Button } from 'react-bootstrap';
+import { getAllJuryMembers, assignJury, getSlotId } from '../../../services/administration/applications/application.service';
 
 interface IProps {
   application : SingleApplication,
@@ -15,7 +18,49 @@ interface IProps {
   handleClickRefuseApplication: any
 }
 
-class Application extends React.Component<IProps> {
+interface IState {
+  showModalJury: boolean
+  juryMembers: Array<any>
+  juryAssigned: Array<string>
+}
+
+class Application extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props)
+    this.state = {
+      showModalJury: false,
+      juryMembers: [],
+      juryAssigned: [],
+    }
+
+    this.getAllJury = this.getAllJury.bind(this)
+    this.handleSave = this.handleSave.bind(this)
+    this.handleClose = this.handleClose.bind(this)
+    this.getAllJury()
+  }
+
+  async getAllJury() {
+    let juryMembersAPI = await getAllJuryMembers();
+    let juryMembersFormat = juryMembersAPI.data.map((jury: any) => (
+      jury.id + " " + jury.first_name + " " + jury.last_name
+    ))
+    this.setState({juryMembers: juryMembersFormat})
+  }
+
+  async handleSave() {
+    getSlotId(this.props.application.ID).then(async slot => {
+      console.log("TETS " + slot.data.id)
+      await assignJury(slot.data.id, this.state.juryAssigned)
+      this.setState({showModalJury: false})
+      this.setState({juryAssigned: []})
+    })
+  }
+
+  handleClose() {
+    this.setState({showModalJury: false})
+    this.setState({juryAssigned: []})
+  }
+
   render() {
     return (
       <div className="card border-secondary mb-3" id="card-application">
@@ -94,7 +139,7 @@ class Application extends React.Component<IProps> {
           {
             (6 <= this.props.application.ETAT && this.props.application.ETAT <= 7 && this.props.application.ETAT !== 11)
               ? (
-                  <button id="buttonJury" type="button" className="btn btn-secondary btn-sm"> + JURY </button>
+                  <button id="buttonJury" type="button" className="btn btn-secondary btn-sm" onClick={()=> this.setState({showModalJury: true})}> + JURY </button>
               ) : (null)
           }    
 
@@ -106,6 +151,41 @@ class Application extends React.Component<IProps> {
           }
 
         </div>
+
+        <Modal
+            show={this.state.showModalJury}
+            onHide={() => this.handleClose()}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="example-custom-modal-styling-title"> Assigner un jury à l'étudiant {this.props.application.NOM} </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <form>
+              {
+                this.state.juryMembers.map(jury => (
+                  <div className="form-check">
+                    <input className="form-check-input" type="checkbox" value={jury.split(' ')[0]} id="defaultCheck1" 
+                      onChange={ (event: React.ChangeEvent<HTMLInputElement>) => {
+                        if (this.state.juryAssigned.includes(event.target.value)) {this.setState({juryAssigned: this.state.juryAssigned.filter(elem => elem !== event.target.value)})}
+                        else {
+                          this.setState({juryAssigned: this.state.juryAssigned.concat(event.target.value)})
+                        }   
+                      }}
+                    />
+                    <label className="form-check-label" htmlFor="defaultCheck1">
+                      {jury.split(' ')[1] + ' ' + jury.split(' ')[2]}
+                    </label>
+                  </div>
+                ))
+              }
+              <Modal.Footer>
+                <Button variant="danger" onClick={()=> this.handleClose()}> Annuler </Button>
+                <Button variant="success" onClick={()=> this.handleSave()}> Enregistrer </Button>
+              </Modal.Footer>
+            </form>
+          </Modal.Body>
+        </Modal>
+
       </div>
          
     );

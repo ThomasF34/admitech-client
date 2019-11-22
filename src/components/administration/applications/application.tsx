@@ -7,6 +7,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 import {categories} from "../../utils/categoriesEnum";
 import SingleApplication from "../../../models/administration/applications/singleApplication";
 import information2 from "../../../img/icons/information2.png";
+import {getMCQS} from "../../../services/administration/applications/application.service";
 
 interface IProps {
   application : SingleApplication,
@@ -16,7 +17,17 @@ interface IProps {
 }
 
 class Application extends React.Component<IProps> {
+
+  async getMCQs() {
+    let mcqsAPI = await getMCQS();
+    let mcqs = mcqsAPI.data.mcqs.map( (elem: any) => elem.id + ' ' + elem.title)
+    console.log("test " + mcqs)
+    
+  }
+
   render() {
+    this.getMCQs()
+
     return (
       <div className="card border-secondary mb-3" id="card-application">
         <div className="card-body" id="card-body-application">
@@ -94,7 +105,7 @@ class Application extends React.Component<IProps> {
           } 
 
           {
-            (4 == this.props.application.ETAT)
+            (4 === this.props.application.ETAT)
               ? (
                   <button id="buttonMCQ" type="button" className="btn btn-secondary btn-sm"> + QCM </button>
               ) : (null)

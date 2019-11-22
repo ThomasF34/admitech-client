@@ -22,4 +22,14 @@ const updateStatusApplication = async (id: string, status: number) => {
   return res;
 };
 
-export { getAllApplications, updateStatusApplication };
+const getMCQS = async () => {
+  const res = await axios
+    .get(`${config.MCQ_SERVICE_URL}`,
+    {
+      headers: { Authorization: `Bearer ${getToken()}` }
+    }
+  );
+  return res;
+};
+
+export { getAllApplications, updateStatusApplication, getMCQS };

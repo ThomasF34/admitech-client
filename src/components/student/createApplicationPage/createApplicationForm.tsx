@@ -349,18 +349,7 @@ class CreateApplicationForm extends React.Component<IProps, IState> implements I
               </div>
             ) : null
           }
-          {
-            isAdmin() ? (
-              <div className="row justify-content-md-center" style={{ marginTop: '2%' }}>
-                
-                {notCompleteApplication(this.state.values.status) ? (
-                  <div className="col-5 col-sm-5 col-lg-2">
-                    <button className="btn btn-outline-success btn-lg btn-block shadow" type="submit" onClick={this.submitApplication}>Complet</button>
-                  </div>
-                ) : null}
-              </div>
-            ) : null
-          }
+          
           {/*Pop up*/}
           <InfoPopUp isError={false} title="Brouillon Candidature" content="Votre brouillon de candidature a bien été sauvegardé. Vous pourrez le retrouver dans le menu 'Mes candidatures'."
             show={this.state.draftSuccess} onClose={this.closeDraftSuccessPopUP} />

@@ -48,6 +48,16 @@ export const giveMCQ = (status: string | undefined): boolean => {
   }
 };
 
+export const valideMCQ = (status: string | undefined): boolean => {
+  /* if new application */ 
+  if (status === undefined)
+    return false;
+  else {
+    let s = parseInt(status);
+    return (s === 6);
+  }
+};
+
 export const doMCQ = (status: string | undefined): boolean => {
   /* if new application */ 
   if (status === undefined)

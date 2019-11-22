@@ -11,11 +11,11 @@ interface IState {
   values: IFields
 }
 
-class AdminApplicationFormContainer extends React.Component<IProps,IState>{
+class AdminApplicationFormContainer extends React.Component<IProps, IState>{
   constructor(props: IProps) {
     super(props);
     this.state = {
-      values : {}
+      values: {}
     }
   }
 
@@ -37,15 +37,17 @@ class AdminApplicationFormContainer extends React.Component<IProps,IState>{
   render() {
 
     return (
-      <div className= "row">
+
+      <div className="row">
         <div className="col-sm-10 col-md-10 fill">
-          <CreateApplicationForm editMode={false} values={this.state.values}/>
+          <CreateApplicationForm editMode={false} values={this.state.values} />
         </div>
 
         <div className="col-sm-2 col-md-2 fill">
-          <AdminApplicationBar idApplication={this.props.idApplication} status={this.state.values.status}/>
+          <AdminApplicationBar idApplication={this.props.idApplication} status={this.state.values.status} />
         </div>
       </div>
+
     );
   }
 }

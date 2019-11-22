@@ -8,7 +8,7 @@ import { isStudent, isAdmin } from '../../../helpers/authorizationHelper';
 import { IAttachement } from './filesContainer';
 import { removeToken } from '../../../services/token.service';
 import StepsBar from '../../helpers/stepsBar';
-import { draftStep, notCompleteApplication, chooseInterview, doMCQ} from '../../../helpers/statusHelper';
+import { draftStep, notCompleteApplication} from '../../../helpers/statusHelper';
 
 export interface IFields {
   [key: string]: any;
@@ -318,23 +318,6 @@ console.log("change attach")
                 <button className="btn btn-light btn-lg btn-block shadow" onClick={this.changeEditMode}>
                   <img src={edit} className="img-icon " alt="editButton" />
                 </button>
-              </div>
-            ) : null}
-
-            {isStudent() ? (
-              <div>
-                {doMCQ(this.state.values.status) ? (
-                  <div className="col-5 col-sm-5 col-lg-2">
-                    <button className="btn btn-secondary btn-lg btn-block shadow" type="submit" >QCM</button>
-                    <small className="text-secondary">Effectuer votre QCM</small>
-                  </div>
-                ) : null}
-                {chooseInterview(this.state.values.status) ? (
-                  <div className="col-5 col-sm-5 col-lg-2">
-                    <button className="btn btn-secondary btn-lg btn-block shadow" type="submit" >Entretien</button>
-                    <small className="text-secondary">Programmer votre entretien</small>
-                  </div>
-                ) : null}
               </div>
             ) : null}
 

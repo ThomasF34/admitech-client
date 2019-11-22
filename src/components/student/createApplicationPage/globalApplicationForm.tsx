@@ -57,7 +57,7 @@ class GlobalApplicationForm extends React.Component<IProps, IState>{
     return (
       <div>
         {/* SPECIALITE */}
-        <SpecialityForm handleChange={this.props.handleChange} values={this.props.values} errors={this.props.errors} editMode={isStudent() ? this.props.editMode : false} />
+        <SpecialityForm handleChange={this.props.handleChange} values={this.props.values} errors={this.props.errors} editMode={this.props.editMode} />
 
         {/* ADMIN*/}
         {isAdmin() ? (

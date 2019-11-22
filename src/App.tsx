@@ -15,6 +15,9 @@ import ApplicationsPage from './components/administration/applications/applicati
 import CalendarPage from './components/student/calendar/calendarPage';
 import { PrivateStudentRoute, PrivateAdminRoute, PrivateCompanyRoute, LoginRoute } from './helpers/routesHelper';
 import WaitToken from './components/oauth2.component';
+import PreviewContainer from './components/administration/mcq/mcqManagementContainer';
+import CreateQCMContainer from './components/administration/mcq/createQCMContainer';
+import ShowQCMView from './components/administration/mcq/showQCMView';
 
 function App() {
 
@@ -53,20 +56,32 @@ function App() {
           {PrivateAdminRoute(<StudentApplicationPage />)}
         </Route>
         <Route path="/etudiant/calendrier/:idApplication">
-            {PrivateStudentRoute(<CalendarPage />)}
+          {PrivateStudentRoute(<CalendarPage />)}
+        </Route>
+
+        <Route exact path="/administration/qcm">
+          {PrivateAdminRoute(<PreviewContainer />)}
+        </Route>
+
+        <Route exact path="/administration/qcm/nouveau">
+          {PrivateAdminRoute(<CreateQCMContainer />)}
+        </Route>
+
+        <Route exact path="/administration/qcm/voir/:id">
+          {PrivateAdminRoute(<ShowQCMView />)}
         </Route>
 
         <Route exact path="/etudiant/candidature">
-         {PrivateStudentRoute(<CreateApplicationContainer />)}
-         </Route>
-        
-         <Route exact path="/oauth">
-          <WaitToken/>
+          {PrivateStudentRoute(<CreateApplicationContainer />)}
+        </Route>
+
+        <Route exact path="/oauth">
+          <WaitToken />
         </Route>
         <Route path="/">
           <CardContainer />
         </Route>
-      
+
 
       </Switch>
     </div>

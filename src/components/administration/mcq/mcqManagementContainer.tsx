@@ -1,14 +1,13 @@
-import React from 'react';
 import '../../../style/container.css';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import company from '../../../img/fond-polytech.jpeg';
 import user from '../../../img/user.png';
-import filesIcon from '../../../img/icons/applications.png';
 import AdminNav from '../adminNav';
-import ApplicationsContainer from './applicationsContainer';
 import BottomBar from '../../helpers/bottomBar';
+import McqPreview from './mcq-management'
 
-class ApplicationsPage extends React.Component {
+class PreviewContainer extends React.Component {
 
   render() {
     return (
@@ -29,25 +28,24 @@ class ApplicationsPage extends React.Component {
                 <div className="row no-gutters" style={{ width: '100%', height: '10%', padding: '0.7%' }}>
                   <div className="fill-container shadow-lg white">
                     <div className="name-mainTitle" >
-                      <img src={filesIcon} className="img-icon" alt="files" />
-                      Canditatures
+                      Gestion des QCM
                     </div>
                   </div>
                 </div>
-                
-                <div className="row no-gutters " style={{ padding: '0.7%' }}>
+                <div className="row no-gutters " style={{ width: '100%', height: '80%', padding: '0.7%' }}>
                   <div className="fill-container shadow-lg white">
-                    <ApplicationsContainer />
+                    <div className="row fill-container">
+                      <div className="container">
+                        <McqPreview />
+                      </div>
+                    </div>
                   </div>
                 </div>
-
                 <div className="row no-gutters" style={{ width: '100%', height: '10%', padding: '0.7%' }}>
                   <BottomBar />
                 </div>
               </div>
             </div>
-
-
           </div>
 
         </div>
@@ -58,4 +56,4 @@ class ApplicationsPage extends React.Component {
   }
 }
 
-export default ApplicationsPage;
+export default PreviewContainer;

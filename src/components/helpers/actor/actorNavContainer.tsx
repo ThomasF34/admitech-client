@@ -59,10 +59,12 @@ class ActorNavContainer extends React.Component<IProps,IState> {
             {this.props.routes.map(bloc => <ActorNavBloc blocList={bloc} key={getUsername()!} />)}
           </li>
         </ul>
+        <a href="/">
         <div className='logout' onClick={() => logout()}>
           <img className=' disconnect' src={disconnect} alt='logout icon'/>
           <p className='logoutext'>Se deconnecter</p>
-        </div>
+          </div>
+        </a>
         <img className="bottom-logo" alt='admitech logo' src={logo}/>
       </nav>
 

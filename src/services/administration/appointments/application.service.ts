@@ -12,6 +12,14 @@ const addSlots = async (formation: string, startDate: string, endDate: string, d
   return res;
 };
 
+const getAllSlots = async (formation: string) => {
+  const res = await axios
+    .get(`${config.API_URL}/entretien/formation/${formation}`,
+      {
+        headers: { Authorization: `Bearer ${getToken()}` }
+      }
+    );
+  return res;
+}
 
-
-export { addSlots };
+export { addSlots, getAllSlots };

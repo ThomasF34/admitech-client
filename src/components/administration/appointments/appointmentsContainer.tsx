@@ -5,10 +5,9 @@ import AppointmentsNavbar from './appointmentsNavbar';
 import {addSlots} from '../../../services/administration/appointments/application.service';
 import Modal from 'react-bootstrap/Modal';
 import { Button } from 'react-bootstrap';
-
-import Paper from '@material-ui/core/Paper';
-import { ViewState, AppointmentModel } from '@devexpress/dx-react-scheduler';
-import { Scheduler, WeekView, Appointments, Toolbar, DateNavigator } from '@devexpress/dx-react-scheduler-material-ui';
+import { AppointmentModel } from '@devexpress/dx-react-scheduler';
+import { getAllSlots} from '../../../services/administration/appointments/application.service';
+import CalendarAdministration from './appointmentsCalendar';
 
 interface IState {
   currentFormation: string,
@@ -31,17 +30,17 @@ class AppointmentsContainer extends Component<IProps, IState> {
       startDateForm: '',
       endDateForm: '',
       durationForm: '0.5',
-      data: [],
+      data: []
     };
 
     this.changeFormation = this.changeFormation.bind(this);
     this.handleSave = this.handleSave.bind(this);
-    this.getSlotsAvailable = this.getSlotsAvailable.bind(this);
-    this.getSlotsUnavailable = this.getSlotsUnavailable.bind(this);
+    this.getSlots = this.getSlots.bind(this);
   }
 
   changeFormation(elem: string) {
     this.setState({ currentFormation: elem });
+    this.getSlots(elem)
   }
 
   async handleSave() {
@@ -49,20 +48,25 @@ class AppointmentsContainer extends Component<IProps, IState> {
     await addSlots(this.state.currentFormation, this.state.startDateForm, this.state.endDateForm, this.state.durationForm) 
   }
 
-  async getSlotsAvailable() {
-
+  async getSlots(formation: string) {
+    let slots = await getAllSlots(formation);
+    let slotsFormated = slots.data.map((elem: any) => ({
+      startDate: new Date(new Date(elem.begining_hour).setHours(new Date(elem.begining_hour).getHours() - 1)), 
+      endDate: new Date(new Date(elem.ending_hour).setHours(new Date(elem.ending_hour).getHours() - 1)), 
+      title: elem.candidature_id === null ? 'Disponible' : 'Indisponible'
+    }))
+    this.setState({data: slotsFormated})
   } 
 
-  async getSlotsUnavailable() {
-
+  componentDidMount() {
+    this.getSlots(this.state.currentFormation)
   }
 
   render() {
     return (
       <div> 
         <AppointmentsNavbar handleClickFormation={this.changeFormation} pressedButtonFormation={this.state.currentFormation} />
-        
-        
+      
         <div>
             <Button onClick={() => this.setState({showModal: true})} className="btn btn-success" id="btn-appointments-container"> + Entretiens </Button>
 
@@ -99,7 +103,7 @@ class AppointmentsContainer extends Component<IProps, IState> {
                             <Button variant="success" onClick={()=>
                                 (this.state.startDateForm !== '' && this.state.endDateForm !== '' && new Date(this.state.startDateForm) < new Date(this.state.endDateForm)) 
                                 ? (
-                                    this.handleSave()
+                                  this.handleSave()
                                 )
                                 : (console.log("Error")
                                 ) 
@@ -110,30 +114,7 @@ class AppointmentsContainer extends Component<IProps, IState> {
 
             </Modal>
         </div>
-
-        <Paper>
-            <Scheduler
-            data={this.state.data}
-            height={660}
-            locale='fr-FR'
-            >
-                <ViewState
-                    defaultCurrentDate={new Date()}
-                />
-
-                <WeekView
-                    excludedDays={[0, 6]}
-                    startDayHour={8}
-                    endDayHour={19}
-                />
-                
-                <Toolbar />
-                <DateNavigator />
-
-                <Appointments />
-
-            </Scheduler>
-        </Paper>
+        <CalendarAdministration listSlots={this.state.data} />
       </div>
     )
   } 

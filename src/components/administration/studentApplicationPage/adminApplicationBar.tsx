@@ -2,6 +2,12 @@ import React from 'react';
 import { giveMCQ, giveJury, decision, notCompleteApplication, valideMCQ } from '../../../helpers/statusHelper';
 import ConfirmationPopUp from '../../helpers/ConfirmationPopUp';
 import { updateStatusApplication } from '../../../services/administration/applications/application.service';
+import { getAllMcq } from '../../../services/qcm.service';
+
+interface Mcq {
+  id: string,
+  title: string
+}
 
 interface IProps {
   idApplication: string | undefined,
@@ -9,17 +15,33 @@ interface IProps {
 }
 
 interface IState {
-  changedStatus: number | null
+  changedStatus: number | null,
+  idMcq: string | null,
+  mcqs: Mcq[] | null
 }
 
 class AdminApplicationBar extends React.Component<IProps, IState>{
   constructor(props: IProps) {
     super(props);
     this.state = {
-      changedStatus: null
+      changedStatus: null,
+      idMcq: null,
+      mcqs: null
     };
   }
 
+  componentDidUpdate(prevProps: IProps) {
+
+    if (prevProps.status !== this.props.status && giveMCQ(this.props.status)) {
+      getAllMcq()
+        .then(res => {
+          this.setState({
+            mcqs: res.data.mcqs
+          });
+        })
+        .catch((e) => console.log(e))
+    }
+  }
 
   getUserActionPopUp = async (action: any) => {
     if (action === 'valid' && this.props.idApplication && this.state.changedStatus) {
@@ -50,6 +72,14 @@ class AdminApplicationBar extends React.Component<IProps, IState>{
         {giveMCQ(this.props.status) ? (
           <div>
             <h2 className="text-light text-center" style={{ marginTop: '8%' }}>QCM</h2>
+
+            <div className="col-11">
+              <select name='rating' id="mention-select" className='form-control' value={''} onChange={(e) => console.log(e)}>
+                <option value='' >Choisir..</option>
+                {this.state.mcqs ? this.state.mcqs.map(mcq => <option key={mcq.id} value={mcq.id} >{mcq.title}</option>) : null}
+              </select>
+            </div>
+
             <div className="row justify-content-md-center" style={{ marginTop: '8%' }}>
               <div className="col-5 col-sm-5 col-lg-6">
                 <button className="btn btn-light btn-outline-info btn-lg btn-block shadow" type="submit" >QCM</button>

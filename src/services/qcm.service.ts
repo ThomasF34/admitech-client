@@ -4,12 +4,12 @@ import { getToken } from './token.service';
 
 export const getAllMcq = async () => {
   const res = await axios
-    .get(`${config.API_MCQ}/mcq`,
+    .get(`${config.API_MCQ}/mcqs`,
       {
         headers: { Authorization: `Bearer ${getToken()}` }
       }
     );
-  return res;
+  return res
 };
 
 export const getMarkMcq = async (idMCQ: string) => {

@@ -1,2 +1,2 @@
 export const API_URL = process.env.REACT_APP_API_URL;
-export const API_MCQ = "http://test-admitech-mcq-service.igpolytech.fr/";
+export const API_MCQ = "http://test-admitech-mcq-service.igpolytech.fr";

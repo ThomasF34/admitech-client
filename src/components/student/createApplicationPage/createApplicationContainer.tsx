@@ -13,11 +13,9 @@ function CreateApplicationContainer() {
     <div className="root fill ">
       <div className="row fill no-gutters">
 
-        <div className="d-none d-md-block col-md-1 fill" >
           <StudentNav userImage={user} userName="Romain Planchet" />
-        </div>
 
-        <div className="col-sm-12 col-md-10 fill" >
+        <div className="col-sm-12 col-md-12 fill" >
           <div className="main-container" >
            
             <div className="row" >

@@ -14,12 +14,10 @@ class CalendarPage extends React.Component {
             <div className="root fill ">
                 <div className="row fill no-gutters">
 
-                <div className="d-none d-md-block col-md-2 shadow-lg fill">
                 {/* should deal here with burger menu when small*/}
                 <StudentNav userImage={user} userName="Romain Planchet" />
-                </div>
 
-                    <div className="col-sm-12 col-md-10 fill">
+                    <div className="col-sm-12 col-md-12 fill">
                         <div className="image-container">
                             <img src={company} className="img-background" alt="polytech" />
                             <div className="main-container align-items-end">

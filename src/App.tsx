@@ -39,7 +39,7 @@ function App() {
           {LoginRoute(<ConnexionContainer image={polytech} text="ESPACE ADMINISTRATION" connexionRedirectPath="/administration/accueil" role="administration" />)}
         </Route>
         <Route exact path="/administration/accueil">
-          {PrivateAdminRoute(<AdminHome />)}
+          {PrivateAdminRoute(<ApplicationsPage />)}
         </Route>
         <Route exact path="/administration/entretiens">
           {PrivateAdminRoute(<AppointmentsPage />)}

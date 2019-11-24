@@ -14,11 +14,9 @@ function StudentApplicationPage() {
 
     <div className="row fill no-gutters">
 
-      <div className="d-none d-md-block col-md-1 fill" >
         <AdminNav userImage={user} userName="Membre Polytech" />
-      </div>
 
-      <div className="col-sm-12 col-md-11">
+      <div className="col-sm-12 col-md-12">
         <AdminApplicationFormContainer idApplication={id} />
       </div>
 

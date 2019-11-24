@@ -86,7 +86,7 @@ class StudentHome extends React.Component<IProps, IState> {
                         <div className="fill-container shadow-own background-formatech">
                           <h5 className='title-do'>Découvrez la nouvelle formation Dev Ops en alternance</h5>
                           <p className="explications">Cette nouvelle formation proposée par Polytech Montpellier s'oriente autour des nouveaux enjeux numériques de la mise en production d'application à large échelle. Rendez-vous sur notre plateforme Formatech pour en savoir plus.</p>
-                          <a href="https://formatech.igpolytech.fr/" target="_blank">
+                          <a href="https://formatech.igpolytech.fr/" target="_blank" rel="noopener noreferrer">
                             <button className="button-pub">Découvrir</button>
                           </a>
                         </div>

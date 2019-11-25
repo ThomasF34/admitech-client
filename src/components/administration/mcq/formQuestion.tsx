@@ -49,7 +49,7 @@ class FormQuestion extends React.Component<IProps, IState> {
     const currentId = this.state.currentId + 1
     res.push(response)
     this.setState({
-      responses: res,
+      responses: [],
       currentResponse: '',
       checked: false,
       currentId: currentId,

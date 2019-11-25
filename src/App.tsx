@@ -5,7 +5,6 @@ import CardContainer from './components/home/cardsContainer';
 import polytech from './img/fond-polytech.jpeg';
 import company from './img/fond-company.jpeg';
 import student from './img/fond-student.jpeg';
-import AdminHome from './components/administration/homePage/adminHome';
 import StudentHome from './components/student/homePage/studentHome';
 import CompanyHome from './components/company/homePage/companyHome';
 import MyApplicationPage from './components/student/myApplicationPage/myApplicationPage';
@@ -39,7 +38,7 @@ function App() {
           {LoginRoute(<ConnexionContainer image={polytech} text="ESPACE ADMINISTRATION" connexionRedirectPath="/administration/accueil" role="administration" />)}
         </Route>
         <Route exact path="/administration/accueil">
-          {PrivateAdminRoute(<AdminHome />)}
+          {PrivateAdminRoute(<ApplicationsPage />)}
         </Route>
         <Route exact path="/administration/entretiens">
           {PrivateAdminRoute(<AppointmentsPage />)}
